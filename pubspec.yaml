@@ -1,0 +1,28 @@
+name: jm_enam_and_dict_to_hive
+description: A sample command-line application.
+version: 1.0.0
+# homepage: https://www.example.com
+
+environment:
+  sdk: '>=2.16.1 <3.0.0'
+
+
+# dependencies:
+#   path: ^1.8.0
+
+dev_dependencies:
+  lints: ^1.0.0
+  test: ^1.16.0
+dependencies: 
+  build_runner: ^2.1.8
+  # flutter: 
+  #   sdk: flutter
+  #   version: ^0.0.0
+  hive: ^2.1.0
+  hive_generator: ^1.1.2
+
+
+
+flutter:
+  assets:
+    - mergedDicts.json
