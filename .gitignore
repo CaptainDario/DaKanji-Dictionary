@@ -32,3 +32,6 @@ partiallyProcessedFiles/*
 
 outputFiles/*
 !outputFiles/README.md
+
+*.hive
+*.lock

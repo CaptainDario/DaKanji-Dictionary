@@ -1,0 +1,14 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "database_builders_utils",
+            "request": "launch",
+            "type": "dart",
+            "program": "test/repo_path_manager_test.dart"
+        }
+    ]
+}

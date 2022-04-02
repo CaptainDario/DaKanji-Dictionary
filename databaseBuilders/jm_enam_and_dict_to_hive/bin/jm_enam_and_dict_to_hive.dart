@@ -3,15 +3,16 @@ import 'dart:convert';
 import 'dataClasses.dart';
 import 'jsonToHive.dart';
 import 'package:hive/hive.dart';
-
+import 'package:database_builders_utils/database_builders_utils.dart';
+import 'package:path/path.dart' as p;
 
 void main() async {
-  var path = Directory.current.path;
+
   Hive
-    ..init(path)
+    ..init(RepoPathManager.getOutputFilesPath())
     ..registerAdapter(EntryAdapter())
     ..registerAdapter(LanguageMeaningsAdapter());
-  var boxName = 'testBox';
+  var boxName = 'jm_enam_and_dict';
 
   var box = await Hive.openBox(boxName);
 
@@ -20,7 +21,7 @@ void main() async {
   if (box.isEmpty)
   {
     Stopwatch stopwatch = Stopwatch()..start();
-    List data = jsonDecode(await File('mergedDicts.json').readAsString());
+    List data = jsonDecode(await File(p.join(RepoPathManager.getPartiallyProcessedFilesPath(), 'mergedDicts.json')).readAsString());
     jsonToHive(data, box);
     print('${stopwatch.elapsed}');
   }
