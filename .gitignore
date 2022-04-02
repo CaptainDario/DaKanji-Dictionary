@@ -20,5 +20,15 @@ doc/api/
 *.js.deps
 *.js.map
 
+# ignore python cache
 __pycache__
+
+# ignore folders containing big data except for their readmes
 inputFiles/*
+!inputFiles/README.md
+
+partiallyProcessedFiles/*
+!partiallyProcessedFiles/README.md
+
+outputFiles/*
+!outputFiles/README.md
