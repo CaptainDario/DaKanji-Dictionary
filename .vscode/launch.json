@@ -1,0 +1,60 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "dakanji_svg_viewer",
+            "cwd": "databaseBuilders\\dakanji_svg_viewer",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "dakanji_svg_viewer (profile mode)",
+            "cwd": "databaseBuilders\\dakanji_svg_viewer",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "dakanji_svg_viewer (release mode)",
+            "cwd": "databaseBuilders\\dakanji_svg_viewer",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "database_builder",
+            "cwd": "databaseBuilders\\database_builder",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "database_builders_utils",
+            "cwd": "databaseBuilders\\database_builders_utils",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "jm_enam_and_dict_to_hive",
+            "cwd": "databaseBuilders\\jm_enam_and_dict_to_hive",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "jm_enam_and_dict_to_hive (profile mode)",
+            "cwd": "databaseBuilders\\jm_enam_and_dict_to_hive",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "jm_enam_and_dict_to_hive (release mode)",
+            "cwd": "databaseBuilders\\jm_enam_and_dict_to_hive",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}
