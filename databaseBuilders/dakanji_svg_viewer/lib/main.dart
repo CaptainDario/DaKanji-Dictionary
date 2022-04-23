@@ -1,7 +1,40 @@
-import 'package:flutter/material.dart';
+import 'dart:ffi';
+import 'dart:io';
 
-void main() {
-  runApp(const MyApp());
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive/hive.dart';
+import 'package:database_builder/database_builder.dart';
+import 'package:flutter/services.dart' show PlatformAssetBundle, rootBundle;
+import 'package:path_provider/path_provider.dart';
+
+// final kanjiBox = 'kanji_svg';
+// final kanjiBox = "assets\\kanji_svg";
+// final kanjiBox = rootBundle.loadString("assets/kanji_svg.hive");
+// final kanjiBoxByte = await PlatformAssetBundle().load('assets/kanji_svg.hive');
+// var bytes = rootBundle
+//           .load('assets/kanji_svg.hive')
+//           .then((value) => value.buffer.asUint8List());
+
+void main() async {
+  // final kanjiBoxByte = await PlatformAssetBundle().load('assets/kanji_svg.hive');
+  var tester = await getApplicationDocumentsDirectory();
+  await Hive
+    ..initFlutter()
+    ..registerAdapter(KanjiSVGAdapter());
+  // final kanjiBoxByte = await PlatformAssetBundle().load('assets/kanji_svg.hive');
+  // var _bytes = await rootBundle
+  //           .load('assets/kanji_svg.hive')
+  //           .then((value) => value.buffer.asUint8List());
+  // var test = await Hive.openBox('kanji_svg', bytes: await bytes);
+  await Hive.openBox('kanji_svg', bytes: await rootBundle
+          .load('assets/kanji_svg.hive')
+          .then((value) => value.buffer.asUint8List()));
+  // print(Hive.box<KanjiSVG>('kanji_svg').get("!")!.SVG);
+
+  // await Hive.openBox<KanjiSVG>('kanji_svg');
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -49,7 +82,12 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  Box SVGBox = Hive.box('kanji_svg');
 
+  _MyHomePageState(){
+    super.initState();
+
+  }
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -60,7 +98,12 @@ class _MyHomePageState extends State<MyHomePage> {
       _counter++;
     });
   }
-
+  //   final Widget svg = SvgPicture.asset(
+  // Hive.box<KanjiSVG>('kanji_svg').get("!")!.SVG,);
+  // final Widget svg = SvgPicture.asset(
+  // SVGBox.get("!")!.SVG,);
+  // final Widget testSVG = SvgPicture.network()
+  
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -95,13 +138,15 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+            SvgPicture.string(
+              SVGBox.get("あ").SVG),
+            // const Text(
+            //   'You have pushed the button this many times:',
+            // ),
+            // Text(
+            //   '$_counter',
+            //   style: Theme.of(context).textTheme.headline4,
+            // ),
           ],
         ),
       ),

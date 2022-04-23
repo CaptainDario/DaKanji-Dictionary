@@ -35,3 +35,4 @@ outputFiles/*
 
 *.hive
 *.lock
+.vscode/*
