@@ -1,8 +1,8 @@
 import json
-import sys
 import xml.etree.cElementTree as ET
 from dataclasses import dataclass
-from get_size_util import get_size
+
+
 
 @dataclass
 class LanguageMeanings:
@@ -29,7 +29,6 @@ class Entry:
             self.meanings.append(LanguageMeanings(language=language, meanings=[meaning]))
 
     
-
     def toJSON(self):
         return json.dumps(self, default=lambda o: o.__dict__, 
             sort_keys=True, indent=4)
@@ -71,44 +70,43 @@ class JMDictProcessor:
 class JMEdictProcessor:
     def __init__(self, file) -> None:
         self.file = file
-        
+
     def XML_to_dict(self,) -> list():
         result = list()
         xml_file = ET.parse(self.file)
         for entry in xml_file.getroot():
-            entryId = entry.find('ent_seq').text
-            resultEntry = Entry()
+            result_entry = Entry()
             for kanji in entry.iter('keb'):
-                resultEntry.kanjis.append(kanji.text)
+                result_entry.kanjis.append(kanji.text)
 
             for reading in entry.iter('reb'):
-                resultEntry.readings.append(reading.text)
+                result_entry.readings.append(reading.text)
 
             for sense in entry.iter('trans'):
                 for part in sense:
                     if part.tag=="name_type":
-                        resultEntry.part_of_speech.add(part.text)
+                        result_entry.part_of_speech.add(part.text)
                     if part.tag == "trans_det":
                         if part.text != None:
-                            resultEntry.parse_meaning('eng', part.text)
+                            result_entry.parse_meaning('eng', part.text)
 
-            result.append(resultEntry)
+            result.append(result_entry)
         return result
 
 if __name__ == "__main__":
-    JMdictFile = open('Jmdict', 'r', encoding="utf-8")
-    JMnedictFile = open('JMnedict.xml', 'r', encoding="utf-8")
+    JMdictFile = open('inputFiles/JMdict/JMdict', 'r', encoding="utf-8")
+    JMnedictFile = open('inputFiles/JMdict/JMnedict.xml', 'r', encoding="utf-8")
     jmdictProcessor = JMDictProcessor(JMdictFile)
     JMdict = jmdictProcessor.XML_to_dict()
+
     jmEdictProcessor = JMEdictProcessor(JMnedictFile)
     JMnedict = jmEdictProcessor.XML_to_dict()
 
     mergedDicts = JMdict + JMnedict
 
-    out_file = open("mergedDicts.json", "w")
-    # json.dumps(mergedDicts, cls=EntryJSONEncoder)
+    out_file = open("mergedDicts.json", "w", encoding="utf-8")
     json.dump(mergedDicts, out_file, cls=EntryJSONEncoder, sort_keys=True, indent=4)
-    
+
     out_file.close()
 
     # print(get_size(result))
