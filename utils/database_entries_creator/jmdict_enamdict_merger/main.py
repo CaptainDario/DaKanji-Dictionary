@@ -1,22 +1,21 @@
-import json
+from dataclasses import dataclass, field
 import xml.etree.ElementTree as ET
-from dataclasses import dataclass
+import orjson
 
 @dataclass
-class LanguageMeanings:
+class LanguageMeanings():
     language: str
-    meanings: list
+    meanings: list[str]
 
     def append_meaning(self, meaning: str):
         self.meanings.append(meaning)
 
 @dataclass
 class Entry:
-    def __init__(self) -> None:
-        self.kanjis = list()
-        self.readings = list()
-        self.part_of_speech = set()
-        self.meanings = list()
+    kanjis: list[str] = field(default_factory=list)
+    readings: list[str] = field(default_factory=list)
+    part_of_speech: set[str] = field(default_factory=set)
+    meanings: list[LanguageMeanings] = field(default_factory=list)
 
     def parse_meaning(self, language, meaning):
         for language_meaning in self.meanings:
@@ -25,13 +24,6 @@ class Entry:
                 break
         else:
             self.meanings.append(LanguageMeanings(language=language, meanings=[meaning]))
-
-
-class EntryJSONEncoder(json.JSONEncoder):
-    def default(self, o):
-        if isinstance(o, set):
-            return list(o)
-        return o.__dict__
 
 
 class JMDictProcessor:
@@ -86,20 +78,30 @@ class JMEdictProcessor:
             result.append(result_entry)
         return result
 
-if __name__ == "__main__":
-    JMdictFile = open('inputFiles/JMdict/JMdict', 'r', encoding="utf-8")
-    JMnedictFile = open('inputFiles/JMdict/JMnedict.xml', 'r', encoding="utf-8")
-    jmdictProcessor = JMDictProcessor(JMdictFile)
-    JMdict = jmdictProcessor.xml_to_dict()
+def default(obj):
+    if isinstance(obj, set):
+        return list(obj)
+    return obj
 
-    jmEdictProcessor = JMEdictProcessor(JMnedictFile)
-    JMnedict = jmEdictProcessor.xml_to_dict()
+def execute():
+    jmdict_file = open('inputFiles/JMdict/JMdict', 'r', encoding="utf-8")
+    jmnedict_file = open('inputFiles/JMdict/JMnedict.xml', 'r', encoding="utf-8")
 
-    mergedDicts = JMdict + JMnedict
+    jmdict_processor = JMDictProcessor(jmdict_file)
+    jm_dict = jmdict_processor.xml_to_dict()
 
-    out_file = open("partiallyProcessedFiles/JMdict/mergedDicts.json", "w", encoding="utf-8")
-    json.dump(mergedDicts, out_file, cls=EntryJSONEncoder, sort_keys=True, indent=4)
+    print("Jmdict done")
+    jmedict_processor = JMEdictProcessor(jmnedict_file)
+    jmne_dict = jmedict_processor.xml_to_dict()
+    print("Jmedict done")
+    merged_dicts = jm_dict + jmne_dict
+    print("Dict merging done")
+
+    out_file = open("partiallyProcessedFiles/JMdict/mergedDicts.json", "wb")
+    json_out = orjson.dumps(merged_dicts, default=default, option=orjson.OPT_INDENT_2)
+    out_file.write(json_out)
 
     out_file.close()
 
-    # print(get_size(result))
+if __name__ == "__main__":
+    execute()
