@@ -3,6 +3,7 @@ import json
 from dataclasses import dataclass, field
 import xml.etree.ElementTree as ET
 import dataclasses
+import orjson
 
 @dataclass
 class JIS:
@@ -48,18 +49,16 @@ def kuten_to_utf8(kuten):
         euc = bytearray([0x8f,euc0,euc1]).decode('euc_jisx0213','replace')
     return euc
 
-
-if __name__ == "__main__":
+def execute():
     kanjidic2 = open('inputFiles/kanjidic2/kanjidic2.xml', 'r', encoding="utf-8")
     entry = Entry()
     entries = list()
-    i = 0
-    for event, elem in ET.iterparse(kanjidic2):
+
+    for _, elem in ET.iterparse(kanjidic2):
         if elem.tag == "literal":
             entries.append(entry)
             entry = Entry()
             entry.literal = elem.text
-            # i += 1
         elif elem.tag == "grade":
             entry.grade = elem.text
         elif elem.tag == "freq":
@@ -74,13 +73,15 @@ if __name__ == "__main__":
             if elem.attrib:
                 entry.meanings.append(Meaning(language=elem.attrib["m_lang"], meaning=elem.text))
             else:
-                entry.meanings.append(Meaning(language="eng", meaning=elem.text))
+                entry.meanings.append(Meaning(language="en", meaning=elem.text))
         elif elem.tag == "nanori":
             entry.nanoris.append(elem.text)
 
     entries.pop(0)
-    # pp.install_extras()
-    # pp.pprint(entries)
-    out_file = open("partiallyProcessedFiles/kanjidic2/entries.json", "w", encoding="utf-8")
-    json.dump(entries, out_file, cls=EntryJSONEncoder, sort_keys=True, indent=4)
+    out_file = open("partiallyProcessedFiles/kanjidic2/entries.json", "wb")
+    out = orjson.dumps(entries, out_file, option=orjson.OPT_INDENT_2)
+    out_file.write(out)
     kanjidic2.close()
+
+if __name__ == "__main__":
+    execute()
