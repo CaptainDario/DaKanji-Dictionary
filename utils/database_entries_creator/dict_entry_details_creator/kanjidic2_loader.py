@@ -60,11 +60,11 @@ def execute():
             entry = Entry()
             entry.literal = elem.text
         elif elem.tag == "grade":
-            entry.grade = elem.text
+            entry.grade = int(elem.text)
         elif elem.tag == "freq":
-            entry.frequency = elem.text
+            entry.frequency = int(elem.text)
         elif elem.tag == "jlpt":
-            entry.jlpt = elem.text
+            entry.jlpt = int(elem.text)
         elif elem.tag == "variant":
             entry.variants.append(JIS(encoding=elem.attrib["var_type"], value=elem.text))
         elif elem.tag == "reading":
@@ -78,7 +78,7 @@ def execute():
             entry.nanoris.append(elem.text)
 
     entries.pop(0)
-    out_file = open("partiallyProcessedFiles/kanjidic2/entries.json", "wb")
+    out_file = open("partiallyProcessedFiles/kanjidic2/kanjidic2.json", "wb")
     out = orjson.dumps(entries, out_file, option=orjson.OPT_INDENT_2)
     out_file.write(out)
     kanjidic2.close()
