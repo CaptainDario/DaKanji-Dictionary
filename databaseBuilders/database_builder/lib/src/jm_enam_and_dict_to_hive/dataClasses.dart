@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 part "dataClasses.g.dart";
-@HiveType(typeId: 0)
+@HiveType(typeId: 000)
 class LanguageMeanings{
   @HiveField(0)
   String language;
@@ -20,7 +20,7 @@ class LanguageMeanings{
   }
 }
 
-@HiveType(typeId: 1)
+@HiveType(typeId: 001)
 class Entry {
 
   Entry({required this.kanjis, required this.readings, required this.partOfSpeech, required this.meanings});

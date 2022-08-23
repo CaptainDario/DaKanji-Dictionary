@@ -26,9 +26,9 @@ Future<bool> kanjidic2ToHive() async {
       print('${stopwatch.elapsed}');
     }
     
-    print("Data inserted into box, closing - please wait");
+    print(boxName + ": " + "Data inserted into box, closing - please wait");
     box.close();
-    print("Final box size is: " + File(box.path!).lengthSync().toString());// box size
-    print("Box closed");
+    print(boxName + ": " + "Final box size is: " + File(box.path!).lengthSync().toString());// box size
+    print(boxName + ": " + "Box closed");
     return Future<bool>.value(false);
 }

@@ -16,14 +16,13 @@ void putToBox(FileSystemEntity file, Box box){
   }
 }
 
-void kanjiVGToHive() async {
+Future<bool> kanjiVGToHive() async {
     Hive
       ..init(RepoPathManager.getOutputFilesPath())
       ..registerAdapter(KanjiSVGAdapter());
     var boxName = 'kanji_SVG';
 
     var box = await Hive.openBox(boxName);
-    box.clear();
     if (box.isEmpty)
     {
       Stopwatch stopwatch = Stopwatch()..start();
@@ -31,8 +30,9 @@ void kanjiVGToHive() async {
       await dir.list().forEach((element) {putToBox(element, box);});
       print('${stopwatch.elapsed}');
     }
+    print(boxName + ": " + "Data inserted into box, closing - please wait");
     print(box.values.length);
-    // print(box.get("W"));
     await box.compact();
     await box.close();
+    return Future<bool>.value(false);
 }

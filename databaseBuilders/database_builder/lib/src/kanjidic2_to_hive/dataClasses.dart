@@ -3,7 +3,7 @@ import 'dart:ffi';
 import 'package:hive/hive.dart';
 part "dataClasses.g.dart";
 
-@HiveType(typeId: 0)
+@HiveType(typeId: 010)
 class JIS{
   @HiveField(0)
   String encoding;
@@ -14,7 +14,7 @@ class JIS{
   JIS({required this.encoding, required this.value});
 }
 
-@HiveType(typeId: 1)
+@HiveType(typeId: 011)
 class Reading{
   @HiveField(0)
   String r_type;
@@ -25,7 +25,7 @@ class Reading{
   Reading({required this.r_type, required this.value});
 }
 
-@HiveType(typeId: 2)
+@HiveType(typeId: 012)
 class Meaning{
   @HiveField(0)
   String language;
@@ -36,7 +36,7 @@ class Meaning{
   Meaning({required this.language, required this.meaning});
 }
 
-@HiveType(typeId: 3)
+@HiveType(typeId: 013)
 class Entry {
 
   Entry({required this.literal, required this.grade, required this.variants, required this.frequency, 

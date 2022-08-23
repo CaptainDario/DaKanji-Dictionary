@@ -8,7 +8,7 @@ part of 'kanji_SVG_dataclasses.dart';
 
 class KanjiSVGAdapter extends TypeAdapter<KanjiSVG> {
   @override
-  final int typeId = 0;
+  final int typeId = 20;
 
   @override
   KanjiSVG read(BinaryReader reader) {
