@@ -36,3 +36,5 @@ outputFiles/*
 *.hive
 *.lock
 .vscode/*
+
+.venv/*
