@@ -24,13 +24,24 @@ doc/api/
 __pycache__
 
 # ignore folders containing big data except for their readmes
-inputFiles/*
+inputFiles/JMdict/*
+inputFiles/kanjidic2/*
+inputFiles/kanjiVG/*
+!inputFiles/JMdict/.gitkeep
+!inputFiles/kanjidic2/.gitkeep
+!inputFiles/kanjiVG/.gitkeep
 !inputFiles/README.md
 
-partiallyProcessedFiles/*
+partiallyProcessedFiles/JMdict/*
+partiallyProcessedFiles/kanjidic2/*
+partiallyProcessedFiles/kanjiVG/*
+!partiallyProcessedFiles/JMdict/.gitkeep
+!partiallyProcessedFiles/kanjidic2/.gitkeep
+!partiallyProcessedFiles/kanjiVG/.gitkeep
 !partiallyProcessedFiles/README.md
 
 outputFiles/*
+!outputFiles/.gitkeep
 !outputFiles/README.md
 
 *.hive
