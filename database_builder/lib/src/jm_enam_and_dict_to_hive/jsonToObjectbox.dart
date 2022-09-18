@@ -5,9 +5,9 @@ import 'package:objectbox/objectbox.dart';
 void jsonToObjectbox(List data, Box<dynamic> box){
   List<Jm_enam_and_dict_Entry> entries = <Jm_enam_and_dict_Entry>[];
   for (final jsonEntry in data){
-    jsonEntry["kanjis"];
-    jsonEntry["readings"];
-    jsonEntry["part_of_speech"];
+    // jsonEntry["kanjis"];
+    // jsonEntry["readings"];
+    // jsonEntry["part_of_speech"];
     var jsonMeanings = jsonEntry["meanings"];
     var meanings = <Jm_enam_and_dict_LanguageMeanings>[];
     for (final jsonMeaning in jsonMeanings){

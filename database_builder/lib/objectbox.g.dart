@@ -55,7 +55,7 @@ final _entities = <ModelEntity>[
   ModelEntity(
       id: const IdUid(2, 4040414224621719292),
       name: 'Jm_enam_and_dict_LanguageMeanings',
-      lastPropertyId: const IdUid(4, 7856847432530140005),
+      lastPropertyId: const IdUid(5, 5336287511665436563),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
@@ -72,14 +72,7 @@ final _entities = <ModelEntity>[
             id: const IdUid(3, 1185948322938275311),
             name: 'meanings',
             type: 30,
-            flags: 0),
-        ModelProperty(
-            id: const IdUid(4, 7856847432530140005),
-            name: 'jm_enam_and_dict_EntryId',
-            type: 11,
-            flags: 520,
-            indexId: const IdUid(1, 5114285824026872297),
-            relationTarget: 'Jm_enam_and_dict_Entry')
+            flags: 0)
       ],
       relations: <ModelRelation>[],
       backlinks: <ModelBacklink>[])
@@ -106,12 +99,12 @@ ModelDefinition getObjectBoxModel() {
   final model = ModelInfo(
       entities: _entities,
       lastEntityId: const IdUid(2, 4040414224621719292),
-      lastIndexId: const IdUid(1, 5114285824026872297),
+      lastIndexId: const IdUid(2, 2896452346381958147),
       lastRelationId: const IdUid(1, 3597741689435807724),
       lastSequenceId: const IdUid(0, 0),
       retiredEntityUids: const [],
-      retiredIndexUids: const [],
-      retiredPropertyUids: const [],
+      retiredIndexUids: const [5114285824026872297, 2896452346381958147],
+      retiredPropertyUids: const [7856847432530140005, 5336287511665436563],
       retiredRelationUids: const [],
       modelVersion: 5,
       modelVersionParserMinimum: 5,
@@ -169,47 +162,41 @@ ModelDefinition getObjectBoxModel() {
               store.box<Jm_enam_and_dict_Entry>());
           return object;
         }),
-    Jm_enam_and_dict_LanguageMeanings:
-        EntityDefinition<Jm_enam_and_dict_LanguageMeanings>(
-            model: _entities[1],
-            toOneRelations: (Jm_enam_and_dict_LanguageMeanings object) =>
-                [object.jm_enam_and_dict_Entry],
-            toManyRelations: (Jm_enam_and_dict_LanguageMeanings object) => {},
-            getId: (Jm_enam_and_dict_LanguageMeanings object) => object.id,
-            setId: (Jm_enam_and_dict_LanguageMeanings object, int id) {
-              object.id = id;
-            },
-            objectToFB:
-                (Jm_enam_and_dict_LanguageMeanings object, fb.Builder fbb) {
-              final languageOffset = fbb.writeString(object.language);
-              final meaningsOffset = fbb.writeList(
-                  object.meanings.map(fbb.writeString).toList(growable: false));
-              fbb.startTable(5);
-              fbb.addInt64(0, object.id);
-              fbb.addOffset(1, languageOffset);
-              fbb.addOffset(2, meaningsOffset);
-              fbb.addInt64(3, object.jm_enam_and_dict_Entry.targetId);
-              fbb.finish(fbb.endTable());
-              return object.id;
-            },
-            objectFromFB: (Store store, ByteData fbData) {
-              final buffer = fb.BufferContext(fbData);
-              final rootOffset = buffer.derefObject(0);
+    Jm_enam_and_dict_LanguageMeanings: EntityDefinition<
+            Jm_enam_and_dict_LanguageMeanings>(
+        model: _entities[1],
+        toOneRelations: (Jm_enam_and_dict_LanguageMeanings object) => [],
+        toManyRelations: (Jm_enam_and_dict_LanguageMeanings object) => {},
+        getId: (Jm_enam_and_dict_LanguageMeanings object) => object.id,
+        setId: (Jm_enam_and_dict_LanguageMeanings object, int id) {
+          object.id = id;
+        },
+        objectToFB: (Jm_enam_and_dict_LanguageMeanings object, fb.Builder fbb) {
+          final languageOffset = fbb.writeString(object.language);
+          final meaningsOffset = fbb.writeList(
+              object.meanings.map(fbb.writeString).toList(growable: false));
+          fbb.startTable(6);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, languageOffset);
+          fbb.addOffset(2, meaningsOffset);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
 
-              final object = Jm_enam_and_dict_LanguageMeanings(
-                  language: const fb.StringReader(asciiOptimization: true)
-                      .vTableGet(buffer, rootOffset, 6, ''),
-                  meanings: const fb.ListReader<String>(
-                          fb.StringReader(asciiOptimization: true),
-                          lazy: false)
-                      .vTableGet(buffer, rootOffset, 8, []))
-                ..id =
-                    const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
-              object.jm_enam_and_dict_Entry.targetId =
-                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0);
-              object.jm_enam_and_dict_Entry.attach(store);
-              return object;
-            })
+          final object = Jm_enam_and_dict_LanguageMeanings(
+              language: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 6, ''),
+              meanings: const fb.ListReader<String>(
+                      fb.StringReader(asciiOptimization: true),
+                      lazy: false)
+                  .vTableGet(buffer, rootOffset, 8, []))
+            ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+
+          return object;
+        })
   };
 
   return ModelDefinition(model, bindings);
@@ -253,9 +240,4 @@ class Jm_enam_and_dict_LanguageMeanings_ {
   static final meanings =
       QueryStringVectorProperty<Jm_enam_and_dict_LanguageMeanings>(
           _entities[1].properties[2]);
-
-  /// see [Jm_enam_and_dict_LanguageMeanings.jm_enam_and_dict_Entry]
-  static final jm_enam_and_dict_Entry = QueryRelationToOne<
-      Jm_enam_and_dict_LanguageMeanings,
-      Jm_enam_and_dict_Entry>(_entities[1].properties[3]);
 }

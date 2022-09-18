@@ -40,7 +40,7 @@
     },
     {
       "id": "2:4040414224621719292",
-      "lastPropertyId": "4:7856847432530140005",
+      "lastPropertyId": "5:5336287511665436563",
       "name": "Jm_enam_and_dict_LanguageMeanings",
       "properties": [
         {
@@ -58,28 +58,26 @@
           "id": "3:1185948322938275311",
           "name": "meanings",
           "type": 30
-        },
-        {
-          "id": "4:7856847432530140005",
-          "name": "jm_enam_and_dict_EntryId",
-          "type": 11,
-          "flags": 520,
-          "indexId": "1:5114285824026872297",
-          "relationTarget": "Jm_enam_and_dict_Entry"
         }
       ],
       "relations": []
     }
   ],
   "lastEntityId": "2:4040414224621719292",
-  "lastIndexId": "1:5114285824026872297",
+  "lastIndexId": "2:2896452346381958147",
   "lastRelationId": "1:3597741689435807724",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,
   "retiredEntityUids": [],
-  "retiredIndexUids": [],
-  "retiredPropertyUids": [],
+  "retiredIndexUids": [
+    5114285824026872297,
+    2896452346381958147
+  ],
+  "retiredPropertyUids": [
+    7856847432530140005,
+    5336287511665436563
+  ],
   "retiredRelationUids": [],
   "version": 1
 }

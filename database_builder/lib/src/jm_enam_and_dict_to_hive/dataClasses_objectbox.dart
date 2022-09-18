@@ -7,7 +7,7 @@ class Jm_enam_and_dict_LanguageMeanings{
 
   List<String> meanings;
 
-  final jm_enam_and_dict_Entry = ToOne<Jm_enam_and_dict_Entry>();
+  // final jm_enam_and_dict_Entry = ToOne<Jm_enam_and_dict_Entry>();
 
   Jm_enam_and_dict_LanguageMeanings({required this.language, required this.meanings});
 
