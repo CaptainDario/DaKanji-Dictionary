@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:path/path.dart' as path;
 
 class RepoPathManager{
   static final _inputFilesRegex = RegExp(r'.*(inputFiles)$');
@@ -15,10 +16,10 @@ class RepoPathManager{
     return _getRepoDirectory().listSync().singleWhere((element) => element.path.contains(_outputFilesRegex)).path;
   }
   static Directory _getRepoDirectory(){
-    var path =  Directory(Directory.current.path);
-    while (!path.listSync().any((element) => element.path.contains(RegExp(r'.*(databaseBuilders)$')))){
-      path = path.parent;
+    var dir_path =  Directory(Directory.current.path);
+    while (!path.basename(dir_path.path).contains(RegExp(r'.*(DaKanji-Dictionary)$'))){
+      dir_path = dir_path.parent;
     }
-    return path;
+    return dir_path;
   }
 }

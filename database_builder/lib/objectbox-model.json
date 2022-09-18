@@ -1,0 +1,85 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:5849156372886568225",
+      "lastPropertyId": "4:8015787405101520526",
+      "name": "Jm_enam_and_dict_Entry",
+      "properties": [
+        {
+          "id": "1:6153382288320326000",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:5328687711126144919",
+          "name": "kanjis",
+          "type": 30
+        },
+        {
+          "id": "3:7022149344381025470",
+          "name": "readings",
+          "type": 30
+        },
+        {
+          "id": "4:8015787405101520526",
+          "name": "partOfSpeech",
+          "type": 30
+        }
+      ],
+      "relations": [
+        {
+          "id": "1:3597741689435807724",
+          "name": "meanings",
+          "targetId": "2:4040414224621719292"
+        }
+      ]
+    },
+    {
+      "id": "2:4040414224621719292",
+      "lastPropertyId": "4:7856847432530140005",
+      "name": "Jm_enam_and_dict_LanguageMeanings",
+      "properties": [
+        {
+          "id": "1:8714769272562857090",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:3375743575507095743",
+          "name": "language",
+          "type": 9
+        },
+        {
+          "id": "3:1185948322938275311",
+          "name": "meanings",
+          "type": 30
+        },
+        {
+          "id": "4:7856847432530140005",
+          "name": "jm_enam_and_dict_EntryId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "1:5114285824026872297",
+          "relationTarget": "Jm_enam_and_dict_Entry"
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "2:4040414224621719292",
+  "lastIndexId": "1:5114285824026872297",
+  "lastRelationId": "1:3597741689435807724",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}
