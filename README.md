@@ -11,10 +11,10 @@ The repository to build and store the dictionary files for DaKanji.
 
 First download the necessary dictionary files
 
-* [JMDict](https://www.edrdg.org/jmdict/j_jmdict.html)
-* [KanjiDic](http://www.edrdg.org/wiki/index.php/KANJIDIC_Project)
-* [ENAMDICT](https://www.edrdg.org/enamdict/enamdict_doc.html)
-* [KanjiVG](https://github.com/KanjiVG/kanjivg/releases)
+* [JMDict](https://www.edrdg.org/jmdict/j_jmdict.html) or [direct download](http://ftp.edrdg.org/pub/Nihongo//JMdict.gz)
+* [KanjiDic](http://www.edrdg.org/wiki/index.php/KANJIDIC_Project) or [direct download](http://www.edrdg.org/kanjidic/kanjidic2.xml.gz)
+* [ENAMDICT](https://www.edrdg.org/enamdict/enamdict_doc.html) or [direct download](http://ftp.edrdg.org/pub/Nihongo/JMnedict.xml.gz)
+* [KanjiVG](https://github.com/KanjiVG/kanjivg/releases/latest)
 
 and place them in the `inputFiles directory`.
 Your folder should look like that
@@ -37,9 +37,7 @@ Now Run the python Scripts
 
 Finally, run
 
-``` bash
-dart databaseBuilders/database_builder/example/database_builder_example.dart
-```
+`dart database_builder/example/database_builder_example.dart`
 
 ## Usage
 
