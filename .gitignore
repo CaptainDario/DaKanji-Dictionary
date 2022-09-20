@@ -46,6 +46,7 @@ outputFiles/*
 
 *.hive
 *.lock
+*.mdb
 .vscode/*
 
 .venv/*
