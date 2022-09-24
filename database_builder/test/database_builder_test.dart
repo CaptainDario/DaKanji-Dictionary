@@ -16,15 +16,14 @@ void main() {
       expect(RepoPathManager.getOutputFilesPath().contains("DaKanji-Dictionary\\outputFiles"), true);
     });
   group('Box creators', () {
-    setUp(() async {
-      // making sure that everything is loading allright
-      expect(await jmEnamAndDictToHive(), false);
-      expect(await kanjiVGToHive(), false);
-      expect(await kanjidic2ToHive(), false);
-    });
-
     test('Jm_enam_and_dict', () async {
-      expect(true, true);
+      expect(await jmEnamAndDictToObjectbox(), false);
+    });
+    test("kanjidic_to_objectbox", () async {
+      expect(await kanjiVGToObjectbox(), false);
+    });
+    test("kanjiVG_to_objectbox.dart", () async {
+      expect(await kanjidic2ToObjectbox(), false);
     });
     });
   });

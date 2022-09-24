@@ -13,65 +13,215 @@ import 'package:flat_buffers/flat_buffers.dart' as fb;
 import 'package:objectbox/internal.dart'; // generated code can access "internal" functionality
 import 'package:objectbox/objectbox.dart';
 
-import 'src/jm_enam_and_dict_to_hive/dataClasses_objectbox.dart';
+import 'src/jm_enam_and_dict_to_db/data_classes.dart';
+import 'src/kanjiVG_to_db/data_classes.dart';
+import 'src/kanjidic2_to_db/data_classes.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
 
 final _entities = <ModelEntity>[
   ModelEntity(
-      id: const IdUid(1, 5849156372886568225),
-      name: 'Jm_enam_and_dict_Entry',
-      lastPropertyId: const IdUid(4, 8015787405101520526),
+      id: const IdUid(1, 6823645767283090357),
+      name: 'Entry',
+      lastPropertyId: const IdUid(4, 822300283305876316),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
-            id: const IdUid(1, 6153382288320326000),
+            id: const IdUid(1, 2157505931238473851),
             name: 'id',
             type: 6,
             flags: 1),
         ModelProperty(
-            id: const IdUid(2, 5328687711126144919),
+            id: const IdUid(2, 2610093183821543423),
             name: 'kanjis',
             type: 30,
             flags: 0),
         ModelProperty(
-            id: const IdUid(3, 7022149344381025470),
+            id: const IdUid(3, 8102777088659234111),
             name: 'readings',
             type: 30,
             flags: 0),
         ModelProperty(
-            id: const IdUid(4, 8015787405101520526),
+            id: const IdUid(4, 822300283305876316),
             name: 'partOfSpeech',
             type: 30,
             flags: 0)
       ],
       relations: <ModelRelation>[
         ModelRelation(
-            id: const IdUid(1, 3597741689435807724),
+            id: const IdUid(1, 5204134020687164131),
             name: 'meanings',
-            targetId: const IdUid(2, 4040414224621719292))
+            targetId: const IdUid(5, 3159401933604442559))
       ],
       backlinks: <ModelBacklink>[]),
   ModelEntity(
-      id: const IdUid(2, 4040414224621719292),
-      name: 'Jm_enam_and_dict_LanguageMeanings',
-      lastPropertyId: const IdUid(5, 5336287511665436563),
+      id: const IdUid(2, 5273673327291140001),
+      name: 'JIS',
+      lastPropertyId: const IdUid(3, 5915407508258069392),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
-            id: const IdUid(1, 8714769272562857090),
+            id: const IdUid(1, 508703192838332769),
             name: 'id',
             type: 6,
             flags: 1),
         ModelProperty(
-            id: const IdUid(2, 3375743575507095743),
+            id: const IdUid(2, 8121461732048359849),
+            name: 'encoding',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(3, 5915407508258069392),
+            name: 'value',
+            type: 9,
+            flags: 0)
+      ],
+      relations: <ModelRelation>[],
+      backlinks: <ModelBacklink>[]),
+  ModelEntity(
+      id: const IdUid(3, 2254832289330746232),
+      name: 'KanjiSVG',
+      lastPropertyId: const IdUid(3, 4380739545391230483),
+      flags: 0,
+      properties: <ModelProperty>[
+        ModelProperty(
+            id: const IdUid(1, 5930166576059179177),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        ModelProperty(
+            id: const IdUid(2, 1845366453586086519),
+            name: 'character',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(3, 4380739545391230483),
+            name: 'svg',
+            type: 9,
+            flags: 0)
+      ],
+      relations: <ModelRelation>[],
+      backlinks: <ModelBacklink>[]),
+  ModelEntity(
+      id: const IdUid(4, 8732188615112854009),
+      name: 'Kanjidic2Entry',
+      lastPropertyId: const IdUid(6, 3123170125519829120),
+      flags: 0,
+      properties: <ModelProperty>[
+        ModelProperty(
+            id: const IdUid(1, 2935597657690090566),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        ModelProperty(
+            id: const IdUid(2, 808368176118365672),
+            name: 'literal',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(3, 1392941260610609555),
+            name: 'grade',
+            type: 6,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(4, 5909615396680406786),
+            name: 'frequency',
+            type: 6,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(5, 6832667450107456991),
+            name: 'jlpt',
+            type: 6,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(6, 3123170125519829120),
+            name: 'nanoris',
+            type: 30,
+            flags: 0)
+      ],
+      relations: <ModelRelation>[
+        ModelRelation(
+            id: const IdUid(2, 1292068901904932990),
+            name: 'variants',
+            targetId: const IdUid(2, 5273673327291140001)),
+        ModelRelation(
+            id: const IdUid(3, 2422548500865546622),
+            name: 'meanings',
+            targetId: const IdUid(6, 5633136801298155324)),
+        ModelRelation(
+            id: const IdUid(4, 6629030017146265093),
+            name: 'readings',
+            targetId: const IdUid(7, 4200430820447760547))
+      ],
+      backlinks: <ModelBacklink>[]),
+  ModelEntity(
+      id: const IdUid(5, 3159401933604442559),
+      name: 'LanguageMeanings',
+      lastPropertyId: const IdUid(3, 6308160609331040930),
+      flags: 0,
+      properties: <ModelProperty>[
+        ModelProperty(
+            id: const IdUid(1, 6550994337830988775),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        ModelProperty(
+            id: const IdUid(2, 6091753782415594311),
             name: 'language',
             type: 9,
             flags: 0),
         ModelProperty(
-            id: const IdUid(3, 1185948322938275311),
+            id: const IdUid(3, 6308160609331040930),
             name: 'meanings',
             type: 30,
+            flags: 0)
+      ],
+      relations: <ModelRelation>[],
+      backlinks: <ModelBacklink>[]),
+  ModelEntity(
+      id: const IdUid(6, 5633136801298155324),
+      name: 'Meaning',
+      lastPropertyId: const IdUid(3, 5540315751408372852),
+      flags: 0,
+      properties: <ModelProperty>[
+        ModelProperty(
+            id: const IdUid(1, 4851898542278364866),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        ModelProperty(
+            id: const IdUid(2, 6288812644577965557),
+            name: 'language',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(3, 5540315751408372852),
+            name: 'meaning',
+            type: 9,
+            flags: 0)
+      ],
+      relations: <ModelRelation>[],
+      backlinks: <ModelBacklink>[]),
+  ModelEntity(
+      id: const IdUid(7, 4200430820447760547),
+      name: 'Reading',
+      lastPropertyId: const IdUid(3, 2512887542011922192),
+      flags: 0,
+      properties: <ModelProperty>[
+        ModelProperty(
+            id: const IdUid(1, 1057763118905680301),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        ModelProperty(
+            id: const IdUid(2, 3146953322815580080),
+            name: 'r_type',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(3, 2512887542011922192),
+            name: 'value',
+            type: 9,
             flags: 0)
       ],
       relations: <ModelRelation>[],
@@ -98,31 +248,29 @@ Store openStore(
 ModelDefinition getObjectBoxModel() {
   final model = ModelInfo(
       entities: _entities,
-      lastEntityId: const IdUid(2, 4040414224621719292),
-      lastIndexId: const IdUid(2, 2896452346381958147),
-      lastRelationId: const IdUid(1, 3597741689435807724),
+      lastEntityId: const IdUid(7, 4200430820447760547),
+      lastIndexId: const IdUid(0, 0),
+      lastRelationId: const IdUid(4, 6629030017146265093),
       lastSequenceId: const IdUid(0, 0),
       retiredEntityUids: const [],
-      retiredIndexUids: const [5114285824026872297, 2896452346381958147],
-      retiredPropertyUids: const [7856847432530140005, 5336287511665436563],
+      retiredIndexUids: const [],
+      retiredPropertyUids: const [],
       retiredRelationUids: const [],
       modelVersion: 5,
       modelVersionParserMinimum: 5,
       version: 1);
 
   final bindings = <Type, EntityDefinition>{
-    Jm_enam_and_dict_Entry: EntityDefinition<Jm_enam_and_dict_Entry>(
+    Entry: EntityDefinition<Entry>(
         model: _entities[0],
-        toOneRelations: (Jm_enam_and_dict_Entry object) => [],
-        toManyRelations: (Jm_enam_and_dict_Entry object) => {
-              RelInfo<Jm_enam_and_dict_Entry>.toMany(1, object.id):
-                  object.meanings
-            },
-        getId: (Jm_enam_and_dict_Entry object) => object.id,
-        setId: (Jm_enam_and_dict_Entry object, int id) {
+        toOneRelations: (Entry object) => [],
+        toManyRelations: (Entry object) =>
+            {RelInfo<Entry>.toMany(1, object.id): object.meanings},
+        getId: (Entry object) => object.id,
+        setId: (Entry object, int id) {
           object.id = id;
         },
-        objectToFB: (Jm_enam_and_dict_Entry object, fb.Builder fbb) {
+        objectToFB: (Entry object, fb.Builder fbb) {
           final kanjisOffset = fbb.writeList(
               object.kanjis.map(fbb.writeString).toList(growable: false));
           final readingsOffset = fbb.writeList(
@@ -141,7 +289,7 @@ ModelDefinition getObjectBoxModel() {
           final buffer = fb.BufferContext(fbData);
           final rootOffset = buffer.derefObject(0);
 
-          final object = Jm_enam_and_dict_Entry(
+          final object = Entry(
               kanjis: const fb.ListReader<String>(
                       fb.StringReader(asciiOptimization: true),
                       lazy: false)
@@ -155,27 +303,144 @@ ModelDefinition getObjectBoxModel() {
                       lazy: false)
                   .vTableGet(buffer, rootOffset, 10, []))
             ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+          InternalToManyAccess.setRelInfo(object.meanings, store,
+              RelInfo<Entry>.toMany(1, object.id), store.box<Entry>());
+          return object;
+        }),
+    JIS: EntityDefinition<JIS>(
+        model: _entities[1],
+        toOneRelations: (JIS object) => [],
+        toManyRelations: (JIS object) => {},
+        getId: (JIS object) => object.id,
+        setId: (JIS object, int id) {
+          object.id = id;
+        },
+        objectToFB: (JIS object, fb.Builder fbb) {
+          final encodingOffset = fbb.writeString(object.encoding);
+          final valueOffset = fbb.writeString(object.value);
+          fbb.startTable(4);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, encodingOffset);
+          fbb.addOffset(2, valueOffset);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+
+          final object = JIS(
+              encoding: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 6, ''),
+              value: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 8, ''))
+            ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+
+          return object;
+        }),
+    KanjiSVG: EntityDefinition<KanjiSVG>(
+        model: _entities[2],
+        toOneRelations: (KanjiSVG object) => [],
+        toManyRelations: (KanjiSVG object) => {},
+        getId: (KanjiSVG object) => object.id,
+        setId: (KanjiSVG object, int id) {
+          object.id = id;
+        },
+        objectToFB: (KanjiSVG object, fb.Builder fbb) {
+          final characterOffset = fbb.writeString(object.character);
+          final svgOffset = fbb.writeString(object.svg);
+          fbb.startTable(4);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, characterOffset);
+          fbb.addOffset(2, svgOffset);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+
+          final object = KanjiSVG(
+              character: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 6, ''),
+              svg: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 8, ''))
+            ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+
+          return object;
+        }),
+    Kanjidic2Entry: EntityDefinition<Kanjidic2Entry>(
+        model: _entities[3],
+        toOneRelations: (Kanjidic2Entry object) => [],
+        toManyRelations: (Kanjidic2Entry object) => {
+              RelInfo<Kanjidic2Entry>.toMany(2, object.id): object.variants,
+              RelInfo<Kanjidic2Entry>.toMany(3, object.id): object.meanings,
+              RelInfo<Kanjidic2Entry>.toMany(4, object.id): object.readings
+            },
+        getId: (Kanjidic2Entry object) => object.id,
+        setId: (Kanjidic2Entry object, int id) {
+          object.id = id;
+        },
+        objectToFB: (Kanjidic2Entry object, fb.Builder fbb) {
+          final literalOffset = fbb.writeString(object.literal);
+          final nanorisOffset = fbb.writeList(
+              object.nanoris.map(fbb.writeString).toList(growable: false));
+          fbb.startTable(7);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, literalOffset);
+          fbb.addInt64(2, object.grade);
+          fbb.addInt64(3, object.frequency);
+          fbb.addInt64(4, object.jlpt);
+          fbb.addOffset(5, nanorisOffset);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+
+          final object = Kanjidic2Entry(
+              literal: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 6, ''),
+              grade: const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0),
+              frequency:
+                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0),
+              jlpt: const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0),
+              nanoris: const fb.ListReader<String>(
+                      fb.StringReader(asciiOptimization: true),
+                      lazy: false)
+                  .vTableGet(buffer, rootOffset, 14, []))
+            ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+          InternalToManyAccess.setRelInfo(
+              object.variants,
+              store,
+              RelInfo<Kanjidic2Entry>.toMany(2, object.id),
+              store.box<Kanjidic2Entry>());
           InternalToManyAccess.setRelInfo(
               object.meanings,
               store,
-              RelInfo<Jm_enam_and_dict_Entry>.toMany(1, object.id),
-              store.box<Jm_enam_and_dict_Entry>());
+              RelInfo<Kanjidic2Entry>.toMany(3, object.id),
+              store.box<Kanjidic2Entry>());
+          InternalToManyAccess.setRelInfo(
+              object.readings,
+              store,
+              RelInfo<Kanjidic2Entry>.toMany(4, object.id),
+              store.box<Kanjidic2Entry>());
           return object;
         }),
-    Jm_enam_and_dict_LanguageMeanings: EntityDefinition<
-            Jm_enam_and_dict_LanguageMeanings>(
-        model: _entities[1],
-        toOneRelations: (Jm_enam_and_dict_LanguageMeanings object) => [],
-        toManyRelations: (Jm_enam_and_dict_LanguageMeanings object) => {},
-        getId: (Jm_enam_and_dict_LanguageMeanings object) => object.id,
-        setId: (Jm_enam_and_dict_LanguageMeanings object, int id) {
+    LanguageMeanings: EntityDefinition<LanguageMeanings>(
+        model: _entities[4],
+        toOneRelations: (LanguageMeanings object) => [],
+        toManyRelations: (LanguageMeanings object) => {},
+        getId: (LanguageMeanings object) => object.id,
+        setId: (LanguageMeanings object, int id) {
           object.id = id;
         },
-        objectToFB: (Jm_enam_and_dict_LanguageMeanings object, fb.Builder fbb) {
+        objectToFB: (LanguageMeanings object, fb.Builder fbb) {
           final languageOffset = fbb.writeString(object.language);
           final meaningsOffset = fbb.writeList(
               object.meanings.map(fbb.writeString).toList(growable: false));
-          fbb.startTable(6);
+          fbb.startTable(4);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, languageOffset);
           fbb.addOffset(2, meaningsOffset);
@@ -186,7 +451,7 @@ ModelDefinition getObjectBoxModel() {
           final buffer = fb.BufferContext(fbData);
           final rootOffset = buffer.derefObject(0);
 
-          final object = Jm_enam_and_dict_LanguageMeanings(
+          final object = LanguageMeanings(
               language: const fb.StringReader(asciiOptimization: true)
                   .vTableGet(buffer, rootOffset, 6, ''),
               meanings: const fb.ListReader<String>(
@@ -196,48 +461,198 @@ ModelDefinition getObjectBoxModel() {
             ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
 
           return object;
+        }),
+    Meaning: EntityDefinition<Meaning>(
+        model: _entities[5],
+        toOneRelations: (Meaning object) => [],
+        toManyRelations: (Meaning object) => {},
+        getId: (Meaning object) => object.id,
+        setId: (Meaning object, int id) {
+          object.id = id;
+        },
+        objectToFB: (Meaning object, fb.Builder fbb) {
+          final languageOffset = fbb.writeString(object.language);
+          final meaningOffset = fbb.writeString(object.meaning);
+          fbb.startTable(4);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, languageOffset);
+          fbb.addOffset(2, meaningOffset);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+
+          final object = Meaning(
+              language: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 6, ''),
+              meaning: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 8, ''))
+            ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+
+          return object;
+        }),
+    Reading: EntityDefinition<Reading>(
+        model: _entities[6],
+        toOneRelations: (Reading object) => [],
+        toManyRelations: (Reading object) => {},
+        getId: (Reading object) => object.id,
+        setId: (Reading object, int id) {
+          object.id = id;
+        },
+        objectToFB: (Reading object, fb.Builder fbb) {
+          final r_typeOffset = fbb.writeString(object.r_type);
+          final valueOffset = fbb.writeString(object.value);
+          fbb.startTable(4);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, r_typeOffset);
+          fbb.addOffset(2, valueOffset);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+
+          final object = Reading(
+              r_type: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 6, ''),
+              value: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 8, ''))
+            ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+
+          return object;
         })
   };
 
   return ModelDefinition(model, bindings);
 }
 
-/// [Jm_enam_and_dict_Entry] entity fields to define ObjectBox queries.
-class Jm_enam_and_dict_Entry_ {
-  /// see [Jm_enam_and_dict_Entry.id]
-  static final id =
-      QueryIntegerProperty<Jm_enam_and_dict_Entry>(_entities[0].properties[0]);
+/// [Entry] entity fields to define ObjectBox queries.
+class Entry_ {
+  /// see [Entry.id]
+  static final id = QueryIntegerProperty<Entry>(_entities[0].properties[0]);
 
-  /// see [Jm_enam_and_dict_Entry.kanjis]
-  static final kanjis = QueryStringVectorProperty<Jm_enam_and_dict_Entry>(
-      _entities[0].properties[1]);
+  /// see [Entry.kanjis]
+  static final kanjis =
+      QueryStringVectorProperty<Entry>(_entities[0].properties[1]);
 
-  /// see [Jm_enam_and_dict_Entry.readings]
-  static final readings = QueryStringVectorProperty<Jm_enam_and_dict_Entry>(
-      _entities[0].properties[2]);
+  /// see [Entry.readings]
+  static final readings =
+      QueryStringVectorProperty<Entry>(_entities[0].properties[2]);
 
-  /// see [Jm_enam_and_dict_Entry.partOfSpeech]
-  static final partOfSpeech = QueryStringVectorProperty<Jm_enam_and_dict_Entry>(
-      _entities[0].properties[3]);
+  /// see [Entry.partOfSpeech]
+  static final partOfSpeech =
+      QueryStringVectorProperty<Entry>(_entities[0].properties[3]);
 
-  /// see [Jm_enam_and_dict_Entry.meanings]
-  static final meanings = QueryRelationToMany<Jm_enam_and_dict_Entry,
-      Jm_enam_and_dict_LanguageMeanings>(_entities[0].relations[0]);
+  /// see [Entry.meanings]
+  static final meanings =
+      QueryRelationToMany<Entry, LanguageMeanings>(_entities[0].relations[0]);
 }
 
-/// [Jm_enam_and_dict_LanguageMeanings] entity fields to define ObjectBox queries.
-class Jm_enam_and_dict_LanguageMeanings_ {
-  /// see [Jm_enam_and_dict_LanguageMeanings.id]
-  static final id = QueryIntegerProperty<Jm_enam_and_dict_LanguageMeanings>(
-      _entities[1].properties[0]);
+/// [JIS] entity fields to define ObjectBox queries.
+class JIS_ {
+  /// see [JIS.id]
+  static final id = QueryIntegerProperty<JIS>(_entities[1].properties[0]);
 
-  /// see [Jm_enam_and_dict_LanguageMeanings.language]
-  static final language =
-      QueryStringProperty<Jm_enam_and_dict_LanguageMeanings>(
-          _entities[1].properties[1]);
+  /// see [JIS.encoding]
+  static final encoding = QueryStringProperty<JIS>(_entities[1].properties[1]);
 
-  /// see [Jm_enam_and_dict_LanguageMeanings.meanings]
+  /// see [JIS.value]
+  static final value = QueryStringProperty<JIS>(_entities[1].properties[2]);
+}
+
+/// [KanjiSVG] entity fields to define ObjectBox queries.
+class KanjiSVG_ {
+  /// see [KanjiSVG.id]
+  static final id = QueryIntegerProperty<KanjiSVG>(_entities[2].properties[0]);
+
+  /// see [KanjiSVG.character]
+  static final character =
+      QueryStringProperty<KanjiSVG>(_entities[2].properties[1]);
+
+  /// see [KanjiSVG.svg]
+  static final svg = QueryStringProperty<KanjiSVG>(_entities[2].properties[2]);
+}
+
+/// [Kanjidic2Entry] entity fields to define ObjectBox queries.
+class Kanjidic2Entry_ {
+  /// see [Kanjidic2Entry.id]
+  static final id =
+      QueryIntegerProperty<Kanjidic2Entry>(_entities[3].properties[0]);
+
+  /// see [Kanjidic2Entry.literal]
+  static final literal =
+      QueryStringProperty<Kanjidic2Entry>(_entities[3].properties[1]);
+
+  /// see [Kanjidic2Entry.grade]
+  static final grade =
+      QueryIntegerProperty<Kanjidic2Entry>(_entities[3].properties[2]);
+
+  /// see [Kanjidic2Entry.frequency]
+  static final frequency =
+      QueryIntegerProperty<Kanjidic2Entry>(_entities[3].properties[3]);
+
+  /// see [Kanjidic2Entry.jlpt]
+  static final jlpt =
+      QueryIntegerProperty<Kanjidic2Entry>(_entities[3].properties[4]);
+
+  /// see [Kanjidic2Entry.nanoris]
+  static final nanoris =
+      QueryStringVectorProperty<Kanjidic2Entry>(_entities[3].properties[5]);
+
+  /// see [Kanjidic2Entry.variants]
+  static final variants =
+      QueryRelationToMany<Kanjidic2Entry, JIS>(_entities[3].relations[0]);
+
+  /// see [Kanjidic2Entry.meanings]
   static final meanings =
-      QueryStringVectorProperty<Jm_enam_and_dict_LanguageMeanings>(
-          _entities[1].properties[2]);
+      QueryRelationToMany<Kanjidic2Entry, Meaning>(_entities[3].relations[1]);
+
+  /// see [Kanjidic2Entry.readings]
+  static final readings =
+      QueryRelationToMany<Kanjidic2Entry, Reading>(_entities[3].relations[2]);
+}
+
+/// [LanguageMeanings] entity fields to define ObjectBox queries.
+class LanguageMeanings_ {
+  /// see [LanguageMeanings.id]
+  static final id =
+      QueryIntegerProperty<LanguageMeanings>(_entities[4].properties[0]);
+
+  /// see [LanguageMeanings.language]
+  static final language =
+      QueryStringProperty<LanguageMeanings>(_entities[4].properties[1]);
+
+  /// see [LanguageMeanings.meanings]
+  static final meanings =
+      QueryStringVectorProperty<LanguageMeanings>(_entities[4].properties[2]);
+}
+
+/// [Meaning] entity fields to define ObjectBox queries.
+class Meaning_ {
+  /// see [Meaning.id]
+  static final id = QueryIntegerProperty<Meaning>(_entities[5].properties[0]);
+
+  /// see [Meaning.language]
+  static final language =
+      QueryStringProperty<Meaning>(_entities[5].properties[1]);
+
+  /// see [Meaning.meaning]
+  static final meaning =
+      QueryStringProperty<Meaning>(_entities[5].properties[2]);
+}
+
+/// [Reading] entity fields to define ObjectBox queries.
+class Reading_ {
+  /// see [Reading.id]
+  static final id = QueryIntegerProperty<Reading>(_entities[6].properties[0]);
+
+  /// see [Reading.r_type]
+  static final r_type =
+      QueryStringProperty<Reading>(_entities[6].properties[1]);
+
+  /// see [Reading.value]
+  static final value = QueryStringProperty<Reading>(_entities[6].properties[2]);
 }

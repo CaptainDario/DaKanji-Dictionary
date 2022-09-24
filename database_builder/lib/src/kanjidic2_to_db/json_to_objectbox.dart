@@ -1,7 +1,7 @@
-import 'dataClasses.dart';
-import 'package:hive/hive.dart';
+import 'package:database_builder/database_builder.dart';
 
-void jsonToHive(List data, Box<dynamic> box){
+void jsonToObjectbox(List data, Box<dynamic> box){
+  List<Kanjidic2Entry> entries = <Kanjidic2Entry>[];
   for(final jsonEntry in data){
     List<JIS> variants = jsonEntry["variants"].map<JIS>((variant){
       return JIS(encoding: variant["encoding"], value: variant["value"]);
@@ -13,8 +13,13 @@ void jsonToHive(List data, Box<dynamic> box){
       return Meaning(language: meaning["language"], meaning: meaning["meaning"]);
     }).toList();
     List<String> nanoris = List.from(jsonEntry["nanoris"]);
-    box.add(Entry(literal: jsonEntry["literal"], grade: jsonEntry["grade"], variants: variants, 
-                      frequency: jsonEntry["frequency"], jlpt: jsonEntry["jlpt"], 
-                      readings: readings, meanings: meanings, nanoris: nanoris));
+    var entry = Kanjidic2Entry(literal: jsonEntry["literal"], grade: jsonEntry["grade"], frequency: jsonEntry["frequency"],
+                  jlpt: jsonEntry["jlpt"], nanoris: nanoris);
+    entry.variants.addAll(variants);
+    entry.readings.addAll(readings);
+    entry.meanings.addAll(meanings);
+
+    entries.add(entry);
   }
+  box.putMany(entries);
 }

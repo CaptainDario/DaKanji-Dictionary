@@ -1,11 +1,8 @@
-import 'dataClasses.dart';
-import 'package:hive/hive.dart';
+import 'package:database_builder/database_builder.dart';
 
-void jsonToHive(List data, Box<dynamic> box){
+void jsonToObjectbox(List data, Box<dynamic> box){
+  List<Entry> entries = <Entry>[];
   for (final jsonEntry in data){
-    jsonEntry["kanjis"];
-    jsonEntry["readings"];
-    jsonEntry["part_of_speech"];
     var jsonMeanings = jsonEntry["meanings"];
     var meanings = <LanguageMeanings>[];
     for (final jsonMeaning in jsonMeanings){
@@ -14,9 +11,10 @@ void jsonToHive(List data, Box<dynamic> box){
     }
     var entry = Entry(
       kanjis: List<String>.from(jsonEntry["kanjis"]), 
-      meanings: meanings, 
       partOfSpeech: List<String>.from(jsonEntry["part_of_speech"]), 
       readings: List<String>.from(jsonEntry["readings"]));
-    box.add(entry);
+    entry.meanings.addAll(meanings);
+    entries.add(entry);
   }
+  box.putMany(entries);
 }
