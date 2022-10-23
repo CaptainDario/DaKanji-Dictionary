@@ -43,3 +43,5 @@ Finally, run
 
 After building the dictionary it can be used by including
 `import 'package:database_builder/database_builder.dart';` in your dart app.
+
+## Credits and additional information
