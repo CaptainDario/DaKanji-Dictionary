@@ -32,7 +32,7 @@ Future<bool> main() async{
       await isar.writeTxn(() => isar.kanjiSVGs.putAll(kanjis));
       // isar.kanjiSVGs.putAll(kanjis);
     //   box.putMany(kanjis);
-    //   print('${stopwatch.elapsed}');
+      print('${stopwatch.elapsed}');
     }
     // // print(dbName + ": " + "Data inserted into box, closing - please wait");
     return Future<bool>.value(false);
