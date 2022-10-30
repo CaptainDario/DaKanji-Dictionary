@@ -9,14 +9,32 @@ class LanguageMeanings{
 
   LanguageMeanings({String? this.language, List<String>? this.meanings});
 
+  // @override
+  // String toString() {
+  //   String representation = "Language: " + language! + "\n";
+  //   for (var meaning in meanings!) {
+  //     representation += meaning + "\n";
+  //   }
+  //   return(representation);
+  // }
+
+  // List<String> toStringList(){
+  //   List<String> representation = <String>[];
+  //   for (var meaning in meanings!){
+  //       representation.add("[" + language! + "]" + meaning);
+  //   }
+  //   return representation;
+  // }
   @override
-  String toString() {
-    String representation = "Language: " + language! + "\n";
-    for (var meaning in meanings!) {
-      representation += meaning + "\n";
+  String toString(){
+    String representation = "";
+    for (var meaning in meanings!){
+        representation += ("[" + language! + "]" + meaning);
     }
-    return(representation);
+    return representation;
   }
+
+
 }
 
 @collection
@@ -27,7 +45,9 @@ class Entry {
   @Index(type: IndexType.value)
   List<String> readings;
   List<String> partOfSpeech;
-  List<LanguageMeanings> meanings = <LanguageMeanings>[];
+  @Index(type: IndexType.value)
+  List<String> meanings = <String>[];
+  // List<LanguageMeanings> meanings = <LanguageMeanings>[];
 
   Entry({required this.kanjis, required this.readings, required this.partOfSpeech, required this.meanings});
 

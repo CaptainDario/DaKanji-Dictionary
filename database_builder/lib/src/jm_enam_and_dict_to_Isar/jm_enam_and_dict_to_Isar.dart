@@ -24,9 +24,9 @@ Future<bool> main() async {
     print(dbName + ": " + "Data inserted into box, closing - please wait");
     // HERE IS THE EXAMPLE QUERY
     //isar.entrys.filter().meanings((LanguageMeanings) => LanguageMeanings.meaningsElementContains("city")).findFirstSync();
-    isar.entrys.filter().meaningsElement((LanguageMeanings) => LanguageMeanings.meaningsElementContains("eat")).findFirstSync(); // bad - it returns something like mEAT
-    isar.entrys.filter().meaningsElement((LanguageMeanings) => LanguageMeanings.meaningsElementStartsWith("eat")) // good - it returns eat
-    .and().meaningsElement((q) => q.languageEqualTo("ger")).findFirstSync();
+    // isar.entrys.filter().meaningsElement((LanguageMeanings) => LanguageMeanings.meaningsElementContains("eat")).findFirstSync(); // bad - it returns something like mEAT
+    // isar.entrys.filter().meaningsElement((LanguageMeanings) => LanguageMeanings.meaningsElementStartsWith("eat")) // good - it returns eat
+    // .and().meaningsElement((q) => q.languageEqualTo("ger")).findFirstSync();
     print(dbName + ": " + "Box closed");
     return Future<bool>.value(false);
 }
