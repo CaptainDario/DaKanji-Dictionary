@@ -22,7 +22,9 @@ class LanguageMeanings{
 @collection
 class Entry {
   Id id = Isar.autoIncrement;
+  @Index(type: IndexType.value)
   List<String> kanjis;
+  @Index(type: IndexType.value)
   List<String> readings;
   List<String> partOfSpeech;
   List<LanguageMeanings> meanings = <LanguageMeanings>[];
