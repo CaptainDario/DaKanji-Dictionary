@@ -13,10 +13,10 @@ void jsonToIsar(List data, Isar isar){
     }
     var entry = Entry(
       kanjis: List<String>.from(jsonEntry["kanjis"]), 
-      // meanings: meanings,
+      meanings: meanings,
       partOfSpeech: List<String>.from(jsonEntry["part_of_speech"]), 
       readings: List<String>.from(jsonEntry["readings"]));
-    entry.meanings.addAll(meanings);
+    // entry.meanings.addAll(meanings);
     entries.add(entry);
     // entry.meanings.addAll(meanings);
     // entry.meanings.save();

@@ -9,9 +9,7 @@ import 'package:path/path.dart' as p;
 Future<bool> main() async {
 // Future<bool> jmEnamAndDictToObjectbox() async {
     var dbName = 'jm_enam_and_dict';
-    final isar = await Isar.open([EntrySchema, LanguageMeaningsSchema]);
-    // final store = openStore();
-    // final Box<Entry> box = store.box<Entry>();
+    final isar = await Isar.open([EntrySchema], inspector: true);
     if (isar.getSizeSync() <= 0)
     {
         print("Starting stopwatch");
@@ -26,6 +24,9 @@ Future<bool> main() async {
     print(dbName + ": " + "Data inserted into box, closing - please wait");
     // HERE IS THE EXAMPLE QUERY
     //isar.entrys.filter().meanings((LanguageMeanings) => LanguageMeanings.meaningsElementContains("city")).findFirstSync();
+    isar.entrys.filter().meaningsElement((LanguageMeanings) => LanguageMeanings.meaningsElementContains("eat")).findFirstSync(); // bad - it returns something like mEAT
+    isar.entrys.filter().meaningsElement((LanguageMeanings) => LanguageMeanings.meaningsElementStartsWith("eat")) // good - it returns eat
+    .and().meaningsElement((q) => q.languageEqualTo("ger")).findFirstSync();
     print(dbName + ": " + "Box closed");
     return Future<bool>.value(false);
 }

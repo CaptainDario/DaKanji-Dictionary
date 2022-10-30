@@ -1,18 +1,18 @@
 import 'package:isar/isar.dart';
 part 'data_classes.g.dart';
 
-@collection
+@embedded
 class LanguageMeanings{
-  Id id = Isar.autoIncrement;
-  String language;
-  List<String> meanings;
+  // Id id = Isar.autoIncrement;
+  String? language;
+  List<String>? meanings;
 
-  LanguageMeanings({required this.language, required this.meanings});
+  LanguageMeanings({String? this.language, List<String>? this.meanings});
 
   @override
   String toString() {
-    String representation = "Language: " + language + "\n";
-    for (var meaning in meanings) {
+    String representation = "Language: " + language! + "\n";
+    for (var meaning in meanings!) {
       representation += meaning + "\n";
     }
     return(representation);
@@ -25,9 +25,9 @@ class Entry {
   List<String> kanjis;
   List<String> readings;
   List<String> partOfSpeech;
-  final meanings = IsarLinks<LanguageMeanings>();
+  List<LanguageMeanings> meanings = <LanguageMeanings>[];
 
-  Entry({required this.kanjis, required this.readings, required this.partOfSpeech});
+  Entry({required this.kanjis, required this.readings, required this.partOfSpeech, required this.meanings});
 
   @override
   String toString() {
