@@ -1,18 +1,17 @@
 import 'dart:io';
 import 'dart:convert';
 import 'package:database_builder/database_builder.dart';
-import 'package:database_builder/src/kanjidic2_to_Isar/data_classes.dart';
 import 'json_to_Isar.dart';
 import 'package:isar/isar.dart';
 import 'package:path/path.dart' as p;
 
-Future<bool> main() async {
-// Future<bool> kanjidic2ToIsar() async {
+// Future<bool> main() async {
+Future<bool> kanjidic2ToIsar(Isar isar) async {
     var dbName = 'kanjidic2';
-    final isar = await Isar.open([Kanjidic2EntrySchema]);
+    // final isar = await Isar.open([Kanjidic2EntrySchema]);
 
-
-    if (isar.getSizeSync() <= 0)
+    
+    if (isar.kanjidic2Entrys.countSync() <= 0)
     {
       Stopwatch stopwatch = Stopwatch()..start();
       List data = jsonDecode(await File(p.join(RepoPathManager.getPartiallyProcessedFilesPath(), 'kanjidic2', 'kanjidic2.json')).readAsString());
