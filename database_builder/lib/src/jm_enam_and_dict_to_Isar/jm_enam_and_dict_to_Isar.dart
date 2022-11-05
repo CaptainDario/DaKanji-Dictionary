@@ -9,7 +9,7 @@ import 'package:path/path.dart' as p;
 Future<bool> main() async {
 // Future<bool> jmEnamAndDictToObjectbox() async {
     var dbName = 'jm_enam_and_dict';
-    final isar = await Isar.open([EntrySchema], inspector: true);
+    final isar = await Isar.open([EntrySchema]);
     if (isar.getSizeSync() <= 0)
     {
         print("Starting stopwatch");
@@ -27,6 +27,9 @@ Future<bool> main() async {
     // isar.entrys.filter().meaningsElement((LanguageMeanings) => LanguageMeanings.meaningsElementContains("eat")).findFirstSync(); // bad - it returns something like mEAT
     // isar.entrys.filter().meaningsElement((LanguageMeanings) => LanguageMeanings.meaningsElementStartsWith("eat")) // good - it returns eat
     // .and().meaningsElement((q) => q.languageEqualTo("ger")).findFirstSync();
+    isar.entrys.filter()
+      .meaningsElementStartsWith("eat")
+    .findAllSync().toString();
     print(dbName + ": " + "Box closed");
     return Future<bool>.value(false);
 }

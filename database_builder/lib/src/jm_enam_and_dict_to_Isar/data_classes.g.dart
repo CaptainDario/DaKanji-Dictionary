@@ -69,6 +69,19 @@ const EntrySchema = CollectionSchema(
           caseSensitive: true,
         )
       ],
+    ),
+    r'meanings': IndexSchema(
+      id: 8219783416830359807,
+      name: r'meanings',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'meanings',
+          type: IndexType.value,
+          caseSensitive: true,
+        )
+      ],
     )
   },
   links: {},
@@ -195,6 +208,14 @@ extension EntryQueryWhereSort on QueryBuilder<Entry, Entry, QWhere> {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         const IndexWhereClause.any(indexName: r'readings'),
+      );
+    });
+  }
+
+  QueryBuilder<Entry, Entry, QAfterWhere> anyMeaningsElement() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'meanings'),
       );
     });
   }
@@ -532,6 +553,142 @@ extension EntryQueryWhere on QueryBuilder<Entry, Entry, QWhereClause> {
             ))
             .addWhereClause(IndexWhereClause.lessThan(
               indexName: r'readings',
+              upper: [''],
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<Entry, Entry, QAfterWhereClause> meaningsElementEqualTo(
+      String meaningsElement) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'meanings',
+        value: [meaningsElement],
+      ));
+    });
+  }
+
+  QueryBuilder<Entry, Entry, QAfterWhereClause> meaningsElementNotEqualTo(
+      String meaningsElement) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'meanings',
+              lower: [],
+              upper: [meaningsElement],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'meanings',
+              lower: [meaningsElement],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'meanings',
+              lower: [meaningsElement],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'meanings',
+              lower: [],
+              upper: [meaningsElement],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<Entry, Entry, QAfterWhereClause> meaningsElementGreaterThan(
+    String meaningsElement, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'meanings',
+        lower: [meaningsElement],
+        includeLower: include,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<Entry, Entry, QAfterWhereClause> meaningsElementLessThan(
+    String meaningsElement, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'meanings',
+        lower: [],
+        upper: [meaningsElement],
+        includeUpper: include,
+      ));
+    });
+  }
+
+  QueryBuilder<Entry, Entry, QAfterWhereClause> meaningsElementBetween(
+    String lowerMeaningsElement,
+    String upperMeaningsElement, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'meanings',
+        lower: [lowerMeaningsElement],
+        includeLower: includeLower,
+        upper: [upperMeaningsElement],
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<Entry, Entry, QAfterWhereClause> meaningsElementStartsWith(
+      String MeaningsElementPrefix) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'meanings',
+        lower: [MeaningsElementPrefix],
+        upper: ['$MeaningsElementPrefix\u{FFFFF}'],
+      ));
+    });
+  }
+
+  QueryBuilder<Entry, Entry, QAfterWhereClause> meaningsElementIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'meanings',
+        value: [''],
+      ));
+    });
+  }
+
+  QueryBuilder<Entry, Entry, QAfterWhereClause> meaningsElementIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.lessThan(
+              indexName: r'meanings',
+              upper: [''],
+            ))
+            .addWhereClause(IndexWhereClause.greaterThan(
+              indexName: r'meanings',
+              lower: [''],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.greaterThan(
+              indexName: r'meanings',
+              lower: [''],
+            ))
+            .addWhereClause(IndexWhereClause.lessThan(
+              indexName: r'meanings',
               upper: [''],
             ));
       }
