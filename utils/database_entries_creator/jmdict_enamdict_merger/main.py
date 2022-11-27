@@ -42,10 +42,12 @@ class JMDictProcessor:
 
             for kanji in entry.iter('keb'):
                 result_entry.kanjis.append(kanji.text)
+                result_entry.frequency = max(result_entry.frequency, wordfreq.zipf_frequency(kanji.text, 'ja'))
 
             for reading in entry.iter('reb'):
                 result_entry.readings.append(reading.text)
-                result_entry.frequency = max(result_entry.frequency, wordfreq.zipf_frequency(reading.text, 'ja'))
+                if len(result_entry.kanjis) <= 0:
+                    result_entry.frequency = max(result_entry.frequency, wordfreq.zipf_frequency(reading.text, 'ja'))
 
             for sense in entry.iter('sense'):
                 for part in sense:
