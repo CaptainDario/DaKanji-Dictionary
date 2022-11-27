@@ -1,6 +1,7 @@
 from dataclasses import dataclass, field
 import xml.etree.ElementTree as ET
 import orjson
+import wordfreq
 
 @dataclass
 class LanguageMeanings():
@@ -16,7 +17,7 @@ class Entry:
     readings: list[str] = field(default_factory=list)
     part_of_speech: set[str] = field(default_factory=set)
     meanings: list[LanguageMeanings] = field(default_factory=list)
-
+    
     def parse_meaning(self, language, meaning):
         for language_meaning in self.meanings:
             if language_meaning.language == language:
@@ -25,6 +26,9 @@ class Entry:
         else:
             self.meanings.append(LanguageMeanings(language=language, meanings=[meaning]))
 
+@dataclass
+class EntryWithFrequency(Entry):
+    frequency: float = 0.0 #0.0 - smallest, 10.0 - highest
 
 class JMDictProcessor:
     def __init__(self, file) -> None:
@@ -34,12 +38,14 @@ class JMDictProcessor:
         result = list()
         xml_file = ET.parse(self.file)
         for entry in xml_file.getroot():
-            result_entry = Entry()
+            result_entry = EntryWithFrequency()
+
             for kanji in entry.iter('keb'):
                 result_entry.kanjis.append(kanji.text)
 
             for reading in entry.iter('reb'):
                 result_entry.readings.append(reading.text)
+                result_entry.frequency = max(result_entry.frequency, wordfreq.zipf_frequency(reading.text, 'ja'))
 
             for sense in entry.iter('sense'):
                 for part in sense:
