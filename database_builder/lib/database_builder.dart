@@ -13,4 +13,3 @@ export 'src/kanjiVG_to_Isar/kanjiVG_to_Isar.dart';
 export 'src/kanjidic2_to_Isar/data_classes.dart';
 export 'src/kanjidic2_to_Isar/kanjidic_to_Isar.dart';
 export 'src/utils/repo_path_manager.dart';
-

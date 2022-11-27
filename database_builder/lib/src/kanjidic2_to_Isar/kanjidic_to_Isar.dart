@@ -7,22 +7,21 @@ import 'package:path/path.dart' as p;
 
 // Future<bool> main() async {
 Future<bool> kanjidic2ToIsar(Isar isar) async {
-    var dbName = 'kanjidic2';
-    // final isar = await Isar.open([Kanjidic2EntrySchema]);
+  var dbName = 'kanjidic2';
+  // final isar = await Isar.open([Kanjidic2EntrySchema]);
 
-    
-    if (isar.kanjidic2Entrys.countSync() <= 0)
-    {
-      Stopwatch stopwatch = Stopwatch()..start();
-      List data = jsonDecode(await File(p.join(RepoPathManager.getPartiallyProcessedFilesPath(), 'kanjidic2', 'kanjidic2.json')).readAsString());
-      jsonToIsar(data, isar);
-      print('${stopwatch.elapsed}');
-    }
-    isar.kanjidic2Entrys.filter()
-    .frequencyBetween(0, 100)
-    .findAllSync()
-    .toList();
-    print(dbName + ": " + "Data inserted into box, closing - please wait");
-    print(dbName + ": " + "Box closed");
-    return Future<bool>.value(false);
+  if (isar.kanjidic2Entrys.countSync() <= 0) {
+    Stopwatch stopwatch = Stopwatch()..start();
+    List data = jsonDecode(await File(p.join(
+            RepoPathManager.getPartiallyProcessedFilesPath(),
+            'kanjidic2',
+            'kanjidic2.json'))
+        .readAsString());
+    jsonToIsar(data, isar);
+    print('${stopwatch.elapsed}');
+  }
+  isar.kanjidic2Entrys.filter().frequencyBetween(0, 100).findAllSync().toList();
+  print(dbName + ": " + "Data inserted into box, closing - please wait");
+  print(dbName + ": " + "Box closed");
+  return Future<bool>.value(false);
 }

@@ -2,7 +2,7 @@ import 'package:isar/isar.dart';
 part 'data_classes.g.dart';
 
 @embedded
-class LanguageMeanings{
+class LanguageMeanings {
   String? language;
   List<String>? meanings;
 
@@ -14,7 +14,7 @@ class LanguageMeanings{
     for (var meaning in meanings!) {
       representation += meaning + "\n";
     }
-    return(representation);
+    return (representation);
   }
 }
 
@@ -28,7 +28,11 @@ class JMNEdict {
   List<String> partOfSpeech;
   List<LanguageMeanings> meanings = <LanguageMeanings>[];
 
-  JMNEdict({required this.kanjis, required this.readings, required this.partOfSpeech, required this.meanings});
+  JMNEdict(
+      {required this.kanjis,
+      required this.readings,
+      required this.partOfSpeech,
+      required this.meanings});
 
   @override
   String toString() {
@@ -37,7 +41,7 @@ class JMNEdict {
 }
 
 @Collection(accessor: "jmdict")
-class JMdict{
+class JMdict {
   Id id = Isar.autoIncrement;
   @Index(type: IndexType.value)
   List<String> kanjis;
@@ -47,12 +51,15 @@ class JMdict{
   List<LanguageMeanings> meanings = <LanguageMeanings>[];
   float frequency;
 
-  JMdict({required this.kanjis, required this.readings, required this.partOfSpeech, required this.meanings, required this.frequency});
+  JMdict(
+      {required this.kanjis,
+      required this.readings,
+      required this.partOfSpeech,
+      required this.meanings,
+      required this.frequency});
 
   @override
   String toString() {
     return '$kanjis: $readings';
   }
-  
-  
 }

@@ -2,7 +2,7 @@ import 'package:isar/isar.dart';
 part 'data_classes.g.dart';
 
 @embedded
-class JIS{
+class JIS {
   String? encoding;
   String? value;
 
@@ -10,7 +10,7 @@ class JIS{
 }
 
 @embedded
-class Reading{
+class Reading {
   String? r_type;
   String? value;
 
@@ -18,7 +18,7 @@ class Reading{
 }
 
 @embedded
-class Meaning{
+class Meaning {
   String? language;
   String? meaning;
 
@@ -37,6 +37,10 @@ class Kanjidic2Entry {
   List<Reading> readings = <Reading>[];
   List<String> nanoris;
 
-  Kanjidic2Entry({required this.literal, required this.grade, required this.frequency, 
-          required this.jlpt, required this.nanoris});
+  Kanjidic2Entry(
+      {required this.literal,
+      required this.grade,
+      required this.frequency,
+      required this.jlpt,
+      required this.nanoris});
 }

@@ -3,7 +3,7 @@ import 'package:isar/isar.dart';
 part 'data_classes.g.dart';
 
 @collection
-class KanjiSVG{
+class KanjiSVG {
   Id id = Isar.autoIncrement;
   String character;
   String svg;
