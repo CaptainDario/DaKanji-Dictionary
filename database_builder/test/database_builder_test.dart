@@ -21,7 +21,7 @@ void main() {
     late Isar isar;
     setUp(() async{
       await Isar.initializeIsarCore(download: true);
-      isar = await Isar.open([EntrySchema, Kanjidic2EntrySchema, KanjiSVGSchema]);
+      isar = await Isar.open([JMdictSchema, JMNEdictSchema, Kanjidic2EntrySchema, KanjiSVGSchema], directory: RepoPathManager.getOutputFilesPath());
     });
     
     test('Jm_enam_and_dict', () async {

@@ -13,7 +13,7 @@ extension GetKanjiSVGCollection on Isar {
   IsarCollection<KanjiSVG> get kanjiSVGs => this.collection();
 }
 
-final KanjiSVGSchema = CollectionSchema(
+const KanjiSVGSchema = CollectionSchema(
   name: r'KanjiSVG',
   id: -8450710768706982741,
   properties: {
