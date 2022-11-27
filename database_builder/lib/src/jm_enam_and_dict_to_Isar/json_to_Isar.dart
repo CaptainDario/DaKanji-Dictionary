@@ -33,21 +33,9 @@ List<T> dictJsonToList<T>(List dict){
   return entries;
 }
 
-// void jsonToIsar(List jmdict, List jmnedict, Isar isar){
-//   List<JMdict> jmdict_list = dictJsonToList<JMdict>(jmdict);
-
-//   List<JMNEdict> jmnedict_list = dictJsonToList<JMNEdict>(jmnedict);
-
-//   isar.writeTxnSync(()  {
-//     isar.jmdict.putAllSync(jmdict_list, saveLinks: true);
-//     isar.jmnedict.putAllSync(jmnedict_list, saveLinks: true);
-//   });
-// }
 void jsonToIsar<T>(List dict, Isar isar){
-  List<T> data = dictJsonToList<T>(dict);
-
   isar.writeTxnSync(()  {
-    if(T == JMdict) isar.jmdict.putAllSync(data as List<JMdict>, saveLinks: true);
-    if(T == JMNEdict) isar.jmnedict.putAllSync(data as List<JMNEdict>, saveLinks: true);
+    if(T == JMdict) isar.jmdict.putAllSync(dictJsonToList<JMdict>(dict), saveLinks: true);
+    if(T == JMNEdict) isar.jmnedict.putAllSync(dictJsonToList<JMNEdict>(dict), saveLinks: true);
   });
 }
