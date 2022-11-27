@@ -83,25 +83,26 @@ def default(obj):
         return list(obj)
     return obj
 
-def execute():
-    jmdict_file = open('inputFiles/JMdict/JMdict', 'r', encoding="utf-8")
-    jmnedict_file = open('inputFiles/JMdict/JMnedict.xml', 'r', encoding="utf-8")
-
-    jmdict_processor = JMDictProcessor(jmdict_file)
-    jm_dict = jmdict_processor.xml_to_dict()
-
-    print("Jmdict done")
-    jmedict_processor = JMEdictProcessor(jmnedict_file)
-    jmne_dict = jmedict_processor.xml_to_dict()
-    print("Jmedict done")
-    merged_dicts = jm_dict + jmne_dict
-    print("Dict merging done")
-
-    out_file = open("partiallyProcessedFiles/JMdict/mergedDicts.json", "wb")
-    json_out = orjson.dumps(merged_dicts, default=default, option=orjson.OPT_INDENT_2)
+def dict_process(input, Dict_porcessor, output):
+    dict_file = open(input, 'r', encoding="utf-8")
+    dict_processor = Dict_porcessor(dict_file)
+    processed_dict = dict_processor.xml_to_dict()
+    out_file = open(output, "wb")
+    json_out = orjson.dumps(processed_dict, default=default, option=orjson.OPT_INDENT_2)
     out_file.write(json_out)
-
     out_file.close()
+
+def jmdict_process():
+    dict_process('inputFiles/JMdict/JMdict', JMDictProcessor, "partiallyProcessedFiles/JMdict/jmdict.json")
+    print("Jmdict done")
+
+def jmnedict_process():
+    dict_process('inputFiles/JMdict/JMnedict.xml', JMEdictProcessor, "partiallyProcessedFiles/JMdict/jmnedict.json")
+    print("JMnedict done")
+
+def execute():
+    jmdict_process()
+    jmnedict_process()
 
 if __name__ == "__main__":
     execute()
