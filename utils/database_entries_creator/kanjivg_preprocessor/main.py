@@ -33,9 +33,14 @@ if __name__ == "__main__":
         # skip all not svg files
         if(not svg.endswith(".svg")):
             continue
+        try:
+            svgFile = open(os.path.join(KanjiVGPreprocessor.kanjiVGDirectory, svg), 'r', encoding="utf-8")
+            svgNoCopyright = KanjiVGPreprocessor.remove_copyright_notice(svgFile)
 
-        if not os.path.exists(KanjiVGPreprocessor.kanjiVGOutputDirectory):
-            os.mkdir(KanjiVGPreprocessor.kanjiVGOutputDirectory)
+            if not os.path.exists(KanjiVGPreprocessor.kanjiVGOutputDirectory):
+                os.mkdir(KanjiVGPreprocessor.kanjiVGOutputDirectory)
 
-        svgOutput = open(os.path.join(KanjiVGPreprocessor.kanjiVGOutputDirectory, svg), 'w', encoding="utf-8")
-        svgOutput.write(svgNoCopyright)
+            svgOutput = open(os.path.join(KanjiVGPreprocessor.kanjiVGOutputDirectory, svg), 'w', encoding="utf-8")
+            svgOutput.write(svgNoCopyright)
+        except Exception:
+            print(f"Error while reading {svg}")
