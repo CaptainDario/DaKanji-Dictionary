@@ -30,8 +30,9 @@ class KanjiVGPreprocessor():
 if __name__ == "__main__":
     # KanjiVGPreprocessor.showSVGFromPath('inputFiles/0f9a8.svg')
     for svg in os.listdir(KanjiVGPreprocessor.kanjiVGDirectory):
-        svgFile = open(os.path.join(KanjiVGPreprocessor.kanjiVGDirectory, svg), 'r', encoding="utf-8")
-        svgNoCopyright = KanjiVGPreprocessor.remove_copyright_notice(svgFile)
+        # skip all not svg files
+        if(not svg.endswith(".svg")):
+            continue
 
         if not os.path.exists(KanjiVGPreprocessor.kanjiVGOutputDirectory):
             os.mkdir(KanjiVGPreprocessor.kanjiVGOutputDirectory)
