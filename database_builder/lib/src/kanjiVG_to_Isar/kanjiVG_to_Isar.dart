@@ -17,7 +17,7 @@ Future<bool> kanjiVGToIsar(Isar isar) async {
         p.join(RepoPathManager.getPartiallyProcessedFilesPath(), 'kanjiVG'));
     List<KanjiSVG> kanjis = <KanjiSVG>[];
     await for (var file in dir.list()) {
-      if (file is File && !file.path.contains(".gitkeep")) {
+      if (file is File && file.path.endsWith(".svg")) {
         String character = String.fromCharCode(int.parse(
             p.basenameWithoutExtension(file.path).substring(0, 5),
             radix: 16));
