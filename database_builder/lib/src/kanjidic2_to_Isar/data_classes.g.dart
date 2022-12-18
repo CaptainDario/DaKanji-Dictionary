@@ -76,7 +76,7 @@ const Kanjidic2EntrySchema = CollectionSchema(
   getId: _kanjidic2EntryGetId,
   getLinks: _kanjidic2EntryGetLinks,
   attach: _kanjidic2EntryAttach,
-  version: '3.0.2',
+  version: '3.0.5',
 );
 
 int _kanjidic2EntryEstimateSize(

@@ -77,7 +77,7 @@ const JMNEdictSchema = CollectionSchema(
   getId: _jMNEdictGetId,
   getLinks: _jMNEdictGetLinks,
   attach: _jMNEdictAttach,
-  version: '3.0.2',
+  version: '3.0.5',
 );
 
 int _jMNEdictEstimateSize(
@@ -1531,7 +1531,7 @@ const JMdictSchema = CollectionSchema(
   getId: _jMdictGetId,
   getLinks: _jMdictGetLinks,
   attach: _jMdictAttach,
-  version: '3.0.2',
+  version: '3.0.5',
 );
 
 int _jMdictEstimateSize(

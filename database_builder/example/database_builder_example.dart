@@ -5,13 +5,12 @@ void main() async {
   final isar = await Isar.open(
       [JMdictSchema, JMNEdictSchema, Kanjidic2EntrySchema, KanjiSVGSchema],
       directory: RepoPathManager.getOutputFilesPath());
-  print("jmenam done");
   await jmEnamAndDictToIsar(isar);
-  print("kanjidic2 done");
+  print("jmenam done");
   await kanjidic2ToIsar(isar);
-  print("kanjiVg done");
+  print("kanjidic2 done");
   await kanjiVGToIsar(isar);
-
+  print("kanjiVg done");
   isar.close();
   print("ALL FINISHED");
   return;
