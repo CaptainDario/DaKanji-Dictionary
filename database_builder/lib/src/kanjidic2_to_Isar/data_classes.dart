@@ -11,7 +11,7 @@ class JIS {
 
 @embedded
 class Reading {
-  String? r_type;
+  String? rType;
   String? value;
 
   Reading({this.r_type, this.value});
@@ -26,9 +26,9 @@ class Meaning {
 }
 
 @collection
-class Kanjidic2Entry {
+class Kanjidic2 {
   Id id = Isar.autoIncrement;
-  String literal;
+  String character;
   int grade;
   List<JIS> variants = <JIS>[];
   int frequency;
@@ -37,8 +37,7 @@ class Kanjidic2Entry {
   List<Reading> readings = <Reading>[];
   List<String> nanoris;
 
-  Kanjidic2Entry(
-      {required this.literal,
+      required this.character,
       required this.grade,
       required this.frequency,
       required this.jlpt,
