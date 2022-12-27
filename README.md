@@ -34,13 +34,14 @@ Your folder should look like that
   * 0f9ab.svg
   * ...
 
-Now Run those scripts
+Now Run those commands
 
 * `utils/database_entries_creator/dict_entry_details_creator/kanjidic2_loaded.py`
 * `utils/database_entries_creator/kanjivg_preprocessor/main.py`
 * `utils/database_entries_creator/jmdict_enamdict_merger/main.py`
+* `cd database_builder`
 * `dart run build_runner build`
-* `dart database_builder/example/database_builder_example.dart`
+* `dart example/database_builder_example.dart`
 
 ## Usage
 
