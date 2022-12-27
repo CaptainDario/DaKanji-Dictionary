@@ -28,6 +28,7 @@ class Meaning {
 @collection
 class Kanjidic2 {
   Id id = Isar.autoIncrement;
+  @Index(type: IndexType.hash)
   String character;
   int grade;
   List<JIS> variants = <JIS>[];
