@@ -3,7 +3,7 @@ import 'package:isar/isar.dart';
 
 void main() async {
   final isar = await Isar.open(
-      [JMdictSchema, JMNEdictSchema, Kanjidic2EntrySchema, KanjiSVGSchema],
+      [JMdictSchema, JMNEdictSchema, Kanjidic2Schema, KanjiSVGSchema],
       directory: RepoPathManager.getOutputFilesPath());
   await jmEnamAndDictToIsar(isar);
   print("jmenam done");

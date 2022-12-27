@@ -28,6 +28,6 @@ void jsonToIsar(List data, Isar isar) {
     entries.add(entry);
   }
   isar.writeTxnSync(() {
-    isar.kanjidic2Entrys.putAllSync(entries, saveLinks: true);
+    isar.kanjidic2s.putAllSync(entries, saveLinks: true);
   });
 }

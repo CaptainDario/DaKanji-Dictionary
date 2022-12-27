@@ -10,7 +10,7 @@ Future<bool> kanjidic2ToIsar(Isar isar) async {
   var dbName = 'kanjidic2';
   // final isar = await Isar.open([Kanjidic2EntrySchema]);
 
-  if (isar.kanjidic2Entrys.countSync() <= 0) {
+  if (isar.kanjidic2s.countSync() <= 0) {
     Stopwatch stopwatch = Stopwatch()..start();
     List data = jsonDecode(await File(p.join(
             RepoPathManager.getPartiallyProcessedFilesPath(),
@@ -20,7 +20,7 @@ Future<bool> kanjidic2ToIsar(Isar isar) async {
     jsonToIsar(data, isar);
     print('${stopwatch.elapsed}');
   }
-  isar.kanjidic2Entrys.filter().frequencyBetween(0, 100).findAllSync().toList();
+  isar.kanjidic2s.filter().frequencyBetween(0, 100).findAllSync().toList();
   print(dbName + ": " + "Data inserted into box, closing - please wait");
   print(dbName + ": " + "Box closed");
   return Future<bool>.value(false);
