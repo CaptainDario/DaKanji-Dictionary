@@ -44,6 +44,19 @@ const KanjiSVGSchema = CollectionSchema(
   deserializeProp: _kanjiSVGDeserializeProp,
   idName: r'id',
   indexes: {
+    r'character': IndexSchema(
+      id: 1564562395447198696,
+      name: r'character',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'character',
+          type: IndexType.hash,
+          caseSensitive: true,
+        )
+      ],
+    ),
     r'strokes': IndexSchema(
       id: -9153716155763744726,
       name: r'strokes',
@@ -223,6 +236,51 @@ extension KanjiSVGQueryWhere on QueryBuilder<KanjiSVG, KanjiSVG, QWhereClause> {
         upper: upperId,
         includeUpper: includeUpper,
       ));
+    });
+  }
+
+  QueryBuilder<KanjiSVG, KanjiSVG, QAfterWhereClause> characterEqualTo(
+      String character) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'character',
+        value: [character],
+      ));
+    });
+  }
+
+  QueryBuilder<KanjiSVG, KanjiSVG, QAfterWhereClause> characterNotEqualTo(
+      String character) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'character',
+              lower: [],
+              upper: [character],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'character',
+              lower: [character],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'character',
+              lower: [character],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'character',
+              lower: [],
+              upper: [character],
+              includeUpper: false,
+            ));
+      }
     });
   }
 

@@ -14,8 +14,8 @@ class KanjiSVG {
   String character;
   /// The SVG data to of this Kanji
   String svg;
-  @Index(type: IndexType.hash)
   /// Number of strokes of this Kanji
+  @Index(type: IndexType.value)
   short strokes;
   /// All radicals used in this Kanji
   List<String> radicals;
