@@ -1,6 +1,7 @@
 name: database_builder
 description: A starting point for Dart libraries or applications.
 version: 1.0.0
+publish_to: none
 # homepage: https://www.example.com
 
 environment:
@@ -11,7 +12,11 @@ isar_version: &isar_version 3.0.5
 dependencies: 
   xml: ^6.0.0
   path: ^1.8.2
-  kana_kit: ^2.0.0
+  # TODO use pub version (https://github.com/jeroen-meijer/kana_kit/pull/19)
+  kana_kit:
+    git:
+      url: https://github.com/Moseco/kana_kit
+      ref: 74433b4
   isar: *isar_version
   isar_flutter_libs: *isar_version # contains Isar Core
 
