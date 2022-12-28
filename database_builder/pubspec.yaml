@@ -11,6 +11,7 @@ isar_version: &isar_version 3.0.5
 dependencies: 
   xml: ^6.0.0
   path: ^1.8.2
+  kana_kit: ^2.0.0
   isar: *isar_version
   isar_flutter_libs: *isar_version # contains Isar Core
 

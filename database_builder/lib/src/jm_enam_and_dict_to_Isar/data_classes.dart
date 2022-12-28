@@ -59,6 +59,8 @@ class JMdict {
   /// A list containing different versions how to read this entry
   @Index(type: IndexType.value)
   List<String> readings;
+  /// This entry written using romaji
+  List<String> romaji;
   /// The part of speech elements of this entry
   List<String> partOfSpeech;
   /// The meanings of this entry and their translations
@@ -67,11 +69,15 @@ class JMdict {
   float frequency;
 
   JMdict(
-      {required this.kanjis,
+    {
+      required this.kanjis,
       required this.readings,
+      required this.romaji,
       required this.partOfSpeech,
       required this.meanings,
-      required this.frequency});
+      required this.frequency
+    }
+  );
 
   @override
   String toString() {

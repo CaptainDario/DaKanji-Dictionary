@@ -1491,6 +1491,11 @@ const JMdictSchema = CollectionSchema(
       id: 4,
       name: r'readings',
       type: IsarType.stringList,
+    ),
+    r'romaji': PropertySchema(
+      id: 5,
+      name: r'romaji',
+      type: IsarType.stringList,
     )
   },
   estimateSize: _jMdictEstimateSize,
@@ -1570,6 +1575,13 @@ int _jMdictEstimateSize(
       bytesCount += value.length * 3;
     }
   }
+  bytesCount += 3 + object.romaji.length * 3;
+  {
+    for (var i = 0; i < object.romaji.length; i++) {
+      final value = object.romaji[i];
+      bytesCount += value.length * 3;
+    }
+  }
   return bytesCount;
 }
 
@@ -1589,6 +1601,7 @@ void _jMdictSerialize(
   );
   writer.writeStringList(offsets[3], object.partOfSpeech);
   writer.writeStringList(offsets[4], object.readings);
+  writer.writeStringList(offsets[5], object.romaji);
 }
 
 JMdict _jMdictDeserialize(
@@ -1609,6 +1622,7 @@ JMdict _jMdictDeserialize(
         [],
     partOfSpeech: reader.readStringList(offsets[3]) ?? [],
     readings: reader.readStringList(offsets[4]) ?? [],
+    romaji: reader.readStringList(offsets[5]) ?? [],
   );
   object.id = id;
   return object;
@@ -1636,6 +1650,8 @@ P _jMdictDeserializeProp<P>(
     case 3:
       return (reader.readStringList(offset) ?? []) as P;
     case 4:
+      return (reader.readStringList(offset) ?? []) as P;
+    case 5:
       return (reader.readStringList(offset) ?? []) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -2868,6 +2884,221 @@ extension JMdictQueryFilter on QueryBuilder<JMdict, JMdict, QFilterCondition> {
       );
     });
   }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> romajiElementEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'romaji',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> romajiElementGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'romaji',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> romajiElementLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'romaji',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> romajiElementBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'romaji',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> romajiElementStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'romaji',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> romajiElementEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'romaji',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> romajiElementContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'romaji',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> romajiElementMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'romaji',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> romajiElementIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'romaji',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition>
+      romajiElementIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'romaji',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> romajiLengthEqualTo(
+      int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'romaji',
+        length,
+        true,
+        length,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> romajiIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'romaji',
+        0,
+        true,
+        0,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> romajiIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'romaji',
+        0,
+        false,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> romajiLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'romaji',
+        0,
+        true,
+        length,
+        include,
+      );
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> romajiLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'romaji',
+        length,
+        include,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> romajiLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'romaji',
+        lower,
+        includeLower,
+        upper,
+        includeUpper,
+      );
+    });
+  }
 }
 
 extension JMdictQueryObject on QueryBuilder<JMdict, JMdict, QFilterCondition> {
@@ -2945,6 +3176,12 @@ extension JMdictQueryWhereDistinct on QueryBuilder<JMdict, JMdict, QDistinct> {
       return query.addDistinctBy(r'readings');
     });
   }
+
+  QueryBuilder<JMdict, JMdict, QDistinct> distinctByRomaji() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'romaji');
+    });
+  }
 }
 
 extension JMdictQueryProperty on QueryBuilder<JMdict, JMdict, QQueryProperty> {
@@ -2982,6 +3219,12 @@ extension JMdictQueryProperty on QueryBuilder<JMdict, JMdict, QQueryProperty> {
   QueryBuilder<JMdict, List<String>, QQueryOperations> readingsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'readings');
+    });
+  }
+
+  QueryBuilder<JMdict, List<String>, QQueryOperations> romajiProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'romaji');
     });
   }
 }

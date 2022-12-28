@@ -1,3 +1,5 @@
+import 'package:kana_kit/kana_kit.dart';
+
 import 'data_classes.dart';
 import 'package:isar/isar.dart';
 
@@ -18,12 +20,16 @@ List<T> dictJsonToList<T>(List dict) {
           partOfSpeech: List<String>.from(jsonEntry["part_of_speech"]),
           readings: List<String>.from(jsonEntry["readings"])) as T);
     } else if (T == JMdict) {
-      entries.add(JMdict(
+      KanaKit k = KanaKit();
+      
+        entries.add(JMdict(
           kanjis: List<String>.from(jsonEntry["kanjis"]),
           meanings: meanings,
+          romaji: List<String>.from(jsonEntry["readings"]).map((e) => k.toRomaji(e)).toList(),
           partOfSpeech: List<String>.from(jsonEntry["part_of_speech"]),
           readings: List<String>.from(jsonEntry["readings"]),
           frequency: jsonEntry["frequency"]) as T);
+
     }
   }
   return entries;
