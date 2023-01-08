@@ -143,6 +143,7 @@ JMNEdict _jMNEdictDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = JMNEdict(
+    id: id,
     kanjis: reader.readStringList(offsets[0]) ?? [],
     meanings: reader.readObjectList<LanguageMeanings>(
           offsets[1],
@@ -154,7 +155,6 @@ JMNEdict _jMNEdictDeserialize(
     partOfSpeech: reader.readStringList(offsets[2]) ?? [],
     readings: reader.readStringList(offsets[3]) ?? [],
   );
-  object.id = id;
   return object;
 }
 
@@ -1466,36 +1466,56 @@ const JMdictSchema = CollectionSchema(
   name: r'JMdict',
   id: -790457730395646372,
   properties: {
-    r'frequency': PropertySchema(
+    r'dialect': PropertySchema(
       id: 0,
+      name: r'dialect',
+      type: IsarType.stringList,
+    ),
+    r'field': PropertySchema(
+      id: 1,
+      name: r'field',
+      type: IsarType.stringList,
+    ),
+    r'frequency': PropertySchema(
+      id: 2,
       name: r'frequency',
       type: IsarType.float,
     ),
     r'kanjis': PropertySchema(
-      id: 1,
+      id: 3,
       name: r'kanjis',
       type: IsarType.stringList,
     ),
     r'meanings': PropertySchema(
-      id: 2,
+      id: 4,
       name: r'meanings',
       type: IsarType.objectList,
       target: r'LanguageMeanings',
     ),
     r'partOfSpeech': PropertySchema(
-      id: 3,
+      id: 5,
       name: r'partOfSpeech',
       type: IsarType.stringList,
     ),
+    r're_inf': PropertySchema(
+      id: 6,
+      name: r're_inf',
+      type: IsarType.stringList,
+    ),
     r'readings': PropertySchema(
-      id: 4,
+      id: 7,
       name: r'readings',
       type: IsarType.stringList,
     ),
     r'romaji': PropertySchema(
-      id: 5,
+      id: 8,
       name: r'romaji',
       type: IsarType.stringList,
+    ),
+    r'xref': PropertySchema(
+      id: 9,
+      name: r'xref',
+      type: IsarType.longList,
     )
   },
   estimateSize: _jMdictEstimateSize,
@@ -1545,6 +1565,20 @@ int _jMdictEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
+  bytesCount += 3 + object.dialect.length * 3;
+  {
+    for (var i = 0; i < object.dialect.length; i++) {
+      final value = object.dialect[i];
+      bytesCount += value.length * 3;
+    }
+  }
+  bytesCount += 3 + object.field.length * 3;
+  {
+    for (var i = 0; i < object.field.length; i++) {
+      final value = object.field[i];
+      bytesCount += value.length * 3;
+    }
+  }
   bytesCount += 3 + object.kanjis.length * 3;
   {
     for (var i = 0; i < object.kanjis.length; i++) {
@@ -1568,6 +1602,13 @@ int _jMdictEstimateSize(
       bytesCount += value.length * 3;
     }
   }
+  bytesCount += 3 + object.re_inf.length * 3;
+  {
+    for (var i = 0; i < object.re_inf.length; i++) {
+      final value = object.re_inf[i];
+      bytesCount += value.length * 3;
+    }
+  }
   bytesCount += 3 + object.readings.length * 3;
   {
     for (var i = 0; i < object.readings.length; i++) {
@@ -1582,6 +1623,7 @@ int _jMdictEstimateSize(
       bytesCount += value.length * 3;
     }
   }
+  bytesCount += 3 + object.xref.length * 8;
   return bytesCount;
 }
 
@@ -1591,17 +1633,21 @@ void _jMdictSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeFloat(offsets[0], object.frequency);
-  writer.writeStringList(offsets[1], object.kanjis);
+  writer.writeStringList(offsets[0], object.dialect);
+  writer.writeStringList(offsets[1], object.field);
+  writer.writeFloat(offsets[2], object.frequency);
+  writer.writeStringList(offsets[3], object.kanjis);
   writer.writeObjectList<LanguageMeanings>(
-    offsets[2],
+    offsets[4],
     allOffsets,
     LanguageMeaningsSchema.serialize,
     object.meanings,
   );
-  writer.writeStringList(offsets[3], object.partOfSpeech);
-  writer.writeStringList(offsets[4], object.readings);
-  writer.writeStringList(offsets[5], object.romaji);
+  writer.writeStringList(offsets[5], object.partOfSpeech);
+  writer.writeStringList(offsets[6], object.re_inf);
+  writer.writeStringList(offsets[7], object.readings);
+  writer.writeStringList(offsets[8], object.romaji);
+  writer.writeLongList(offsets[9], object.xref);
 }
 
 JMdict _jMdictDeserialize(
@@ -1611,20 +1657,24 @@ JMdict _jMdictDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = JMdict(
-    frequency: reader.readFloat(offsets[0]),
-    kanjis: reader.readStringList(offsets[1]) ?? [],
+    dialect: reader.readStringList(offsets[0]) ?? [],
+    field: reader.readStringList(offsets[1]) ?? [],
+    frequency: reader.readFloat(offsets[2]),
+    id: id,
+    kanjis: reader.readStringList(offsets[3]) ?? [],
     meanings: reader.readObjectList<LanguageMeanings>(
-          offsets[2],
+          offsets[4],
           LanguageMeaningsSchema.deserialize,
           allOffsets,
           LanguageMeanings(),
         ) ??
         [],
-    partOfSpeech: reader.readStringList(offsets[3]) ?? [],
-    readings: reader.readStringList(offsets[4]) ?? [],
-    romaji: reader.readStringList(offsets[5]) ?? [],
+    partOfSpeech: reader.readStringList(offsets[5]) ?? [],
+    re_inf: reader.readStringList(offsets[6]) ?? [],
+    readings: reader.readStringList(offsets[7]) ?? [],
+    romaji: reader.readStringList(offsets[8]) ?? [],
+    xref: reader.readLongList(offsets[9]) ?? [],
   );
-  object.id = id;
   return object;
 }
 
@@ -1636,10 +1686,14 @@ P _jMdictDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readFloat(offset)) as P;
+      return (reader.readStringList(offset) ?? []) as P;
     case 1:
       return (reader.readStringList(offset) ?? []) as P;
     case 2:
+      return (reader.readFloat(offset)) as P;
+    case 3:
+      return (reader.readStringList(offset) ?? []) as P;
+    case 4:
       return (reader.readObjectList<LanguageMeanings>(
             offset,
             LanguageMeaningsSchema.deserialize,
@@ -1647,12 +1701,16 @@ P _jMdictDeserializeProp<P>(
             LanguageMeanings(),
           ) ??
           []) as P;
-    case 3:
-      return (reader.readStringList(offset) ?? []) as P;
-    case 4:
-      return (reader.readStringList(offset) ?? []) as P;
     case 5:
       return (reader.readStringList(offset) ?? []) as P;
+    case 6:
+      return (reader.readStringList(offset) ?? []) as P;
+    case 7:
+      return (reader.readStringList(offset) ?? []) as P;
+    case 8:
+      return (reader.readStringList(offset) ?? []) as P;
+    case 9:
+      return (reader.readLongList(offset) ?? []) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -2034,6 +2092,435 @@ extension JMdictQueryWhere on QueryBuilder<JMdict, JMdict, QWhereClause> {
 }
 
 extension JMdictQueryFilter on QueryBuilder<JMdict, JMdict, QFilterCondition> {
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> dialectElementEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'dialect',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> dialectElementGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'dialect',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> dialectElementLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'dialect',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> dialectElementBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'dialect',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> dialectElementStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'dialect',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> dialectElementEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'dialect',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> dialectElementContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'dialect',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> dialectElementMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'dialect',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> dialectElementIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'dialect',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition>
+      dialectElementIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'dialect',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> dialectLengthEqualTo(
+      int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'dialect',
+        length,
+        true,
+        length,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> dialectIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'dialect',
+        0,
+        true,
+        0,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> dialectIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'dialect',
+        0,
+        false,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> dialectLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'dialect',
+        0,
+        true,
+        length,
+        include,
+      );
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> dialectLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'dialect',
+        length,
+        include,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> dialectLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'dialect',
+        lower,
+        includeLower,
+        upper,
+        includeUpper,
+      );
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> fieldElementEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'field',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> fieldElementGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'field',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> fieldElementLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'field',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> fieldElementBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'field',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> fieldElementStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'field',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> fieldElementEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'field',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> fieldElementContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'field',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> fieldElementMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'field',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> fieldElementIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'field',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> fieldElementIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'field',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> fieldLengthEqualTo(
+      int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'field',
+        length,
+        true,
+        length,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> fieldIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'field',
+        0,
+        true,
+        0,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> fieldIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'field',
+        0,
+        false,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> fieldLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'field',
+        0,
+        true,
+        length,
+        include,
+      );
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> fieldLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'field',
+        length,
+        include,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> fieldLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'field',
+        lower,
+        includeLower,
+        upper,
+        includeUpper,
+      );
+    });
+  }
+
   QueryBuilder<JMdict, JMdict, QAfterFilterCondition> frequencyEqualTo(
     double value, {
     double epsilon = Query.epsilon,
@@ -2669,6 +3156,221 @@ extension JMdictQueryFilter on QueryBuilder<JMdict, JMdict, QFilterCondition> {
     });
   }
 
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> re_infElementEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r're_inf',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> re_infElementGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r're_inf',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> re_infElementLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r're_inf',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> re_infElementBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r're_inf',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> re_infElementStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r're_inf',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> re_infElementEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r're_inf',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> re_infElementContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r're_inf',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> re_infElementMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r're_inf',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> re_infElementIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r're_inf',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition>
+      re_infElementIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r're_inf',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> re_infLengthEqualTo(
+      int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r're_inf',
+        length,
+        true,
+        length,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> re_infIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r're_inf',
+        0,
+        true,
+        0,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> re_infIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r're_inf',
+        0,
+        false,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> re_infLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r're_inf',
+        0,
+        true,
+        length,
+        include,
+      );
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> re_infLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r're_inf',
+        length,
+        include,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> re_infLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r're_inf',
+        lower,
+        includeLower,
+        upper,
+        includeUpper,
+      );
+    });
+  }
+
   QueryBuilder<JMdict, JMdict, QAfterFilterCondition> readingsElementEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -3099,6 +3801,143 @@ extension JMdictQueryFilter on QueryBuilder<JMdict, JMdict, QFilterCondition> {
       );
     });
   }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> xrefElementEqualTo(
+      int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'xref',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> xrefElementGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'xref',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> xrefElementLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'xref',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> xrefElementBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'xref',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> xrefLengthEqualTo(
+      int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'xref',
+        length,
+        true,
+        length,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> xrefIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'xref',
+        0,
+        true,
+        0,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> xrefIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'xref',
+        0,
+        false,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> xrefLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'xref',
+        0,
+        true,
+        length,
+        include,
+      );
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> xrefLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'xref',
+        length,
+        include,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> xrefLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'xref',
+        lower,
+        includeLower,
+        upper,
+        includeUpper,
+      );
+    });
+  }
 }
 
 extension JMdictQueryObject on QueryBuilder<JMdict, JMdict, QFilterCondition> {
@@ -3153,6 +3992,18 @@ extension JMdictQuerySortThenBy on QueryBuilder<JMdict, JMdict, QSortThenBy> {
 }
 
 extension JMdictQueryWhereDistinct on QueryBuilder<JMdict, JMdict, QDistinct> {
+  QueryBuilder<JMdict, JMdict, QDistinct> distinctByDialect() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'dialect');
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QDistinct> distinctByField() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'field');
+    });
+  }
+
   QueryBuilder<JMdict, JMdict, QDistinct> distinctByFrequency() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'frequency');
@@ -3171,6 +4022,12 @@ extension JMdictQueryWhereDistinct on QueryBuilder<JMdict, JMdict, QDistinct> {
     });
   }
 
+  QueryBuilder<JMdict, JMdict, QDistinct> distinctByRe_inf() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r're_inf');
+    });
+  }
+
   QueryBuilder<JMdict, JMdict, QDistinct> distinctByReadings() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'readings');
@@ -3182,12 +4039,30 @@ extension JMdictQueryWhereDistinct on QueryBuilder<JMdict, JMdict, QDistinct> {
       return query.addDistinctBy(r'romaji');
     });
   }
+
+  QueryBuilder<JMdict, JMdict, QDistinct> distinctByXref() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'xref');
+    });
+  }
 }
 
 extension JMdictQueryProperty on QueryBuilder<JMdict, JMdict, QQueryProperty> {
   QueryBuilder<JMdict, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
+    });
+  }
+
+  QueryBuilder<JMdict, List<String>, QQueryOperations> dialectProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'dialect');
+    });
+  }
+
+  QueryBuilder<JMdict, List<String>, QQueryOperations> fieldProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'field');
     });
   }
 
@@ -3216,6 +4091,12 @@ extension JMdictQueryProperty on QueryBuilder<JMdict, JMdict, QQueryProperty> {
     });
   }
 
+  QueryBuilder<JMdict, List<String>, QQueryOperations> re_infProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r're_inf');
+    });
+  }
+
   QueryBuilder<JMdict, List<String>, QQueryOperations> readingsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'readings');
@@ -3225,6 +4106,12 @@ extension JMdictQueryProperty on QueryBuilder<JMdict, JMdict, QQueryProperty> {
   QueryBuilder<JMdict, List<String>, QQueryOperations> romajiProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'romaji');
+    });
+  }
+
+  QueryBuilder<JMdict, List<int>, QQueryOperations> xrefProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'xref');
     });
   }
 }

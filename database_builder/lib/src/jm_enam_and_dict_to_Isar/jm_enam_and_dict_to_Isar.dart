@@ -8,7 +8,6 @@ import 'package:path/path.dart' as p;
 // Future<bool> main() async {
 Future<bool> jmEnamAndDictToIsar(Isar isar) async {
   // final isar = await Isar.open([JMdictSchema, JMNEdictSchema]);
-
   if (isar.jmdict.countSync() <= 0) {
     print("Starting reading json for jmdict");
     List jmdict = jsonDecode(await File(p.join(
