@@ -33,6 +33,7 @@ void main() {
       await Isar.initializeIsarCore(download: true);
       isar = await Isar.open(
           [JMdictSchema, JMNEdictSchema, Kanjidic2Schema, KanjiSVGSchema],
+          name: "dictionary",
           directory: RepoPathManager.getOutputFilesPath());
     });
 
