@@ -9,7 +9,7 @@ short getStrokeCount(String fileContent){
 
 List<String> getAllRadicals(String fileContent){
   List<String> radicals = <String>[];
-  for (final Match m in RegExp(r'<g.* kvg:element="(.)".* kvg:radical="general">').allMatches(fileContent)) {
+  for (final Match m in RegExp(r'<g.* kvg:element="(.)".* kvg:radical="(.)*">').allMatches(fileContent)) {
     radicals.add(m.group(1)!);
   }
   return radicals;
