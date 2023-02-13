@@ -27,6 +27,7 @@ __pycache__
 inputFiles/JMdict/*
 inputFiles/kanjidic2/*
 inputFiles/kanjiVG/*
+inputFiles/tatoeba
 !inputFiles/JMdict/.gitkeep
 !inputFiles/kanjidic2/.gitkeep
 !inputFiles/kanjiVG/.gitkeep
@@ -40,7 +41,7 @@ partiallyProcessedFiles/kanjiVG/*
 !partiallyProcessedFiles/kanjiVG/.gitkeep
 !partiallyProcessedFiles/README.md
 
-outputFiles/*
+outputFiles/**
 !outputFiles/.gitkeep
 !outputFiles/README.md
 
