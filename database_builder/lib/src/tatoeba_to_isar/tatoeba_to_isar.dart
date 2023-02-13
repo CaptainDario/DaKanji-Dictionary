@@ -5,7 +5,6 @@ import 'package:compute/compute.dart';
 import 'package:console_bars/console_bars.dart';
 import 'package:tuple/tuple.dart';
 import 'package:async/async.dart';
-import 'package:mecab_dart/mecab_dart.dart';
 
 import 'package:database_builder/database_builder.dart';
 
@@ -22,7 +21,7 @@ Future<bool> tatoebaToIsar() async {
     await parseSentences("$tatoebaPath/sentences.csv");
   
   // Finde the translations matching the sentences
-  Map<String, Map<int, List<String>>> translations = 
+  Map<String, Map<int, String>> translations = 
     await matchSentencesAndTranslations("$tatoebaPath/links.csv", sentences);
   // store them as json to disk
   var dir = Directory("${RepoPathManager.getOutputFilesPath()}/tatoeba_json/");
@@ -35,6 +34,10 @@ Future<bool> tatoebaToIsar() async {
       );
   });
 
+  // add mecab output to examples
+  await runMeCabOnJpnJson(RepoPathManager.getOutputFilesPath() + "/tatoeba_json/jpn.json");
+
+  // convert all examples to ISAR
   //await jsonToIsar();
 
   return true;
@@ -76,7 +79,7 @@ Future<Map<int, Tuple2<String, String>>> parseSentences(String path) async{
       }
     }
   );
-  print(sentences.length);
+  //print(sentences.length);
 
   return sentences;
 }
@@ -120,39 +123,60 @@ Map<int, Tuple2<String, String>> parseSentencesList(Tuple2<bool, List<String>> a
 }
 
 
-/// Uses the output of `parseSentences` to find translations for all 
-/// example sentences and create a map of sentences and their translations
-Future<Map<String, Map<int, List<String>>>> matchSentencesAndTranslations(
+/// Uses the output of `parseSentences` and `links.csv`to find translations for
+/// all example sentences and create a map of sentences and their translations,
+/// lastly returns this Map.
+Future<Map<String, Map<int, String>>> matchSentencesAndTranslations(
   String path, Map<int, Tuple2<String, String>> sentences) async 
 {
+  Map<String, Map<int, String>> translations = {};
 
   String sentencesBaseContent = File(path).readAsStringSync();
-  List<String> lines = sentencesBaseContent.split('\n').sublist(0, 500000);
-  Map<String, Map<int, List<String>>> translations =
-    await matchSentenceAndTranslationList(
-      Tuple3(true, lines, sentences)
+  List<String> lines = sentencesBaseContent.split('\n');
+
+  int chunkSize = (lines.length / Platform.numberOfProcessors).floor();
+  FutureGroup<Map<String, Map<int, String>>> parsers = FutureGroup();
+  for (int i = 0; i < Platform.numberOfProcessors; i++) {
+    parsers.add(
+      compute(
+        matchSentenceAndTranslationList,
+        Tuple3(
+          // only print the progress for the first process
+          i == 0 ? true : false,
+          lines.sublist(
+            chunkSize*i,
+            // use the whole length of the examples list for the last process
+            i != Platform.numberOfProcessors-1 ? chunkSize*(i+1) : lines.length
+          ),
+          sentences
+        )
+      )
     );
+  }
+  parsers.close();
+  // wait for all processes to finish
+  await parsers.future.then((value) {
+      for (var element in value) {
+        translations.addAll(element);
+      }
+    }
+  );
 
   return translations;
 }
 
-/// 
+/// Converts a list of sentences to Map of languages and their translation's IDs
+/// Returns this Map.
 ///
-/// `args.item1` - should the progress be dumped to console
-/// `args.item2` - 
-/// `args.item3` - 
-/// 
-/// TODO docs 
-/// TODO run in parallel
-/// TODO use links.csv
-/// TODO remove \N || 0 check
-Future<Map<String, Map<int, List<String>>>> matchSentenceAndTranslationList(
+/// `args.item1` - should the progress be dumped to console as a ProgressBar
+/// `args.item2` - the list of all links from `links.csv`
+/// `args.item3` - a Map of IDs and their sentences (like the output from
+///                `parseSentences`)
+Future<Map<String, Map<int, String>>> matchSentenceAndTranslationList(
   Tuple3<bool, List<String>, Map<int, Tuple2<String, String>>> args) async
 {
 
-  Map<String, Map<int, List<String>>> translations = {"jpn" : {}};
-  Mecab mecab = await Mecab();
-  mecab.initWithIpadicDir("ipadic", true);
+  Map<String, Map<int, String>> translations = {"jpn" : {}};
 
   FillingBar? p;
   if(args.item1){
@@ -168,24 +192,29 @@ Future<Map<String, Map<int, List<String>>>> matchSentenceAndTranslationList(
     // splite the line into: [ID, translated ID]
     List<String> s = line.split("\t");
 
-    int oriID = int.parse(s[0]); Tuple2<String, String> ori;
-    if(args.item3.containsKey(oriID)){ori = args.item3[oriID]!;}
-    else{continue;}
+    try{
+      int oriID = int.parse(s[0]); Tuple2<String, String> ori;
+      if(args.item3.containsKey(oriID)){ori = args.item3[oriID]!;}
+      else{continue;}
 
-    int transID = int.parse(s[1]); Tuple2<String, String> trans;
-    if(args.item3.containsKey(transID)){trans = args.item3[transID]!;}
-    else{continue;}
-    
-    // sentence is Japanese
-    if(ori.item1 == "jpn"){
+      int transID = int.parse(s[1]); Tuple2<String, String> trans;
+      if(args.item3.containsKey(transID)){trans = args.item3[transID]!;}
+      else{continue;}
+
+      // sentence is Japanese
+      if(ori.item1 == "jpn"){
       // do not include jpn <-> jpn translations
       if(trans.item1 == "jpn"){continue;}
       // add language to map if it does not already exist
       if(!translations.containsKey(trans.item1)){translations[trans.item1] = {};}
-      // TODO Add mecab split, mecab PoS
       // add japanese sentence with id to jpn map and translation to its map
-      translations["jpn"]![oriID] = [ori.item1];
-      translations[trans.item1]![oriID] = [trans.item2];
+      translations["jpn"]![oriID] = ori.item2;
+      translations[trans.item1]![oriID] = trans.item2;
+    }
+    }
+    catch (e) {
+      print("Exception on $s");
+      continue;
     }
   }
 
@@ -193,11 +222,19 @@ Future<Map<String, Map<int, List<String>>>> matchSentenceAndTranslationList(
 
 }
 
+/// Add PoS and mecab parsing to all Japanese sentences using `python3 parse.py`
+Future<void> runMeCabOnJpnJson(String path) async {
+  var proc = await Process.start(
+    "python3", ["lib/src/tatoeba_to_isar/parse.py", path], runInShell: true
+  );
+  await stdout.addStream(proc.stdout);
+}
+
 
 /// Adds the content of the json file at `path` (needs to be in the format that
 /// `sentencesToTranslations`) outputs to the ISAR database
 Future<void> tatoebaJsonToIsar(String path) async {
-
+  throw Exception("Not implemented");
 }
 
 
