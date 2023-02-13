@@ -9,16 +9,18 @@ environment:
 
 isar_version: &isar_version 3.0.5
 
-dependencies: 
+dependencies:
   xml: ^6.0.0
   path: ^1.8.2
-  # TODO use pub version (https://github.com/jeroen-meijer/kana_kit/pull/19)
   kana_kit:
     git:
-      url: https://github.com/Moseco/kana_kit
-      ref: 74433b4
+      url: https://github.com/CaptainDario/kana_kit
   isar: *isar_version
   isar_flutter_libs: *isar_version # contains Isar Core
+  console_bars: ^1.1.0
+  tuple: ^2.0.1
+  async: ^2.10.0
+  compute: ^1.0.2
 
 dev_dependencies:
   lints: ^1.0.0
