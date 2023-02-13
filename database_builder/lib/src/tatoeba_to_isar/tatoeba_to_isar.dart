@@ -26,13 +26,17 @@ Future<bool> tatoebaToIsar() async {
   // store them as json to disk
   var dir = Directory("${RepoPathManager.getOutputFilesPath()}/tatoeba_json/");
   dir.createSync();
+  Map<String, int> translationsCnt = {};
   translations.forEach((key, value) async {
     await File("${dir.path}/$key.json")
       .writeAsString(json.encode(
         // convert the keys from int to string to be able to encode as json
         value.map((key, value) => MapEntry(key.toString(), value)))
       );
+    translationsCnt.putIfAbsent(key, () => value.length);
+    print("$key, ${value.length}");
   });
+  print(translationsCnt);
 
   // add mecab output to examples
   await runMeCabOnJpnJson(RepoPathManager.getOutputFilesPath() + "/tatoeba_json/jpn.json");
@@ -93,25 +97,24 @@ Map<int, Tuple2<String, String>> parseSentencesList(Tuple2<bool, List<String>> a
 
   Map<int, Tuple2<String, String>> sentences = {};
 
-  FillingBar? p;
+  FillingBar? progressBar;
   if(args.item1 == true){
-    p = FillingBar(
+    progressBar = FillingBar(
       desc: "Parsing examples (Process 1)",
       total: args.item2.length,
       time: true,
       percentage: true,
-      //width: 20
     );
   }
 
   for (var line in args.item2) {
     /// splite the line into: [ID, iso 639-3, text]
-    List<String> s = line.split("\t");
+    List<String> lineSplit = line.split("\t");
     try{
-      sentences[int.parse(s[0])] = Tuple2(s[1], s[2]);
+      sentences[int.parse(lineSplit[0])] = Tuple2(lineSplit[1], lineSplit[2]);
 
-      if (p != null){
-        p.increment();
+      if (progressBar != null){
+        progressBar.increment();
       }
     }
     on Exception{
@@ -178,9 +181,9 @@ Future<Map<String, Map<int, String>>> matchSentenceAndTranslationList(
 
   Map<String, Map<int, String>> translations = {"jpn" : {}};
 
-  FillingBar? p;
+  FillingBar? progressBar;
   if(args.item1){
-    p = FillingBar(
+    progressBar = FillingBar(
       desc: "Matching examples and translations",
       total: args.item2.length,
       time: true,
@@ -188,32 +191,34 @@ Future<Map<String, Map<int, String>>> matchSentenceAndTranslationList(
     );
   }
   for (var line in args.item2) {
-    p?.increment();
+    progressBar?.increment();
     // splite the line into: [ID, translated ID]
-    List<String> s = line.split("\t");
+    List<String> lineSplit = line.split("\t");
 
     try{
-      int oriID = int.parse(s[0]); Tuple2<String, String> ori;
-      if(args.item3.containsKey(oriID)){ori = args.item3[oriID]!;}
+      int originalID = int.parse(lineSplit[0]); Tuple2<String, String> original;
+      if(args.item3.containsKey(originalID))  
+        original = args.item3[originalID]!;
       else{continue;}
 
-      int transID = int.parse(s[1]); Tuple2<String, String> trans;
-      if(args.item3.containsKey(transID)){trans = args.item3[transID]!;}
+      int translationID = int.parse(lineSplit[1]); Tuple2<String, String> translation;
+      if(args.item3.containsKey(translationID))
+        translation = args.item3[translationID]!;
       else{continue;}
 
       // sentence is Japanese
-      if(ori.item1 == "jpn"){
+      if(original.item1 == "jpn"){
       // do not include jpn <-> jpn translations
-      if(trans.item1 == "jpn"){continue;}
+      if(translation.item1 == "jpn"){continue;}
       // add language to map if it does not already exist
-      if(!translations.containsKey(trans.item1)){translations[trans.item1] = {};}
+      if(!translations.containsKey(translation.item1)){translations[translation.item1] = {};}
       // add japanese sentence with id to jpn map and translation to its map
-      translations["jpn"]![oriID] = ori.item2;
-      translations[trans.item1]![oriID] = trans.item2;
+      translations["jpn"]![originalID] = original.item2;
+      translations[translation.item1]![originalID] = translation.item2;
     }
     }
     catch (e) {
-      print("Exception on $s");
+      print("Exception on $lineSplit");
       continue;
     }
   }
