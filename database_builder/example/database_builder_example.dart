@@ -1,7 +1,12 @@
 import 'package:database_builder/database_builder.dart';
-import 'package:isar/isar.dart';
+
+
 
 void main() async {
+
+  
+
+  /*
   final isar = await Isar.open(
       [JMdictSchema, JMNEdictSchema, Kanjidic2Schema, KanjiSVGSchema],
       name: "dictionary",
@@ -15,4 +20,8 @@ void main() async {
   isar.close();
   print("ALL FINISHED");
   return;
+  */
+
+  await tatoebaToIsar();
+
 }
