@@ -43,10 +43,10 @@ Your folder should look like that
   * 0f9ab.svg
   * ...
 * tatoeba
-  * sentences_base.csv
+  * links.csv
   * sentences.csv
 
-Now Run those commands
+Now Run those commands (your current python environment needs to have all requirements from `requirments.txt` installed)
 
 * `python utils/database_entries_creator/dict_entry_details_creator/kanjidic2_loader.py`
 * `python utils/database_entries_creator/kanjivg_preprocessor/main.py`
