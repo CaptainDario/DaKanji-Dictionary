@@ -76,13 +76,13 @@ Future<Map<int, Tuple2<String, String>>> parseSentences(String path) async{
   }
   parsers.close();
   // wait for all processes to finish
-  await parsers.future.then((value) {
-      for (var element in value) {
+  await parsers.future.then((sentencesMaps) {
+      for (var element in sentencesMaps) {
         sentences.addAll(element);
       }
     }
   );
-  //print(sentences.length);
+  print("\Loaded: ${sentences.length} sentences");
 
   return sentences;
 }
