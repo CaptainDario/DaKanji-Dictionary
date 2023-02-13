@@ -156,10 +156,17 @@ Future<Map<String, Map<int, String>>> matchSentencesAndTranslations(
     );
   }
   parsers.close();
+
   // wait for all processes to finish
-  await parsers.future.then((value) {
-      for (var element in value) {
-        translations.addAll(element);
+  await parsers.future.then((translationsMaps) {
+      for (var translationsMap in translationsMaps) {
+        for (var sentences in translationsMap.entries) {
+          //print(sentences);
+          if(!translations.containsKey(sentences.key)){
+            translations[sentences.key] = {};
+          }
+          translations[sentences.key]!.addAll(sentences.value);
+        }
       }
     }
   );
