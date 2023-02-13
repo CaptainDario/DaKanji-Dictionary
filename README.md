@@ -20,6 +20,9 @@ First download the necessary dictionary files
 * [KanjiDic](http://www.edrdg.org/wiki/index.php/KANJIDIC_Project) or [direct download](http://www.edrdg.org/kanjidic/kanjidic2.xml.gz)
 * [ENAMDICT](https://www.edrdg.org/enamdict/enamdict_doc.html) or [direct download](http://ftp.edrdg.org/pub/Nihongo/JMnedict.xml.gz)
 * [KanjiVG](https://github.com/KanjiVG/kanjivg/releases/latest) (Download the `kanjivg-xxx-all.zip`)
+* [Tatoeba](https://tatoeba.org/en/downloads)
+  * Weekly exports -> All languages -> sentences.csv
+  * Links -> links.csv
 
 and place them in the `inputFiles directory`.
 Your folder should look like that
@@ -33,6 +36,9 @@ Your folder should look like that
   * 0f9a8.svg
   * 0f9ab.svg
   * ...
+* tatoeba
+  * sentences_base.csv
+  * sentences.csv
 
 Now Run those commands
 
