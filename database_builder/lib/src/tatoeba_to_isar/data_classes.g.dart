@@ -17,13 +17,23 @@ const TatoebaSchema = CollectionSchema(
   name: r'Tatoeba',
   id: -5039320624282641788,
   properties: {
-    r'sentence': PropertySchema(
+    r'mecabPos': PropertySchema(
       id: 0,
+      name: r'mecabPos',
+      type: IsarType.stringList,
+    ),
+    r'mecabSurfaces': PropertySchema(
+      id: 1,
+      name: r'mecabSurfaces',
+      type: IsarType.stringList,
+    ),
+    r'sentence': PropertySchema(
+      id: 2,
       name: r'sentence',
       type: IsarType.string,
     ),
     r'translations': PropertySchema(
-      id: 1,
+      id: 3,
       name: r'translations',
       type: IsarType.objectList,
       target: r'Translation',
@@ -49,6 +59,20 @@ int _tatoebaEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
+  bytesCount += 3 + object.mecabPos.length * 3;
+  {
+    for (var i = 0; i < object.mecabPos.length; i++) {
+      final value = object.mecabPos[i];
+      bytesCount += value.length * 3;
+    }
+  }
+  bytesCount += 3 + object.mecabSurfaces.length * 3;
+  {
+    for (var i = 0; i < object.mecabSurfaces.length; i++) {
+      final value = object.mecabSurfaces[i];
+      bytesCount += value.length * 3;
+    }
+  }
   bytesCount += 3 + object.sentence.length * 3;
   bytesCount += 3 + object.translations.length * 3;
   {
@@ -67,9 +91,11 @@ void _tatoebaSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeString(offsets[0], object.sentence);
+  writer.writeStringList(offsets[0], object.mecabPos);
+  writer.writeStringList(offsets[1], object.mecabSurfaces);
+  writer.writeString(offsets[2], object.sentence);
   writer.writeObjectList<Translation>(
-    offsets[1],
+    offsets[3],
     allOffsets,
     TranslationSchema.serialize,
     object.translations,
@@ -84,14 +110,16 @@ Tatoeba _tatoebaDeserialize(
 ) {
   final object = Tatoeba(
     id: id,
-    sentence: reader.readString(offsets[0]),
+    mecabPos: reader.readStringList(offsets[0]) ?? [],
+    mecabSurfaces: reader.readStringList(offsets[1]) ?? [],
+    sentence: reader.readString(offsets[2]),
     translations: reader.readObjectList<Translation>(
-          offsets[1],
+          offsets[3],
           TranslationSchema.deserialize,
           allOffsets,
           Translation(),
         ) ??
-        [],
+        const [],
   );
   return object;
 }
@@ -104,15 +132,19 @@ P _tatoebaDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readString(offset)) as P;
+      return (reader.readStringList(offset) ?? []) as P;
     case 1:
+      return (reader.readStringList(offset) ?? []) as P;
+    case 2:
+      return (reader.readString(offset)) as P;
+    case 3:
       return (reader.readObjectList<Translation>(
             offset,
             TranslationSchema.deserialize,
             allOffsets,
             Translation(),
           ) ??
-          []) as P;
+          const []) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -256,6 +288,449 @@ extension TatoebaQueryFilter
         upper: upper,
         includeUpper: includeUpper,
       ));
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition> mecabPosElementEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'mecabPos',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+      mecabPosElementGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'mecabPos',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition> mecabPosElementLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'mecabPos',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition> mecabPosElementBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'mecabPos',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+      mecabPosElementStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'mecabPos',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition> mecabPosElementEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'mecabPos',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition> mecabPosElementContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'mecabPos',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition> mecabPosElementMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'mecabPos',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+      mecabPosElementIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'mecabPos',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+      mecabPosElementIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'mecabPos',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition> mecabPosLengthEqualTo(
+      int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'mecabPos',
+        length,
+        true,
+        length,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition> mecabPosIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'mecabPos',
+        0,
+        true,
+        0,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition> mecabPosIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'mecabPos',
+        0,
+        false,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition> mecabPosLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'mecabPos',
+        0,
+        true,
+        length,
+        include,
+      );
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+      mecabPosLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'mecabPos',
+        length,
+        include,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition> mecabPosLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'mecabPos',
+        lower,
+        includeLower,
+        upper,
+        includeUpper,
+      );
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+      mecabSurfacesElementEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'mecabSurfaces',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+      mecabSurfacesElementGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'mecabSurfaces',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+      mecabSurfacesElementLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'mecabSurfaces',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+      mecabSurfacesElementBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'mecabSurfaces',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+      mecabSurfacesElementStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'mecabSurfaces',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+      mecabSurfacesElementEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'mecabSurfaces',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+      mecabSurfacesElementContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'mecabSurfaces',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+      mecabSurfacesElementMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'mecabSurfaces',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+      mecabSurfacesElementIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'mecabSurfaces',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+      mecabSurfacesElementIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'mecabSurfaces',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+      mecabSurfacesLengthEqualTo(int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'mecabSurfaces',
+        length,
+        true,
+        length,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition> mecabSurfacesIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'mecabSurfaces',
+        0,
+        true,
+        0,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+      mecabSurfacesIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'mecabSurfaces',
+        0,
+        false,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+      mecabSurfacesLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'mecabSurfaces',
+        0,
+        true,
+        length,
+        include,
+      );
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+      mecabSurfacesLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'mecabSurfaces',
+        length,
+        include,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+      mecabSurfacesLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'mecabSurfaces',
+        lower,
+        includeLower,
+        upper,
+        includeUpper,
+      );
     });
   }
 
@@ -534,6 +1009,18 @@ extension TatoebaQuerySortThenBy
 
 extension TatoebaQueryWhereDistinct
     on QueryBuilder<Tatoeba, Tatoeba, QDistinct> {
+  QueryBuilder<Tatoeba, Tatoeba, QDistinct> distinctByMecabPos() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'mecabPos');
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QDistinct> distinctByMecabSurfaces() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'mecabSurfaces');
+    });
+  }
+
   QueryBuilder<Tatoeba, Tatoeba, QDistinct> distinctBySentence(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -547,6 +1034,19 @@ extension TatoebaQueryProperty
   QueryBuilder<Tatoeba, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
+    });
+  }
+
+  QueryBuilder<Tatoeba, List<String>, QQueryOperations> mecabPosProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'mecabPos');
+    });
+  }
+
+  QueryBuilder<Tatoeba, List<String>, QQueryOperations>
+      mecabSurfacesProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'mecabSurfaces');
     });
   }
 
@@ -567,388 +1067,6 @@ extension TatoebaQueryProperty
 // **************************************************************************
 // IsarEmbeddedGenerator
 // **************************************************************************
-
-// coverage:ignore-file
-// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters
-
-const ReadingSchema = Schema(
-  name: r'Reading',
-  id: -3353310682807968152,
-  properties: {
-    r'rType': PropertySchema(
-      id: 0,
-      name: r'rType',
-      type: IsarType.string,
-    ),
-    r'value': PropertySchema(
-      id: 1,
-      name: r'value',
-      type: IsarType.string,
-    )
-  },
-  estimateSize: _readingEstimateSize,
-  serialize: _readingSerialize,
-  deserialize: _readingDeserialize,
-  deserializeProp: _readingDeserializeProp,
-);
-
-int _readingEstimateSize(
-  Reading object,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
-) {
-  var bytesCount = offsets.last;
-  {
-    final value = object.rType;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
-  {
-    final value = object.value;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
-  return bytesCount;
-}
-
-void _readingSerialize(
-  Reading object,
-  IsarWriter writer,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
-) {
-  writer.writeString(offsets[0], object.rType);
-  writer.writeString(offsets[1], object.value);
-}
-
-Reading _readingDeserialize(
-  Id id,
-  IsarReader reader,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
-) {
-  final object = Reading(
-    rType: reader.readStringOrNull(offsets[0]),
-    value: reader.readStringOrNull(offsets[1]),
-  );
-  return object;
-}
-
-P _readingDeserializeProp<P>(
-  IsarReader reader,
-  int propertyId,
-  int offset,
-  Map<Type, List<int>> allOffsets,
-) {
-  switch (propertyId) {
-    case 0:
-      return (reader.readStringOrNull(offset)) as P;
-    case 1:
-      return (reader.readStringOrNull(offset)) as P;
-    default:
-      throw IsarError('Unknown property with id $propertyId');
-  }
-}
-
-extension ReadingQueryFilter
-    on QueryBuilder<Reading, Reading, QFilterCondition> {
-  QueryBuilder<Reading, Reading, QAfterFilterCondition> rTypeIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'rType',
-      ));
-    });
-  }
-
-  QueryBuilder<Reading, Reading, QAfterFilterCondition> rTypeIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'rType',
-      ));
-    });
-  }
-
-  QueryBuilder<Reading, Reading, QAfterFilterCondition> rTypeEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'rType',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Reading, Reading, QAfterFilterCondition> rTypeGreaterThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'rType',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Reading, Reading, QAfterFilterCondition> rTypeLessThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'rType',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Reading, Reading, QAfterFilterCondition> rTypeBetween(
-    String? lower,
-    String? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'rType',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Reading, Reading, QAfterFilterCondition> rTypeStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'rType',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Reading, Reading, QAfterFilterCondition> rTypeEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'rType',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Reading, Reading, QAfterFilterCondition> rTypeContains(
-      String value,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'rType',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Reading, Reading, QAfterFilterCondition> rTypeMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'rType',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Reading, Reading, QAfterFilterCondition> rTypeIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'rType',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Reading, Reading, QAfterFilterCondition> rTypeIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'rType',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Reading, Reading, QAfterFilterCondition> valueIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'value',
-      ));
-    });
-  }
-
-  QueryBuilder<Reading, Reading, QAfterFilterCondition> valueIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'value',
-      ));
-    });
-  }
-
-  QueryBuilder<Reading, Reading, QAfterFilterCondition> valueEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'value',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Reading, Reading, QAfterFilterCondition> valueGreaterThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'value',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Reading, Reading, QAfterFilterCondition> valueLessThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'value',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Reading, Reading, QAfterFilterCondition> valueBetween(
-    String? lower,
-    String? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'value',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Reading, Reading, QAfterFilterCondition> valueStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'value',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Reading, Reading, QAfterFilterCondition> valueEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'value',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Reading, Reading, QAfterFilterCondition> valueContains(
-      String value,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'value',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Reading, Reading, QAfterFilterCondition> valueMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'value',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Reading, Reading, QAfterFilterCondition> valueIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'value',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Reading, Reading, QAfterFilterCondition> valueIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'value',
-        value: '',
-      ));
-    });
-  }
-}
-
-extension ReadingQueryObject
-    on QueryBuilder<Reading, Reading, QFilterCondition> {}
 
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters

@@ -5,14 +5,37 @@ import 'package:compute/compute.dart';
 import 'package:console_bars/console_bars.dart';
 import 'package:tuple/tuple.dart';
 import 'package:async/async.dart';
+import 'package:isar/isar.dart';
 
+import 'data_classes.dart';
 import 'package:database_builder/database_builder.dart';
 
 
 
-/// Converts examples (`sentences_base.csv` and `sentences.csv`) from tatoeba
-/// to a JSON files and those to a ISAR database
-Future<bool> tatoebaToIsar() async {
+/// Converts examples (`links.csv` and `sentences.csv`) from tatoeba
+/// to JSON files and writes them to `outputFiles/tatoeba_json/`. Afterwards,
+/// adds examples to the given `isar` database
+Future<void> tatoebaToIsar(Isar isar) async {
+
+  // convert tatoeba examples to json
+  //await tatoebaToJson();
+
+  // populate the ISAR database with the japanese examples
+  await createTatoebaIsar(isar);
+
+  // add all translations to the ISAR database
+  Directory jsonsDir =
+    Directory("${RepoPathManager.getOutputFilesPath()}/tatoeba_json/");
+  for (FileSystemEntity file in jsonsDir.listSync(followLinks: false)) {
+    if(file.uri.pathSegments.last.endsWith("json") && file.uri.pathSegments.last.length == 8){
+      //print(file);
+    }
+  }
+}
+
+/// Converts examples (`links.csv` and `sentences.csv`) from tatoeba
+/// to JSON files and writes them to `outputFiles/tatoeba_json/`.
+Future<void> tatoebaToJson() async {
 
   // load examples
   String tatoebaPath = RepoPathManager.getInputFilesPath() + "/tatoeba";
@@ -31,19 +54,14 @@ Future<bool> tatoebaToIsar() async {
     File("${dir.path}/${element.key}.json")
       .writeAsStringSync(json.encode(
         // convert the keys from int to string to be able to encode as json
-        element.value.map((key, value) => MapEntry(key.toString(), value)))
-      );
+        element.value.map((key, value) => MapEntry(key.toString(), value))
+      ));
     translationsCnt.add("${element.key}, ${element.value.length}");
   }
   File("${dir.path}/examples_counts.txt").writeAsStringSync(translationsCnt.toString());
 
   // add mecab output to examples
   await runMeCabOnJpnJson(RepoPathManager.getOutputFilesPath() + "/tatoeba_json/jpn.json");
-
-  // convert all examples to ISAR
-  //await jsonToIsar();
-
-  return true;
 }
 
 /// Parses tatoeba examples from `sentences.csv` in `Platform.numberOfProessors`
@@ -241,10 +259,49 @@ Future<void> runMeCabOnJpnJson(String path) async {
   await stdout.addStream(proc.stdout);
 }
 
+/// Adds tatoeba examples to `isar`
+/// 
+/// Note: only Adds the Japanese examples, but does not add any translations.
+/// Add translations with `tatoebaTranslationsJsonToIsar`
+Future<void> createTatoebaIsar(Isar isar) async{
+
+  String jpnMecabString =
+    File("${RepoPathManager.getOutputFilesPath()}/tatoeba_json/jpn_mecab.json").readAsStringSync(); 
+  Map<String, dynamic> jpnMecabMap = jsonDecode(jpnMecabString);
+  
+  FillingBar progressBar = FillingBar(
+    total: jpnMecabMap.length,
+    desc: "Adding tatoeba jp to isar"
+  );
+  for (MapEntry example in jpnMecabMap.entries) {
+    // convert dynamic json to List<List<String>>
+    List<String> pos = [];
+    for (var i in example.value[2]) {
+      for (var j in i) {
+        pos.add(j);
+      }
+    }
+    isar.writeTxnSync(() => 
+      isar.tatoebas.putSync(
+        Tatoeba(
+          id            : int.parse(example.key),
+          sentence      : example.value[0],
+          mecabSurfaces : List<String>.from(example.value[1]),
+          mecabPos      : pos
+        )
+      )
+    );
+    progressBar.increment();
+  }
+  print("Added ${isar.tatoebas.countSync()} examples entries to isar");
+}
 
 /// Adds the content of the json file at `path` (needs to be in the format that
-/// `sentencesToTranslations`) outputs to the ISAR database
-Future<void> tatoebaJsonToIsar(String path) async {
+/// `sentencesToTranslations` outputs) to the `isar` database.
+/// 
+/// Note: The database is expected to already have entries for each example in
+/// `jsonPath`.
+Future<void> addTatoebaTranslationsJsonToIsar(Isar isar, String jsonPaths) async {
   throw Exception("Not implemented");
 }
 
