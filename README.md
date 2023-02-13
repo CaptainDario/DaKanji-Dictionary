@@ -10,9 +10,15 @@ You can either download the latest release from the [releases page](https://gith
 
 First install the necessary requirements:
 
-* python with all dependiencies in `requirements.txt` installed
+* a python environment with all dependiencies in `requirements.txt` installed
   * Assure Cairo is installed and on path for cairocffi
+  * Assure this environemnt is set as current environment (python3 defaults to this env.)
 * dart
+* MeCab with ipadic
+  * [Windows](http://taku910.github.io/mecab/#download)
+  * MacOS - homebrew:
+    * `brew install mecab`
+    * `brew install mecab-ipadic`
 
 First download the necessary dictionary files
 
