@@ -26,17 +26,16 @@ Future<bool> tatoebaToIsar() async {
   // store them as json to disk
   var dir = Directory("${RepoPathManager.getOutputFilesPath()}/tatoeba_json/");
   dir.createSync();
-  Map<String, int> translationsCnt = {};
-  translations.forEach((key, value) async {
-    await File("${dir.path}/$key.json")
-      .writeAsString(json.encode(
+  List<String >translationsCnt = [];
+  for (var element in translations.entries) {
+    File("${dir.path}/${element.key}.json")
+      .writeAsStringSync(json.encode(
         // convert the keys from int to string to be able to encode as json
-        value.map((key, value) => MapEntry(key.toString(), value)))
+        element.value.map((key, value) => MapEntry(key.toString(), value)))
       );
-    translationsCnt.putIfAbsent(key, () => value.length);
-    print("$key, ${value.length}");
-  });
-  print(translationsCnt);
+    translationsCnt.add("${element.key}, ${element.value.length}");
+  }
+  File("${dir.path}/examples_counts.txt").writeAsStringSync(translationsCnt.toString());
 
   // add mecab output to examples
   await runMeCabOnJpnJson(RepoPathManager.getOutputFilesPath() + "/tatoeba_json/jpn.json");
