@@ -57,7 +57,7 @@ Future<void> tatoebaToJson() async {
       ));
     translationsCnt.add("${element.key}, ${element.value.length}");
   }
-  File("${RepoPathManager.getOutputFilesPath()}/examples_counts.txt")
+  File("${RepoPathManager.getOutputFilesPath()}/tatoeba_examples_counts.txt")
     .writeAsStringSync(translationsCnt.toString());
 
   // add mecab output to examples
@@ -335,7 +335,7 @@ Future<void> addTatoebaTranslationsJsonsToIsar(
   }
   
   print("Languages added: $langsAdded, did not add: ${files.length - langsAdded.length} languages");
-  File("${RepoPathManager.getOutputFilesPath()}/languages_added.txt")
+  File("${RepoPathManager.getOutputFilesPath()}/tatoeba_languages_added.txt")
     .writeAsStringSync(langsAdded.toString());
 }
 
