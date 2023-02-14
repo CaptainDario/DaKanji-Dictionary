@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
+import 'package:path/path.dart' as p;
 import 'package:compute/compute.dart';
 
 import 'package:console_bars/console_bars.dart';
@@ -39,29 +41,32 @@ Future<void> tatoebaToJson() async {
   // load examples
   String tatoebaPath = RepoPathManager.getInputFilesPath() + "/tatoeba";
   // parse all example sentences from tatoeba to one map
-  Map<int, Tuple2<String, String>> sentences =  
-    await parseSentences("$tatoebaPath/sentences.csv");
+  Map<int, Tuple2<String, String>> sentences = 
+    await parseSentences(p.join(tatoebaPath, "sentences.csv"));
+
   
-  // Finde the translations matching the sentences
+  // Find the translations matching the sentences
   Map<String, Map<int, String>> translations = 
-    await matchSentencesAndTranslations("$tatoebaPath/links.csv", sentences);
+    await matchSentencesAndTranslations(p.join(tatoebaPath, "links.csv"), sentences);
   // store them as json to disk
-  var dir = Directory("${RepoPathManager.getOutputFilesPath()}/tatoeba_json/");
+  var dir = Directory(p.join(RepoPathManager.getOutputFilesPath(), "tatoeba_json"));
   dir.createSync();
   List<String >translationsCnt = [];
   for (var element in translations.entries) {
-    File("${dir.path}/${element.key}.json")
+    if (element.key != "\\N"){
+      File(p.join(dir.path, element.key + ".json"))
       .writeAsStringSync(json.encode(
         // convert the keys from int to string to be able to encode as json
         element.value.map((key, value) => MapEntry(key.toString(), value))
       ));
     translationsCnt.add("${element.key}, ${element.value.length}");
+    }
   }
-  File("${RepoPathManager.getOutputFilesPath()}/tatoeba_examples_counts.txt")
+  File(p.join(RepoPathManager.getOutputFilesPath(), "tatoeba_examples_counts.txt"))
     .writeAsStringSync(translationsCnt.toString());
 
   // add mecab output to examples
-  await runMeCabOnJpnJson(RepoPathManager.getOutputFilesPath() + "/tatoeba_json/jpn.json");
+  await runMeCabOnJpnJson(p.join(RepoPathManager.getOutputFilesPath(), "tatoeba_json", "jpn.json"));
 }
 
 /// Parses tatoeba examples from `sentences.csv` in `Platform.numberOfProessors`
@@ -72,8 +77,10 @@ Future<Map<int, Tuple2<String, String>>> parseSentences(String path) async{
 
   // convert all sentences to a map
   // split the sentence into number of processor and parse them separately
-  String sentencesContent = File(path).readAsStringSync();
-  List<String> lines = sentencesContent.split('\n');
+  List<String> lines = [];
+  File(path).readAsLinesSync().forEach((String s) { 
+    if (s.isNotEmpty) lines.add(s);
+   });
   int chunkSize = (lines.length / Platform.numberOfProcessors).floor();
   FutureGroup<Map<int, Tuple2<String, String>>> parsers = FutureGroup();
   for (int i = 0; i < Platform.numberOfProcessors; i++) {
@@ -94,14 +101,15 @@ Future<Map<int, Tuple2<String, String>>> parseSentences(String path) async{
   }
   parsers.close();
   // wait for all processes to finish
+  Stopwatch stopwatch = Stopwatch()..start();
+  print("Parsing examples...");
   await parsers.future.then((sentencesMaps) {
       for (var element in sentencesMaps) {
         sentences.addAll(element);
       }
     }
   );
-  print("Loaded: ${sentences.length} sentences");
-
+  print("Loaded: ${sentences.length} sentences in ${stopwatch.elapsed}");
   return sentences;
 }
 
@@ -114,29 +122,10 @@ Map<int, Tuple2<String, String>> parseSentencesList(Tuple2<bool, List<String>> a
 
   Map<int, Tuple2<String, String>> sentences = {};
 
-  FillingBar? progressBar;
-  if(args.item1 == true){
-    progressBar = FillingBar(
-      desc: "Parsing examples (Process 1)",
-      total: args.item2.length,
-      time: true,
-      percentage: true,
-    );
-  }
-
-  for (var line in args.item2) {
-    /// splite the line into: [ID, iso 639-3, text]
-    List<String> lineSplit = line.split("\t");
-    try{
-      sentences[int.parse(lineSplit[0])] = Tuple2(lineSplit[1], lineSplit[2]);
-
-      if (progressBar != null){
-        progressBar.increment();
-      }
-    }
-    on Exception{
-      print("Exception on: '$line'");
-    }
+  List<String> lineSplit = [];
+  for (String line in args.item2) {
+    lineSplit = line.split("\t");
+    sentences[int.parse(lineSplit[0])] = Tuple2(lineSplit[1], lineSplit[2]);
   }
 
   return sentences;
@@ -150,9 +139,12 @@ Future<Map<String, Map<int, String>>> matchSentencesAndTranslations(
   String path, Map<int, Tuple2<String, String>> sentences) async 
 {
   Map<String, Map<int, String>> translations = {};
-
-  String sentencesBaseContent = File(path).readAsStringSync();
-  List<String> lines = sentencesBaseContent.split('\n');
+  List<String> lines = [];
+  File(path).readAsLinesSync().forEach((String s) { 
+    if (s.isNotEmpty) lines.add(s);
+   });
+  // String sentencesBaseContent = File(path).readAsStringSync();
+  // List<String> lines = sentencesBaseContent.split('\n');
 
   int chunkSize = (lines.length / Platform.numberOfProcessors).floor();
   FutureGroup<Map<String, Map<int, String>>> parsers = FutureGroup();
@@ -174,7 +166,9 @@ Future<Map<String, Map<int, String>>> matchSentencesAndTranslations(
     );
   }
   parsers.close();
-
+  Stopwatch stopwatch = Stopwatch()..start();
+  print("Matching examples and translations...");
+  
   // wait for all processes to finish
   await parsers.future.then((translationsMaps) {
       for (var translationsMap in translationsMaps) {
@@ -188,6 +182,8 @@ Future<Map<String, Map<int, String>>> matchSentencesAndTranslations(
       }
     }
   );
+  
+  print("Matched all examples in ${stopwatch.elapsed}");
 
   return translations;
 }
@@ -205,21 +201,11 @@ Future<Map<String, Map<int, String>>> matchSentenceAndTranslationList(
 
   Map<String, Map<int, String>> translations = {"jpn" : {}};
 
-  FillingBar? progressBar;
-  if(args.item1){
-    progressBar = FillingBar(
-      desc: "Matching examples and translations",
-      total: args.item2.length,
-      time: true,
-      percentage: true
-    );
-  }
+
   for (var line in args.item2) {
-    progressBar?.increment();
     // splite the line into: [ID, translated ID]
     List<String> lineSplit = line.split("\t");
 
-    try{
       int originalID = int.parse(lineSplit[0]); Tuple2<String, String> original;
       if(args.item3.containsKey(originalID))  
         original = args.item3[originalID]!;
@@ -232,19 +218,15 @@ Future<Map<String, Map<int, String>>> matchSentenceAndTranslationList(
 
       // sentence is Japanese
       if(original.item1 == "jpn"){
-      // do not include jpn <-> jpn translations
-      if(translation.item1 == "jpn"){continue;}
-      // add language to map if it does not already exist
-      if(!translations.containsKey(translation.item1)){translations[translation.item1] = {};}
-      // add japanese sentence with id to jpn map and translation to its map
-      translations["jpn"]![originalID] = original.item2;
-      translations[translation.item1]![originalID] = translation.item2;
-    }
-    }
-    catch (e) {
-      print("Exception on $lineSplit");
-      continue;
-    }
+        // do not include jpn <-> jpn translations
+        if(translation.item1 == "jpn"){continue;}
+        // add language to map if it does not already exist
+        if(!translations.containsKey(translation.item1)){translations[translation.item1] = {};}
+        // add japanese sentence with id to jpn map and translation to its map
+        translations["jpn"]![originalID] = original.item2;
+        translations[translation.item1]![originalID] = translation.item2;
+      }
+
   }
 
   return translations;
@@ -254,7 +236,7 @@ Future<Map<String, Map<int, String>>> matchSentenceAndTranslationList(
 /// Add PoS and mecab parsing to all Japanese sentences using `python3 parse.py`
 Future<void> runMeCabOnJpnJson(String path) async {
   var proc = await Process.start(
-    "python3", ["lib/src/tatoeba_to_isar/parse.py", path], runInShell: true
+    "python3", [p.join("lib", "src", "tatoeba_to_isar", "parse.py"), path], runInShell: true
   );
   await stdout.addStream(proc.stdout);
 }
@@ -266,7 +248,7 @@ Future<void> runMeCabOnJpnJson(String path) async {
 Future<void> createTatoebaIsar(Isar isar) async{
 
   String jpnMecabString =
-    File("${RepoPathManager.getOutputFilesPath()}/tatoeba_json/jpn_mecab.json").readAsStringSync(); 
+    File(p.join(RepoPathManager.getOutputFilesPath(), "tatoeba_json", "jpn_mecab.json")).readAsStringSync(); 
   Map<String, dynamic> jpnMecabMap = jsonDecode(jpnMecabString);
   
   FillingBar progressBar = FillingBar(
@@ -274,6 +256,7 @@ Future<void> createTatoebaIsar(Isar isar) async{
     desc: "Adding tatoeba jp to isar",
     time: true,
     percentage: true,
+    width: 50
   );
   for (MapEntry example in jpnMecabMap.entries) {
     // convert dynamic json to List<List<String>> 
@@ -335,7 +318,7 @@ Future<void> addTatoebaTranslationsJsonsToIsar(
   }
   
   print("Languages added: $langsAdded, did not add: ${files.length - langsAdded.length} languages");
-  File("${RepoPathManager.getOutputFilesPath()}/tatoeba_languages_added.txt")
+  File(p.join(RepoPathManager.getOutputFilesPath(), "tatoeba_languages_added.txt"))
     .writeAsStringSync(langsAdded.toString());
 }
 

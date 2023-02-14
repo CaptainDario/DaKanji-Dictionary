@@ -20,15 +20,15 @@ void main() async {
       ],
       name: "dictionary",
       directory: RepoPathManager.getOutputFilesPath());
-  /*
+  
   await jmEnamAndDictToIsar(isar);
   print("jmenam done");
   await kanjidic2ToIsar(isar);
   print("kanjidic2 done");
   await kanjiVGToIsar(isar);
   print("kanjiVg done");
-  */
-  //await tatoebaToIsar(isar);
+  
+  await tatoebaToIsar(isar);
   print("Tatoeba done");
 
   isar.close();
