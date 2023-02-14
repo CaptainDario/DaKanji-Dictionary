@@ -330,8 +330,8 @@ Future<void> addTatoebaTranslationsJsonsToIsar(
     );
     if(added){
       langsAdded.add(language);
+      print("Added $language ($i/${files.length})");
     }
-    print("Finished $language ($i/${files.length})");
   }
   
   print("Languages added: $langsAdded, did not add: ${files.length - langsAdded.length} languages");
