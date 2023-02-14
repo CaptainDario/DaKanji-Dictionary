@@ -20,10 +20,10 @@ import 'package:database_builder/database_builder.dart';
 Future<void> tatoebaToIsar(Isar isar, {int translationCountThreshold = 100}) async {
 
   // convert tatoeba examples to json
-  //await tatoebaToJson();
+  await tatoebaToJson();
 
   // populate the ISAR database with the japanese examples
-  //await createTatoebaIsar(isar);
+  await createTatoebaIsar(isar);
 
   // add all translations to the ISAR database
   await addTatoebaTranslationsJsonsToIsar(
