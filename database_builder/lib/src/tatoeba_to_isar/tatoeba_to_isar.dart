@@ -14,23 +14,22 @@ import 'package:database_builder/database_builder.dart';
 
 /// Converts examples (`links.csv` and `sentences.csv`) from tatoeba
 /// to JSON files and writes them to `outputFiles/tatoeba_json/`. Afterwards,
-/// adds examples to the given `isar` database
-Future<void> tatoebaToIsar(Isar isar) async {
+/// adds examples to the given `isar` database.
+/// `translationThreshold` indicates how many translations a language needs to 
+/// have to be added to `isar`.
+Future<void> tatoebaToIsar(Isar isar, {int translationCountThreshold = 100}) async {
 
   // convert tatoeba examples to json
   //await tatoebaToJson();
 
   // populate the ISAR database with the japanese examples
-  await createTatoebaIsar(isar);
+  //await createTatoebaIsar(isar);
 
   // add all translations to the ISAR database
-  Directory jsonsDir =
-    Directory("${RepoPathManager.getOutputFilesPath()}/tatoeba_json/");
-  for (FileSystemEntity file in jsonsDir.listSync(followLinks: false)) {
-    if(file.uri.pathSegments.last.endsWith("json") && file.uri.pathSegments.last.length == 8){
-      //print(file);
-    }
-  }
+  await addTatoebaTranslationsJsonsToIsar(
+    "${RepoPathManager.getOutputFilesPath()}/tatoeba_json/",
+    isar, translationCountThreshold
+  );
 }
 
 /// Converts examples (`links.csv` and `sentences.csv`) from tatoeba
@@ -58,7 +57,8 @@ Future<void> tatoebaToJson() async {
       ));
     translationsCnt.add("${element.key}, ${element.value.length}");
   }
-  File("${dir.path}/examples_counts.txt").writeAsStringSync(translationsCnt.toString());
+  File("${RepoPathManager.getOutputFilesPath()}/examples_counts.txt")
+    .writeAsStringSync(translationsCnt.toString());
 
   // add mecab output to examples
   await runMeCabOnJpnJson(RepoPathManager.getOutputFilesPath() + "/tatoeba_json/jpn.json");
@@ -100,7 +100,7 @@ Future<Map<int, Tuple2<String, String>>> parseSentences(String path) async{
       }
     }
   );
-  print("\Loaded: ${sentences.length} sentences");
+  print("Loaded: ${sentences.length} sentences");
 
   return sentences;
 }
@@ -271,23 +271,28 @@ Future<void> createTatoebaIsar(Isar isar) async{
   
   FillingBar progressBar = FillingBar(
     total: jpnMecabMap.length,
-    desc: "Adding tatoeba jp to isar"
+    desc: "Adding tatoeba jp to isar",
+    time: true,
+    percentage: true,
   );
   for (MapEntry example in jpnMecabMap.entries) {
-    // convert dynamic json to List<List<String>>
+    // convert dynamic json to List<List<String>> 
+    // this list only includes the PoS elements that mecab outputs
     List<String> pos = [];
     for (var i in example.value[2]) {
-      for (var j in i) {
-        pos.add(j);
+      for (int j = 0; j < i.length; j++) {
+        if(j < 4){
+          pos.add(i[j]);
+        }
       }
     }
     isar.writeTxnSync(() => 
       isar.tatoebas.putSync(
         Tatoeba(
-          id            : int.parse(example.key),
-          sentence      : example.value[0],
-          mecabSurfaces : List<String>.from(example.value[1]),
-          mecabPos      : pos
+          id             : int.parse(example.key),
+          sentence       : example.value[0],
+          mecabBaseForms : List<String>.from(example.value[1]),
+          mecabPos       : pos,
         )
       )
     );
@@ -296,13 +301,80 @@ Future<void> createTatoebaIsar(Isar isar) async{
   print("Added ${isar.tatoebas.countSync()} examples entries to isar");
 }
 
-/// Adds the content of the json file at `path` (needs to be in the format that
-/// `sentencesToTranslations` outputs) to the `isar` database.
+/// Adds all translations from all .json files in `dirPath` to `isar`. If a 
+/// language has less than `translationCountThreshold` translations it is being
+/// ignored
+Future<void> addTatoebaTranslationsJsonsToIsar(
+  String dirPath, Isar isar, int translationCountThreshold) async 
+{
+  List<String>langsAdded = [];
+  
+  // get all files in the language json directory that start with a language
+  // code that is not `jpn` and end with `.json`
+  Directory jsonsDir = Directory(dirPath);
+  List<FileSystemEntity> files = jsonsDir.listSync(followLinks: false)
+    .where((f) => 
+      f.uri.pathSegments.last.length == 8 &&
+      !f.uri.pathSegments.last.startsWith("jpn") &&
+      f.uri.pathSegments.last.endsWith(".json")
+    ).toList();
+
+  // iterate over the files
+  for (int i = 0; i < files.length; i++) {
+    File file = File(files[i].path);
+    String language = file.uri.pathSegments.last.replaceAll(".json", "");
+
+    bool added = await addTatoebaTranslationsJsonToIsar(
+      isar, file.readAsStringSync(), language,
+      translationCountThreshold: translationCountThreshold
+    );
+    if(added){
+      langsAdded.add(language);
+    }
+    print("Finished $language ($i/${files.length})");
+  }
+  
+  print("Languages added: $langsAdded, did not add: ${files.length - langsAdded.length} languages");
+  File("${RepoPathManager.getOutputFilesPath()}/languages_added.txt")
+    .writeAsStringSync(langsAdded.toString());
+}
+
+/// Adds the content of jsonString (needs to be in the format that
+/// `sentencesToTranslations` outputs) to the `isar` database. Returns true,
+/// if the content of the .json has been added to `isar`
 /// 
 /// Note: The database is expected to already have entries for each example in
 /// `jsonPath`.
-Future<void> addTatoebaTranslationsJsonToIsar(Isar isar, String jsonPaths) async {
-  throw Exception("Not implemented");
+/// Caution: Overrides translations if an example already contains a translation
+/// for a given language
+Future<bool> addTatoebaTranslationsJsonToIsar(
+  Isar isar, String jsonString, String language,
+  {int translationCountThreshold = 100}) async 
+{
+  bool added = false;
+
+  Map jsonMap = jsonDecode(jsonString);
+  if(jsonMap.entries.length >= translationCountThreshold){
+    FillingBar progress = FillingBar(total: jsonMap.length, desc: "Adding $language to isar");
+    for (var entry in jsonMap.entries) {
+      // get the japanese sentence entry from ISAR
+      Tatoeba example = isar.tatoebas.getSync(int.parse(entry.key))!;
+
+      // update the entry, and write it back to ISAR
+      isar.writeTxnSync(() {
+        example.translations = [
+          // copy all translations except for the language that is beign added
+          ...example.translations.where((e) => e.language != entry.key),
+          Translation(language: language, sentence: entry.value)
+        ];
+        isar.tatoebas.putSync(example);
+      });
+      progress.increment();
+    }
+    added = true;
+  }
+
+  return added;
 }
 
 

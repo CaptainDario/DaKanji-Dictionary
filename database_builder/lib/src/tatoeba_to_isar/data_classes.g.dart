@@ -17,14 +17,14 @@ const TatoebaSchema = CollectionSchema(
   name: r'Tatoeba',
   id: -5039320624282641788,
   properties: {
-    r'mecabPos': PropertySchema(
+    r'mecabBaseForms': PropertySchema(
       id: 0,
-      name: r'mecabPos',
+      name: r'mecabBaseForms',
       type: IsarType.stringList,
     ),
-    r'mecabSurfaces': PropertySchema(
+    r'mecabPos': PropertySchema(
       id: 1,
-      name: r'mecabSurfaces',
+      name: r'mecabPos',
       type: IsarType.stringList,
     ),
     r'sentence': PropertySchema(
@@ -59,17 +59,17 @@ int _tatoebaEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
+  bytesCount += 3 + object.mecabBaseForms.length * 3;
+  {
+    for (var i = 0; i < object.mecabBaseForms.length; i++) {
+      final value = object.mecabBaseForms[i];
+      bytesCount += value.length * 3;
+    }
+  }
   bytesCount += 3 + object.mecabPos.length * 3;
   {
     for (var i = 0; i < object.mecabPos.length; i++) {
       final value = object.mecabPos[i];
-      bytesCount += value.length * 3;
-    }
-  }
-  bytesCount += 3 + object.mecabSurfaces.length * 3;
-  {
-    for (var i = 0; i < object.mecabSurfaces.length; i++) {
-      final value = object.mecabSurfaces[i];
       bytesCount += value.length * 3;
     }
   }
@@ -91,8 +91,8 @@ void _tatoebaSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeStringList(offsets[0], object.mecabPos);
-  writer.writeStringList(offsets[1], object.mecabSurfaces);
+  writer.writeStringList(offsets[0], object.mecabBaseForms);
+  writer.writeStringList(offsets[1], object.mecabPos);
   writer.writeString(offsets[2], object.sentence);
   writer.writeObjectList<Translation>(
     offsets[3],
@@ -110,8 +110,8 @@ Tatoeba _tatoebaDeserialize(
 ) {
   final object = Tatoeba(
     id: id,
-    mecabPos: reader.readStringList(offsets[0]) ?? [],
-    mecabSurfaces: reader.readStringList(offsets[1]) ?? [],
+    mecabBaseForms: reader.readStringList(offsets[0]) ?? [],
+    mecabPos: reader.readStringList(offsets[1]) ?? [],
     sentence: reader.readString(offsets[2]),
     translations: reader.readObjectList<Translation>(
           offsets[3],
@@ -288,6 +288,232 @@ extension TatoebaQueryFilter
         upper: upper,
         includeUpper: includeUpper,
       ));
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+      mecabBaseFormsElementEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'mecabBaseForms',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+      mecabBaseFormsElementGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'mecabBaseForms',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+      mecabBaseFormsElementLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'mecabBaseForms',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+      mecabBaseFormsElementBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'mecabBaseForms',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+      mecabBaseFormsElementStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'mecabBaseForms',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+      mecabBaseFormsElementEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'mecabBaseForms',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+      mecabBaseFormsElementContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'mecabBaseForms',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+      mecabBaseFormsElementMatches(String pattern,
+          {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'mecabBaseForms',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+      mecabBaseFormsElementIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'mecabBaseForms',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+      mecabBaseFormsElementIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'mecabBaseForms',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+      mecabBaseFormsLengthEqualTo(int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'mecabBaseForms',
+        length,
+        true,
+        length,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+      mecabBaseFormsIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'mecabBaseForms',
+        0,
+        true,
+        0,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+      mecabBaseFormsIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'mecabBaseForms',
+        0,
+        false,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+      mecabBaseFormsLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'mecabBaseForms',
+        0,
+        true,
+        length,
+        include,
+      );
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+      mecabBaseFormsLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'mecabBaseForms',
+        length,
+        include,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+      mecabBaseFormsLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'mecabBaseForms',
+        lower,
+        includeLower,
+        upper,
+        includeUpper,
+      );
     });
   }
 
@@ -502,230 +728,6 @@ extension TatoebaQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'mecabPos',
-        lower,
-        includeLower,
-        upper,
-        includeUpper,
-      );
-    });
-  }
-
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
-      mecabSurfacesElementEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'mecabSurfaces',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
-      mecabSurfacesElementGreaterThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'mecabSurfaces',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
-      mecabSurfacesElementLessThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'mecabSurfaces',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
-      mecabSurfacesElementBetween(
-    String lower,
-    String upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'mecabSurfaces',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
-      mecabSurfacesElementStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'mecabSurfaces',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
-      mecabSurfacesElementEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'mecabSurfaces',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
-      mecabSurfacesElementContains(String value, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'mecabSurfaces',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
-      mecabSurfacesElementMatches(String pattern, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'mecabSurfaces',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
-      mecabSurfacesElementIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'mecabSurfaces',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
-      mecabSurfacesElementIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'mecabSurfaces',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
-      mecabSurfacesLengthEqualTo(int length) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'mecabSurfaces',
-        length,
-        true,
-        length,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition> mecabSurfacesIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'mecabSurfaces',
-        0,
-        true,
-        0,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
-      mecabSurfacesIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'mecabSurfaces',
-        0,
-        false,
-        999999,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
-      mecabSurfacesLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'mecabSurfaces',
-        0,
-        true,
-        length,
-        include,
-      );
-    });
-  }
-
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
-      mecabSurfacesLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'mecabSurfaces',
-        length,
-        include,
-        999999,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
-      mecabSurfacesLengthBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'mecabSurfaces',
         lower,
         includeLower,
         upper,
@@ -1009,15 +1011,15 @@ extension TatoebaQuerySortThenBy
 
 extension TatoebaQueryWhereDistinct
     on QueryBuilder<Tatoeba, Tatoeba, QDistinct> {
-  QueryBuilder<Tatoeba, Tatoeba, QDistinct> distinctByMecabPos() {
+  QueryBuilder<Tatoeba, Tatoeba, QDistinct> distinctByMecabBaseForms() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'mecabPos');
+      return query.addDistinctBy(r'mecabBaseForms');
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QDistinct> distinctByMecabSurfaces() {
+  QueryBuilder<Tatoeba, Tatoeba, QDistinct> distinctByMecabPos() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'mecabSurfaces');
+      return query.addDistinctBy(r'mecabPos');
     });
   }
 
@@ -1037,16 +1039,16 @@ extension TatoebaQueryProperty
     });
   }
 
-  QueryBuilder<Tatoeba, List<String>, QQueryOperations> mecabPosProperty() {
+  QueryBuilder<Tatoeba, List<String>, QQueryOperations>
+      mecabBaseFormsProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'mecabPos');
+      return query.addPropertyName(r'mecabBaseForms');
     });
   }
 
-  QueryBuilder<Tatoeba, List<String>, QQueryOperations>
-      mecabSurfacesProperty() {
+  QueryBuilder<Tatoeba, List<String>, QQueryOperations> mecabPosProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'mecabSurfaces');
+      return query.addPropertyName(r'mecabPos');
     });
   }
 
