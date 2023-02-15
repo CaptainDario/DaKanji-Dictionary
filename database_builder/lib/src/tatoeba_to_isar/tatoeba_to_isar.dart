@@ -1,15 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:math';
 import 'package:path/path.dart' as p;
 import 'package:compute/compute.dart';
 
-import 'package:console_bars/console_bars.dart';
 import 'package:tuple/tuple.dart';
 import 'package:async/async.dart';
 import 'package:isar/isar.dart';
 
-import 'data_classes.dart';
 import 'package:database_builder/database_builder.dart';
 
 
@@ -239,6 +236,7 @@ Future<void> runMeCabOnJpnJson(String path) async {
     "python3", [p.join("lib", "src", "tatoeba_to_isar", "parse.py"), path], runInShell: true
   );
   await stdout.addStream(proc.stdout);
+  await stdout.addStream(proc.stderr);
 }
 
 /// Adds tatoeba examples to `isar`
@@ -251,13 +249,7 @@ Future<void> createTatoebaIsar(Isar isar) async{
     File(p.join(RepoPathManager.getOutputFilesPath(), "tatoeba_json", "jpn_mecab.json")).readAsStringSync(); 
   Map<String, dynamic> jpnMecabMap = jsonDecode(jpnMecabString);
   
-  FillingBar progressBar = FillingBar(
-    total: jpnMecabMap.length,
-    desc: "Adding tatoeba jp to isar",
-    time: true,
-    percentage: true,
-    width: 50
-  );
+  print("Adding tatoeba jp to isar");
   for (MapEntry example in jpnMecabMap.entries) {
     // convert dynamic json to List<List<String>> 
     // this list only includes the PoS elements that mecab outputs
@@ -279,9 +271,8 @@ Future<void> createTatoebaIsar(Isar isar) async{
         )
       )
     );
-    progressBar.increment();
   }
-  print("Added ${isar.tatoebas.countSync()} examples entries to isar");
+  print("Added ${isar.tatoebas.countSync()} example entries to isar");
 }
 
 /// Adds all translations from all .json files in `dirPath` to `isar`. If a 
@@ -313,7 +304,6 @@ Future<void> addTatoebaTranslationsJsonsToIsar(
     );
     if(added){
       langsAdded.add(language);
-      print("Added $language ($i/${files.length})");
     }
   }
   
@@ -338,7 +328,7 @@ Future<bool> addTatoebaTranslationsJsonToIsar(
 
   Map jsonMap = jsonDecode(jsonString);
   if(jsonMap.entries.length >= translationCountThreshold){
-    FillingBar progress = FillingBar(total: jsonMap.length, desc: "Adding $language to isar");
+    print("Adding $language to isar");
     for (var entry in jsonMap.entries) {
       // get the japanese sentence entry from ISAR
       Tatoeba example = isar.tatoebas.getSync(int.parse(entry.key))!;
@@ -352,10 +342,10 @@ Future<bool> addTatoebaTranslationsJsonToIsar(
         ];
         isar.tatoebas.putSync(example);
       });
-      progress.increment();
     }
     added = true;
   }
+  print("");
 
   return added;
 }
