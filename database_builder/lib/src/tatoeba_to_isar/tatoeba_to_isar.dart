@@ -328,7 +328,7 @@ Future<bool> addTatoebaTranslationsJsonToIsar(
 
   Map jsonMap = jsonDecode(jsonString);
   if(jsonMap.entries.length >= translationCountThreshold){
-    print("Adding $language to isar");
+    stdout.write("\rAdding $language to isar");
     for (var entry in jsonMap.entries) {
       // get the japanese sentence entry from ISAR
       Tatoeba example = isar.tatoebas.getSync(int.parse(entry.key))!;
