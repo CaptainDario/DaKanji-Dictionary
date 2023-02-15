@@ -345,7 +345,6 @@ Future<bool> addTatoebaTranslationsJsonToIsar(
     }
     added = true;
   }
-  print("");
 
   return added;
 }
