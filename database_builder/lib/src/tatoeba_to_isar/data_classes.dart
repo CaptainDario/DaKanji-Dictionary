@@ -38,6 +38,7 @@ class Tatoeba {
   /// The japanese sentence
   String sentence;
   /// A list containing all the baseforms that MeCab outputs for this sentence
+  @Index(type: IndexType.hashElements)
   List<String> mecabBaseForms;
   /// A List containing the mecab-PoS-output of this sentence (first four
   /// elements that mecab outputs)

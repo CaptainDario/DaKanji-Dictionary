@@ -13,5 +13,6 @@ export 'src/kanjiVG_to_Isar/kanjiVG_to_Isar.dart';
 export 'src/kanjidic2_to_Isar/data_classes.dart';
 export 'src/kanjidic2_to_Isar/kanjidic_to_Isar.dart';
 export 'src/tatoeba_to_isar/tatoeba_to_isar.dart';
+export 'src/tatoeba_to_isar/data_classes.dart';
 export 'src/utils/repo_path_manager.dart';
 export 'src/database_type.dart';

@@ -44,7 +44,21 @@ const TatoebaSchema = CollectionSchema(
   deserialize: _tatoebaDeserialize,
   deserializeProp: _tatoebaDeserializeProp,
   idName: r'id',
-  indexes: {},
+  indexes: {
+    r'mecabBaseForms': IndexSchema(
+      id: -8927370786215504289,
+      name: r'mecabBaseForms',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'mecabBaseForms',
+          type: IndexType.hashElements,
+          caseSensitive: true,
+        )
+      ],
+    )
+  },
   links: {},
   embeddedSchemas: {r'Translation': TranslationSchema},
   getId: _tatoebaGetId,
@@ -233,6 +247,51 @@ extension TatoebaQueryWhere on QueryBuilder<Tatoeba, Tatoeba, QWhereClause> {
         upper: upperId,
         includeUpper: includeUpper,
       ));
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterWhereClause>
+      mecabBaseFormsElementEqualTo(String mecabBaseFormsElement) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'mecabBaseForms',
+        value: [mecabBaseFormsElement],
+      ));
+    });
+  }
+
+  QueryBuilder<Tatoeba, Tatoeba, QAfterWhereClause>
+      mecabBaseFormsElementNotEqualTo(String mecabBaseFormsElement) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'mecabBaseForms',
+              lower: [],
+              upper: [mecabBaseFormsElement],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'mecabBaseForms',
+              lower: [mecabBaseFormsElement],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'mecabBaseForms',
+              lower: [mecabBaseFormsElement],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'mecabBaseForms',
+              lower: [],
+              upper: [mecabBaseFormsElement],
+              includeUpper: false,
+            ));
+      }
     });
   }
 }
