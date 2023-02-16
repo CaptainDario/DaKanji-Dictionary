@@ -13,28 +13,8 @@
             "justMyCode": true
         },
         {
-            "name": "dakanji_svg_viewer",
-            "cwd": "databaseBuilders\\dakanji_svg_viewer",
-            "request": "launch",
-            "type": "dart"
-        },
-        {
-            "name": "dakanji_svg_viewer (profile mode)",
-            "cwd": "databaseBuilders\\dakanji_svg_viewer",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "profile"
-        },
-        {
-            "name": "dakanji_svg_viewer (release mode)",
-            "cwd": "databaseBuilders\\dakanji_svg_viewer",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "release"
-        },
-        {
             "name": "database_builder",
-            "cwd": "databaseBuilders\\database_builder",
+            "cwd": "database_builder",
             "program": "example/database_builder_example.dart",
             "request": "launch",
             "type": "dart"
