@@ -22,12 +22,12 @@ void main() async {
   
   await jmEnamAndDictToIsar(isar, languagesToInclude);
   print("jmenam done");
-  //await kanjidic2ToIsar(isar);
+  await kanjidic2ToIsar(isar);
   print("kanjidic2 done");
-  //await kanjiVGToIsar(isar);
+  await kanjiVGToIsar(isar);
   print("kanjiVg done");
   
-  //await tatoebaToIsar(isar);
+  await tatoebaToIsar(isar);
   print("Tatoeba done");
 
   isar.close();

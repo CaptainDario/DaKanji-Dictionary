@@ -32,7 +32,7 @@ class Translation {
 /// To update the ISAR code run
 /// `dart pub run build_runner build --delete-conflicting-outputs`
 @collection
-class Tatoeba {
+class ExampleSentence {
   /// A unique id of this Kanji's entry in the database
   Id id;
   /// The japanese sentence
@@ -47,7 +47,7 @@ class Tatoeba {
   List<Translation> translations;
   
 
-  Tatoeba(
+  ExampleSentence(
     {
       required this.id,
       required this.sentence,

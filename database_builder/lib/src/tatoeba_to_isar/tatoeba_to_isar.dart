@@ -262,8 +262,8 @@ Future<void> createTatoebaIsar(Isar isar) async{
       }
     }
     isar.writeTxnSync(() => 
-      isar.tatoebas.putSync(
-        Tatoeba(
+      isar.exampleSentences.putSync(
+        ExampleSentence(
           id             : int.parse(example.key),
           sentence       : example.value[0],
           mecabBaseForms : List<String>.from(example.value[1]),
@@ -272,7 +272,7 @@ Future<void> createTatoebaIsar(Isar isar) async{
       )
     );
   }
-  print("Added ${isar.tatoebas.countSync()} example entries to isar");
+  print("Added ${isar.exampleSentences.countSync()} example entries to isar");
 }
 
 /// Adds all translations from all .json files in `dirPath` to `isar`. If a 
@@ -331,7 +331,7 @@ Future<bool> addTatoebaTranslationsJsonToIsar(
     stdout.write("\rAdding $language to isar");
     for (var entry in jsonMap.entries) {
       // get the japanese sentence entry from ISAR
-      Tatoeba example = isar.tatoebas.getSync(int.parse(entry.key))!;
+      ExampleSentence example = isar.exampleSentences.getSync(int.parse(entry.key))!;
 
       // update the entry, and write it back to ISAR
       isar.writeTxnSync(() {
@@ -340,7 +340,7 @@ Future<bool> addTatoebaTranslationsJsonToIsar(
           ...example.translations.where((e) => e.language != entry.key),
           Translation(language: language, sentence: entry.value)
         ];
-        isar.tatoebas.putSync(example);
+        isar.exampleSentences.putSync(example);
       });
     }
     added = true;

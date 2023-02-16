@@ -9,13 +9,13 @@ part of 'data_classes.dart';
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters
 
-extension GetTatoebaCollection on Isar {
-  IsarCollection<Tatoeba> get tatoebas => this.collection();
+extension GetExampleSentenceCollection on Isar {
+  IsarCollection<ExampleSentence> get exampleSentences => this.collection();
 }
 
-const TatoebaSchema = CollectionSchema(
-  name: r'Tatoeba',
-  id: -5039320624282641788,
+const ExampleSentenceSchema = CollectionSchema(
+  name: r'ExampleSentence',
+  id: 5737446170479935289,
   properties: {
     r'mecabBaseForms': PropertySchema(
       id: 0,
@@ -39,10 +39,10 @@ const TatoebaSchema = CollectionSchema(
       target: r'Translation',
     )
   },
-  estimateSize: _tatoebaEstimateSize,
-  serialize: _tatoebaSerialize,
-  deserialize: _tatoebaDeserialize,
-  deserializeProp: _tatoebaDeserializeProp,
+  estimateSize: _exampleSentenceEstimateSize,
+  serialize: _exampleSentenceSerialize,
+  deserialize: _exampleSentenceDeserialize,
+  deserializeProp: _exampleSentenceDeserializeProp,
   idName: r'id',
   indexes: {
     r'mecabBaseForms': IndexSchema(
@@ -61,14 +61,14 @@ const TatoebaSchema = CollectionSchema(
   },
   links: {},
   embeddedSchemas: {r'Translation': TranslationSchema},
-  getId: _tatoebaGetId,
-  getLinks: _tatoebaGetLinks,
-  attach: _tatoebaAttach,
+  getId: _exampleSentenceGetId,
+  getLinks: _exampleSentenceGetLinks,
+  attach: _exampleSentenceAttach,
   version: '3.0.5',
 );
 
-int _tatoebaEstimateSize(
-  Tatoeba object,
+int _exampleSentenceEstimateSize(
+  ExampleSentence object,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
@@ -99,8 +99,8 @@ int _tatoebaEstimateSize(
   return bytesCount;
 }
 
-void _tatoebaSerialize(
-  Tatoeba object,
+void _exampleSentenceSerialize(
+  ExampleSentence object,
   IsarWriter writer,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
@@ -116,13 +116,13 @@ void _tatoebaSerialize(
   );
 }
 
-Tatoeba _tatoebaDeserialize(
+ExampleSentence _exampleSentenceDeserialize(
   Id id,
   IsarReader reader,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = Tatoeba(
+  final object = ExampleSentence(
     id: id,
     mecabBaseForms: reader.readStringList(offsets[0]) ?? [],
     mecabPos: reader.readStringList(offsets[1]) ?? [],
@@ -138,7 +138,7 @@ Tatoeba _tatoebaDeserialize(
   return object;
 }
 
-P _tatoebaDeserializeProp<P>(
+P _exampleSentenceDeserializeProp<P>(
   IsarReader reader,
   int propertyId,
   int offset,
@@ -164,28 +164,32 @@ P _tatoebaDeserializeProp<P>(
   }
 }
 
-Id _tatoebaGetId(Tatoeba object) {
+Id _exampleSentenceGetId(ExampleSentence object) {
   return object.id;
 }
 
-List<IsarLinkBase<dynamic>> _tatoebaGetLinks(Tatoeba object) {
+List<IsarLinkBase<dynamic>> _exampleSentenceGetLinks(ExampleSentence object) {
   return [];
 }
 
-void _tatoebaAttach(IsarCollection<dynamic> col, Id id, Tatoeba object) {
+void _exampleSentenceAttach(
+    IsarCollection<dynamic> col, Id id, ExampleSentence object) {
   object.id = id;
 }
 
-extension TatoebaQueryWhereSort on QueryBuilder<Tatoeba, Tatoeba, QWhere> {
-  QueryBuilder<Tatoeba, Tatoeba, QAfterWhere> anyId() {
+extension ExampleSentenceQueryWhereSort
+    on QueryBuilder<ExampleSentence, ExampleSentence, QWhere> {
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
   }
 }
 
-extension TatoebaQueryWhere on QueryBuilder<Tatoeba, Tatoeba, QWhereClause> {
-  QueryBuilder<Tatoeba, Tatoeba, QAfterWhereClause> idEqualTo(Id id) {
+extension ExampleSentenceQueryWhere
+    on QueryBuilder<ExampleSentence, ExampleSentence, QWhereClause> {
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterWhereClause> idEqualTo(
+      Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
         lower: id,
@@ -194,7 +198,8 @@ extension TatoebaQueryWhere on QueryBuilder<Tatoeba, Tatoeba, QWhereClause> {
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterWhereClause> idNotEqualTo(Id id) {
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterWhereClause>
+      idNotEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -216,8 +221,8 @@ extension TatoebaQueryWhere on QueryBuilder<Tatoeba, Tatoeba, QWhereClause> {
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterWhereClause> idGreaterThan(Id id,
-      {bool include = false}) {
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterWhereClause>
+      idGreaterThan(Id id, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.greaterThan(lower: id, includeLower: include),
@@ -225,7 +230,8 @@ extension TatoebaQueryWhere on QueryBuilder<Tatoeba, Tatoeba, QWhereClause> {
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterWhereClause> idLessThan(Id id,
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterWhereClause> idLessThan(
+      Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -234,7 +240,7 @@ extension TatoebaQueryWhere on QueryBuilder<Tatoeba, Tatoeba, QWhereClause> {
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterWhereClause> idBetween(
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterWhereClause> idBetween(
     Id lowerId,
     Id upperId, {
     bool includeLower = true,
@@ -250,7 +256,7 @@ extension TatoebaQueryWhere on QueryBuilder<Tatoeba, Tatoeba, QWhereClause> {
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterWhereClause>
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterWhereClause>
       mecabBaseFormsElementEqualTo(String mecabBaseFormsElement) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
@@ -260,7 +266,7 @@ extension TatoebaQueryWhere on QueryBuilder<Tatoeba, Tatoeba, QWhereClause> {
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterWhereClause>
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterWhereClause>
       mecabBaseFormsElementNotEqualTo(String mecabBaseFormsElement) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
@@ -296,9 +302,10 @@ extension TatoebaQueryWhere on QueryBuilder<Tatoeba, Tatoeba, QWhereClause> {
   }
 }
 
-extension TatoebaQueryFilter
-    on QueryBuilder<Tatoeba, Tatoeba, QFilterCondition> {
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition> idEqualTo(Id value) {
+extension ExampleSentenceQueryFilter
+    on QueryBuilder<ExampleSentence, ExampleSentence, QFilterCondition> {
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
+      idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'id',
@@ -307,7 +314,8 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition> idGreaterThan(
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
+      idGreaterThan(
     Id value, {
     bool include = false,
   }) {
@@ -320,7 +328,8 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition> idLessThan(
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
+      idLessThan(
     Id value, {
     bool include = false,
   }) {
@@ -333,7 +342,8 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition> idBetween(
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
+      idBetween(
     Id lower,
     Id upper, {
     bool includeLower = true,
@@ -350,7 +360,7 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
       mecabBaseFormsElementEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -364,7 +374,7 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
       mecabBaseFormsElementGreaterThan(
     String value, {
     bool include = false,
@@ -380,7 +390,7 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
       mecabBaseFormsElementLessThan(
     String value, {
     bool include = false,
@@ -396,7 +406,7 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
       mecabBaseFormsElementBetween(
     String lower,
     String upper, {
@@ -416,7 +426,7 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
       mecabBaseFormsElementStartsWith(
     String value, {
     bool caseSensitive = true,
@@ -430,7 +440,7 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
       mecabBaseFormsElementEndsWith(
     String value, {
     bool caseSensitive = true,
@@ -444,7 +454,7 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
       mecabBaseFormsElementContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
@@ -455,7 +465,7 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
       mecabBaseFormsElementMatches(String pattern,
           {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -467,7 +477,7 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
       mecabBaseFormsElementIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -477,7 +487,7 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
       mecabBaseFormsElementIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
@@ -487,7 +497,7 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
       mecabBaseFormsLengthEqualTo(int length) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
@@ -500,7 +510,7 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
       mecabBaseFormsIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
@@ -513,7 +523,7 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
       mecabBaseFormsIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
@@ -526,7 +536,7 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
       mecabBaseFormsLengthLessThan(
     int length, {
     bool include = false,
@@ -542,7 +552,7 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
       mecabBaseFormsLengthGreaterThan(
     int length, {
     bool include = false,
@@ -558,7 +568,7 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
       mecabBaseFormsLengthBetween(
     int lower,
     int upper, {
@@ -576,7 +586,8 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition> mecabPosElementEqualTo(
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
+      mecabPosElementEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -589,7 +600,7 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
       mecabPosElementGreaterThan(
     String value, {
     bool include = false,
@@ -605,7 +616,8 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition> mecabPosElementLessThan(
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
+      mecabPosElementLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -620,7 +632,8 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition> mecabPosElementBetween(
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
+      mecabPosElementBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -639,7 +652,7 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
       mecabPosElementStartsWith(
     String value, {
     bool caseSensitive = true,
@@ -653,7 +666,8 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition> mecabPosElementEndsWith(
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
+      mecabPosElementEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -666,9 +680,8 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition> mecabPosElementContains(
-      String value,
-      {bool caseSensitive = true}) {
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
+      mecabPosElementContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
         property: r'mecabPos',
@@ -678,9 +691,8 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition> mecabPosElementMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
+      mecabPosElementMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
         property: r'mecabPos',
@@ -690,7 +702,7 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
       mecabPosElementIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -700,7 +712,7 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
       mecabPosElementIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
@@ -710,8 +722,8 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition> mecabPosLengthEqualTo(
-      int length) {
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
+      mecabPosLengthEqualTo(int length) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'mecabPos',
@@ -723,7 +735,8 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition> mecabPosIsEmpty() {
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
+      mecabPosIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'mecabPos',
@@ -735,7 +748,8 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition> mecabPosIsNotEmpty() {
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
+      mecabPosIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'mecabPos',
@@ -747,7 +761,8 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition> mecabPosLengthLessThan(
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
+      mecabPosLengthLessThan(
     int length, {
     bool include = false,
   }) {
@@ -762,7 +777,7 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
       mecabPosLengthGreaterThan(
     int length, {
     bool include = false,
@@ -778,7 +793,8 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition> mecabPosLengthBetween(
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
+      mecabPosLengthBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -795,7 +811,8 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition> sentenceEqualTo(
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
+      sentenceEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -808,7 +825,8 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition> sentenceGreaterThan(
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
+      sentenceGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -823,7 +841,8 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition> sentenceLessThan(
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
+      sentenceLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -838,7 +857,8 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition> sentenceBetween(
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
+      sentenceBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -857,7 +877,8 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition> sentenceStartsWith(
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
+      sentenceStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -870,7 +891,8 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition> sentenceEndsWith(
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
+      sentenceEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -883,9 +905,8 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition> sentenceContains(
-      String value,
-      {bool caseSensitive = true}) {
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
+      sentenceContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
         property: r'sentence',
@@ -895,9 +916,8 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition> sentenceMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
+      sentenceMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
         property: r'sentence',
@@ -907,7 +927,8 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition> sentenceIsEmpty() {
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
+      sentenceIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'sentence',
@@ -916,7 +937,8 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition> sentenceIsNotEmpty() {
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
+      sentenceIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'sentence',
@@ -925,7 +947,7 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
       translationsLengthEqualTo(int length) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
@@ -938,7 +960,8 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition> translationsIsEmpty() {
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
+      translationsIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'translations',
@@ -950,7 +973,7 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
       translationsIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
@@ -963,7 +986,7 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
       translationsLengthLessThan(
     int length, {
     bool include = false,
@@ -979,7 +1002,7 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
       translationsLengthGreaterThan(
     int length, {
     bool include = false,
@@ -995,7 +1018,7 @@ extension TatoebaQueryFilter
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition>
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
       translationsLengthBetween(
     int lower,
     int upper, {
@@ -1014,75 +1037,82 @@ extension TatoebaQueryFilter
   }
 }
 
-extension TatoebaQueryObject
-    on QueryBuilder<Tatoeba, Tatoeba, QFilterCondition> {
-  QueryBuilder<Tatoeba, Tatoeba, QAfterFilterCondition> translationsElement(
-      FilterQuery<Translation> q) {
+extension ExampleSentenceQueryObject
+    on QueryBuilder<ExampleSentence, ExampleSentence, QFilterCondition> {
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterFilterCondition>
+      translationsElement(FilterQuery<Translation> q) {
     return QueryBuilder.apply(this, (query) {
       return query.object(q, r'translations');
     });
   }
 }
 
-extension TatoebaQueryLinks
-    on QueryBuilder<Tatoeba, Tatoeba, QFilterCondition> {}
+extension ExampleSentenceQueryLinks
+    on QueryBuilder<ExampleSentence, ExampleSentence, QFilterCondition> {}
 
-extension TatoebaQuerySortBy on QueryBuilder<Tatoeba, Tatoeba, QSortBy> {
-  QueryBuilder<Tatoeba, Tatoeba, QAfterSortBy> sortBySentence() {
+extension ExampleSentenceQuerySortBy
+    on QueryBuilder<ExampleSentence, ExampleSentence, QSortBy> {
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterSortBy>
+      sortBySentence() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'sentence', Sort.asc);
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterSortBy> sortBySentenceDesc() {
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterSortBy>
+      sortBySentenceDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'sentence', Sort.desc);
     });
   }
 }
 
-extension TatoebaQuerySortThenBy
-    on QueryBuilder<Tatoeba, Tatoeba, QSortThenBy> {
-  QueryBuilder<Tatoeba, Tatoeba, QAfterSortBy> thenById() {
+extension ExampleSentenceQuerySortThenBy
+    on QueryBuilder<ExampleSentence, ExampleSentence, QSortThenBy> {
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterSortBy> thenByIdDesc() {
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterSortBy> thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterSortBy> thenBySentence() {
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterSortBy>
+      thenBySentence() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'sentence', Sort.asc);
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QAfterSortBy> thenBySentenceDesc() {
+  QueryBuilder<ExampleSentence, ExampleSentence, QAfterSortBy>
+      thenBySentenceDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'sentence', Sort.desc);
     });
   }
 }
 
-extension TatoebaQueryWhereDistinct
-    on QueryBuilder<Tatoeba, Tatoeba, QDistinct> {
-  QueryBuilder<Tatoeba, Tatoeba, QDistinct> distinctByMecabBaseForms() {
+extension ExampleSentenceQueryWhereDistinct
+    on QueryBuilder<ExampleSentence, ExampleSentence, QDistinct> {
+  QueryBuilder<ExampleSentence, ExampleSentence, QDistinct>
+      distinctByMecabBaseForms() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'mecabBaseForms');
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QDistinct> distinctByMecabPos() {
+  QueryBuilder<ExampleSentence, ExampleSentence, QDistinct>
+      distinctByMecabPos() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'mecabPos');
     });
   }
 
-  QueryBuilder<Tatoeba, Tatoeba, QDistinct> distinctBySentence(
+  QueryBuilder<ExampleSentence, ExampleSentence, QDistinct> distinctBySentence(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'sentence', caseSensitive: caseSensitive);
@@ -1090,34 +1120,35 @@ extension TatoebaQueryWhereDistinct
   }
 }
 
-extension TatoebaQueryProperty
-    on QueryBuilder<Tatoeba, Tatoeba, QQueryProperty> {
-  QueryBuilder<Tatoeba, int, QQueryOperations> idProperty() {
+extension ExampleSentenceQueryProperty
+    on QueryBuilder<ExampleSentence, ExampleSentence, QQueryProperty> {
+  QueryBuilder<ExampleSentence, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
     });
   }
 
-  QueryBuilder<Tatoeba, List<String>, QQueryOperations>
+  QueryBuilder<ExampleSentence, List<String>, QQueryOperations>
       mecabBaseFormsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'mecabBaseForms');
     });
   }
 
-  QueryBuilder<Tatoeba, List<String>, QQueryOperations> mecabPosProperty() {
+  QueryBuilder<ExampleSentence, List<String>, QQueryOperations>
+      mecabPosProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'mecabPos');
     });
   }
 
-  QueryBuilder<Tatoeba, String, QQueryOperations> sentenceProperty() {
+  QueryBuilder<ExampleSentence, String, QQueryOperations> sentenceProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'sentence');
     });
   }
 
-  QueryBuilder<Tatoeba, List<Translation>, QQueryOperations>
+  QueryBuilder<ExampleSentence, List<Translation>, QQueryOperations>
       translationsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'translations');
