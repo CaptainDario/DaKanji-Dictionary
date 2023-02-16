@@ -16,7 +16,9 @@ import 'package:database_builder/database_builder.dart';
 /// adds examples to the given `isar` database.
 /// `translationThreshold` indicates how many translations a language needs to 
 /// have to be added to `isar`.
-Future<void> tatoebaToIsar(Isar isar, {int translationCountThreshold = 100}) async {
+Future<void> tatoebaToIsar(Isar isar, List<String> iso639_3_toInclude,
+  {int translationCountThreshold = 100}) async
+{
 
   // convert tatoeba examples to json
   await tatoebaToJson();
@@ -27,7 +29,7 @@ Future<void> tatoebaToIsar(Isar isar, {int translationCountThreshold = 100}) asy
   // add all translations to the ISAR database
   await addTatoebaTranslationsJsonsToIsar(
     "${RepoPathManager.getOutputFilesPath()}/tatoeba_json/",
-    isar, translationCountThreshold
+    isar, translationCountThreshold, iso639_3ToInclude: iso639_3_toInclude
   );
 }
 
@@ -250,6 +252,7 @@ Future<void> createTatoebaIsar(Isar isar) async{
   Map<String, dynamic> jpnMecabMap = jsonDecode(jpnMecabString);
   
   print("Adding tatoeba jp to isar");
+  List<ExampleSentence> examples = [];
   for (MapEntry example in jpnMecabMap.entries) {
     // convert dynamic json to List<List<String>> 
     // this list only includes the PoS elements that mecab outputs
@@ -261,25 +264,30 @@ Future<void> createTatoebaIsar(Isar isar) async{
         }
       }
     }
-    isar.writeTxnSync(() => 
-      isar.exampleSentences.putSync(
-        ExampleSentence(
-          id             : int.parse(example.key),
-          sentence       : example.value[0],
-          mecabBaseForms : List<String>.from(example.value[1]),
-          mecabPos       : pos,
-        )
+    examples.add(
+      ExampleSentence(
+        id             : int.parse(example.key),
+        sentence       : example.value[0],
+        mecabBaseForms : List<String>.from(example.value[1]),
+        mecabPos       : pos,
       )
     );
   }
+    isar.writeTxnSync(() => 
+      isar.exampleSentences.putAllSync(examples)
+    );
+
   print("Added ${isar.exampleSentences.countSync()} example entries to isar");
 }
 
 /// Adds all translations from all .json files in `dirPath` to `isar`. If a 
 /// language has less than `translationCountThreshold` translations it is being
-/// ignored
+/// ignored.
+/// If `langsAdded` is not empty, only translations for the languages in this
+/// list are added.
 Future<void> addTatoebaTranslationsJsonsToIsar(
-  String dirPath, Isar isar, int translationCountThreshold) async 
+  String dirPath, Isar isar, int translationCountThreshold,
+  {List<String> iso639_3ToInclude = const []}) async 
 {
   List<String>langsAdded = [];
   
@@ -290,8 +298,10 @@ Future<void> addTatoebaTranslationsJsonsToIsar(
     .where((f) => 
       f.uri.pathSegments.last.length == 8 &&
       !f.uri.pathSegments.last.startsWith("jpn") &&
-      f.uri.pathSegments.last.endsWith(".json")
+      f.uri.pathSegments.last.endsWith(".json") &&
+      (iso639_3ToInclude.isEmpty || iso639_3ToInclude.contains(f.uri.pathSegments.last.replaceAll(".json", "")))
     ).toList();
+  print("${files.map((e) => e.uri.pathSegments.last.replaceAll(".json", ""))} will be added to isar");
 
   // iterate over the files
   for (int i = 0; i < files.length; i++) {
