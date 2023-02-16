@@ -111,18 +111,23 @@ Map<String, List<String>> jmListToMeaningJson(List<JMdict> wholeDict, String iso
   return dict;
 }
 
-/// Adds the language given by iso639_2T from all meanings in `meanings` to
-/// `isar`.
+/// Adds the language in `meaningsJson` to the Isar instance `isar` with the
+/// language code `iso639_2T`.
 /// 
 /// Caution: The Isar instance `isar` is expected to already have entries
 /// for each meaning that should be added.
-void addLanguageToJMIsar(Map<String, List<String>> meanings, String iso639_2T, Isar isar){
+void addLanguageToJMIsar(String meaningsJson, String iso639_2T, Isar isar){
+
+  // convert the json string to a Map<String, List<String>>
+  Map<int, List<String>> meanings =
+    (jsonDecode(meaningsJson) as Map<String, dynamic>)
+      .map((key, value) => MapEntry(int.parse(key), List<String>.from(value)));
 
   for (var entry in meanings.entries) {
-    JMdict jm = isar.jmdict.getSync(int.parse(entry.key))!;
+    JMdict jm = isar.jmdict.getSync(entry.key)!;
     // update meanings in isar with new language
     jm.meanings = [
-      ...jm.meanings,
+      ...jm.meanings.where((e) => e.language != iso639_2T).toList(),
       LanguageMeanings(language: iso639_2T, meanings: entry.value)
     ];
     isar.writeTxnSync(() {
@@ -135,7 +140,7 @@ void addLanguageToJMIsar(Map<String, List<String>> meanings, String iso639_2T, I
 jmdictJsonToIsar(List dict, Isar isar, List<String> translationIso639_2T){
   // get the whole dictionary as list of JMdict
   List<JMdict> wholeDict = dictJsonToList<JMdict>(dict);
-
+  
   /// create language specific jsons
   for (var iso in translationIso639_2T) {
     File(p.joinAll([RepoPathManager.getOutputFilesPath(), "jmdict_json", "$iso.json"]))
@@ -159,12 +164,15 @@ jmdictJsonToIsar(List dict, Isar isar, List<String> translationIso639_2T){
   isar.writeTxnSync(() {
      isar.jmdict.putAllSync(engDict, saveLinks: true);
   });
+  
 
   /// add selected languages
   stdout.write("Added: ");
   for (var iso in translationIso639_2T) {
-    Map<String, List<String>> dict = jmListToMeaningJson(wholeDict, iso);
-    addLanguageToJMIsar(dict, iso, isar);
+    addLanguageToJMIsar(
+      File(p.joinAll([RepoPathManager.getOutputFilesPath(), "jmdict_json", "$iso.json"])).readAsStringSync(),
+      iso, isar
+    );
     stdout.write("$iso, ");
   }
   stdout.write("\n");
