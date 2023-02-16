@@ -256,8 +256,9 @@ Future<void> createTatoebaIsar(Isar isar) async{
   for (MapEntry example in jpnMecabMap.entries) {
     // convert dynamic json to List<List<String>> 
     // this list only includes the PoS elements that mecab outputs
-    List<String> pos = [];
+    List<String> pos = [], baseForms = [];
     for (var i in example.value[2]) {
+      baseForms.add(i[6]);
       for (int j = 0; j < i.length; j++) {
         if(j < 4){
           pos.add(i[j]);
@@ -268,7 +269,7 @@ Future<void> createTatoebaIsar(Isar isar) async{
       ExampleSentence(
         id             : int.parse(example.key),
         sentence       : example.value[0],
-        mecabBaseForms : List<String>.from(example.value[1]),
+        mecabBaseForms : baseForms,
         mecabPos       : pos,
       )
     );
@@ -337,8 +338,9 @@ Future<bool> addTatoebaTranslationsJsonToIsar(
   bool added = false;
 
   Map jsonMap = jsonDecode(jsonString);
+  stdout.write("Adding: ");
   if(jsonMap.entries.length >= translationCountThreshold){
-    stdout.write("\rAdding $language to isar");
+    stdout.write("$language, ");
     for (var entry in jsonMap.entries) {
       // get the japanese sentence entry from ISAR
       ExampleSentence example = isar.exampleSentences.getSync(int.parse(entry.key))!;
