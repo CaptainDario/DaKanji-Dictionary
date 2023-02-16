@@ -20,7 +20,7 @@ void main() async {
     directory: RepoPathManager.getOutputFilesPath()
   );
   
-  //await jmEnamAndDictToIsar(isar, iso639_2ToInclude);
+  await jmEnamAndDictToIsar(isar, iso639_2ToInclude);
   print("jmenam done");
   await kanjidic2ToIsar(isar);
   print("kanjidic2 done");
