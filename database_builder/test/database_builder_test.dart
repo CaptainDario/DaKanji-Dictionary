@@ -38,7 +38,7 @@ void main() {
     });
 
     test('Jm_enam_and_dict', () async {
-      expect(await jmEnamAndDictToIsar(isar), false);
+      expect(await jmEnamAndDictToIsar(isar, ["eng"]), false);
     });
     test("kanjidic_to_objectbox", () async {
       expect(await kanjiVGToIsar(isar), false);

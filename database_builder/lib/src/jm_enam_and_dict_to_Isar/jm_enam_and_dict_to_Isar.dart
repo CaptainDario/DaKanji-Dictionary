@@ -5,8 +5,10 @@ import 'json_to_Isar.dart';
 import 'package:isar/isar.dart';
 import 'package:path/path.dart' as p;
 
-// Future<bool> main() async {
-Future<bool> jmEnamAndDictToIsar(Isar isar) async {
+/// Adds all entries of JMEnam and JMdict to the given [isar] database.
+/// translationIso639_2T is a list of iso639_2T codes of the languages that should
+/// be included in the database.
+Future<bool> jmEnamAndDictToIsar(Isar isar, List<String> translationIso639_2T) async {
   // final isar = await Isar.open([JMdictSchema, JMNEdictSchema]);
   if (isar.jmdict.countSync() <= 0) {
     print("Starting reading json for jmdict");
@@ -16,8 +18,9 @@ Future<bool> jmEnamAndDictToIsar(Isar isar) async {
             'jmdict.json'))
         .readAsString());
     print("Json read, putting objects to box");
-    jsonToIsar<JMdict>(jmdict, isar);
+    jsonToIsar<JMdict>(jmdict, isar, translationIso639_2T);
   }
+  /* CURRENTLY NOT USED IN APP
   if (isar.jmnedict.countSync() <= 0) {
     print("Starting reading json for jmnedict");
     List jmnedict = jsonDecode(await File(p.join(
@@ -27,7 +30,7 @@ Future<bool> jmEnamAndDictToIsar(Isar isar) async {
         .readAsString());
     print("Json read, putting objects to box");
     jsonToIsar<JMNEdict>(jmnedict, isar);
-  }
+  }*/
 
   // HERE IS THE EXAMPLE QUERY
   //isar.entrys.filter().meanings((LanguageMeanings) => LanguageMeanings.meaningsElementContains("city")).findFirstSync();
