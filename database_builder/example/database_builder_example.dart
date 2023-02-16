@@ -9,10 +9,9 @@ import 'package:database_builder/database_builder.dart';
 
 void main() async {
 
-  // all languages that should be included in the dict and examples (english
-  // cannot be excluded)
-  List<String> iso639_2ToInclude = ["ger", "rus", "chi", "ita", "fre", "spa", "pol"];
-  List<String> iso639_3oInclude  = ["deu", "rus", "zho", "ita", "fra", "spa", "pol"];
+  // all languages that should be included in the dict and examples
+  List<String> iso639_2ToInclude = ["eng", "ger", "rus", "chi", "ita", "fre", "spa", "pol"];
+  List<String> iso639_3oInclude  = ["eng", "deu", "rus", "zho", "ita", "fra", "spa", "pol"];
 
   final isar = await Isar.open(
     [JMdictSchema, JMNEdictSchema, Kanjidic2Schema, KanjiSVGSchema, ExampleSentenceSchema],

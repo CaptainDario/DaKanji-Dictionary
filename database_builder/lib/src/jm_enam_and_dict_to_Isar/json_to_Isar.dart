@@ -149,20 +149,20 @@ jmdictJsonToIsar(List dict, Isar isar, List<String> translationIso639_2T){
   }
 
   // extract the dictionary with ONLY english meanings
-  List<JMdict> engDict = []; Set<String> langs = {};
+  List<JMdict> emptyDict = []; Set<String> langs = {};
   for (JMdict jm in wholeDict) {
     for (LanguageMeanings meaning in jm.meanings) {
       if(meaning.language == "eng"){
-        engDict.add(jm..meanings = [meaning]);
+        emptyDict.add(jm..meanings = []);
       }
       langs.add(meaning.language!);
     }
   }
   print("Languages available in JM: $langs");
 
-  /// add english base dictionary to isar
+  /// add base dictionary to isar (has no translations)
   isar.writeTxnSync(() {
-     isar.jmdict.putAllSync(engDict, saveLinks: true);
+     isar.jmdict.putAllSync(emptyDict, saveLinks: true);
   });
   
 
