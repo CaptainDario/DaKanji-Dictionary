@@ -305,6 +305,7 @@ Future<void> addTatoebaTranslationsJsonsToIsar(
   print("${files.map((e) => e.uri.pathSegments.last.replaceAll(".json", ""))} will be added to isar");
 
   // iterate over the files
+  stdout.write("Adding: ");
   for (int i = 0; i < files.length; i++) {
     File file = File(files[i].path);
     String language = file.uri.pathSegments.last.replaceAll(".json", "");
@@ -338,7 +339,6 @@ Future<bool> addTatoebaTranslationsJsonToIsar(
   bool added = false;
 
   Map jsonMap = jsonDecode(jsonString);
-  stdout.write("Adding: ");
   if(jsonMap.entries.length >= translationCountThreshold){
     stdout.write("$language, ");
     for (var entry in jsonMap.entries) {
