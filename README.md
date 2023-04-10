@@ -51,6 +51,7 @@ Now Run those commands (your current python environment needs to have all requir
 * `python utils/database_entries_creator/dict_entry_details_creator/kanjidic2_loader.py`
 * `python utils/database_entries_creator/kanjivg_preprocessor/main.py`
 * `python utils/database_entries_creator/jmdict_enamdict_merger/main.py`
+* ASSURE MeCab is installed in your default python environment
 * `cd database_builder`
 * `dart run build_runner build`
 * `dart example/database_builder_example.dart`

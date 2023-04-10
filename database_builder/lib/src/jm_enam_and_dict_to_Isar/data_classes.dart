@@ -109,8 +109,8 @@ class JMdict_pre {
   List<String> kanjis;
   /// A list containing different versions how to read this entry
   List<String> readings;
-  /// This entry written using romaji
-  List<String> romaji;
+  /// The same as `readings` but written ONLY in hiragana
+  List<String> hiraganas;
   /// The part of speech elements of this entry
   List<String> partOfSpeech;
   /// The meanings of this entry and their translations
@@ -131,7 +131,7 @@ class JMdict_pre {
       required this.id,
       required this.kanjis,
       required this.readings,
-      required this.romaji,
+      required this.hiraganas,
       required this.partOfSpeech,
       required this.meanings,
       required this.frequency,

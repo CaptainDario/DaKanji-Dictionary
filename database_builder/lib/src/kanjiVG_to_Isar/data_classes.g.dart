@@ -76,7 +76,7 @@ const KanjiSVGSchema = CollectionSchema(
   getId: _kanjiSVGGetId,
   getLinks: _kanjiSVGGetLinks,
   attach: _kanjiSVGAttach,
-  version: '3.0.6-dev.0',
+  version: '3.0.5',
 );
 
 int _kanjiSVGEstimateSize(
