@@ -63,8 +63,8 @@ class JMdict {
   /// A list containing different versions how to read this entry
   @Index(type: IndexType.value)
   List<String> readings;
-  /// This entry written using romaji
-  List<String> romaji;
+  /// A list containing different versions how to read this entry ONLY using Hiragana
+  List<String> hiraganas;
   /// The part of speech elements of this entry
   List<String> partOfSpeech;
   /// The meanings of this entry and their translations
@@ -85,7 +85,7 @@ class JMdict {
       required this.id,
       required this.kanjis,
       required this.readings,
-      required this.romaji,
+      required this.hiraganas,
       required this.partOfSpeech,
       required this.meanings,
       required this.frequency,

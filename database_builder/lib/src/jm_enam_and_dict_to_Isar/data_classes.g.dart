@@ -1481,35 +1481,35 @@ const JMdictSchema = CollectionSchema(
       name: r'frequency',
       type: IsarType.float,
     ),
-    r'kanjis': PropertySchema(
+    r'hiraganas': PropertySchema(
       id: 3,
+      name: r'hiraganas',
+      type: IsarType.stringList,
+    ),
+    r'kanjis': PropertySchema(
+      id: 4,
       name: r'kanjis',
       type: IsarType.stringList,
     ),
     r'meanings': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'meanings',
       type: IsarType.objectList,
       target: r'LanguageMeanings',
     ),
     r'partOfSpeech': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'partOfSpeech',
       type: IsarType.stringList,
     ),
     r're_inf': PropertySchema(
-      id: 6,
+      id: 7,
       name: r're_inf',
       type: IsarType.stringList,
     ),
     r'readings': PropertySchema(
-      id: 7,
-      name: r'readings',
-      type: IsarType.stringList,
-    ),
-    r'romaji': PropertySchema(
       id: 8,
-      name: r'romaji',
+      name: r'readings',
       type: IsarType.stringList,
     ),
     r'xref': PropertySchema(
@@ -1579,6 +1579,13 @@ int _jMdictEstimateSize(
       bytesCount += value.length * 3;
     }
   }
+  bytesCount += 3 + object.hiraganas.length * 3;
+  {
+    for (var i = 0; i < object.hiraganas.length; i++) {
+      final value = object.hiraganas[i];
+      bytesCount += value.length * 3;
+    }
+  }
   bytesCount += 3 + object.kanjis.length * 3;
   {
     for (var i = 0; i < object.kanjis.length; i++) {
@@ -1616,13 +1623,6 @@ int _jMdictEstimateSize(
       bytesCount += value.length * 3;
     }
   }
-  bytesCount += 3 + object.romaji.length * 3;
-  {
-    for (var i = 0; i < object.romaji.length; i++) {
-      final value = object.romaji[i];
-      bytesCount += value.length * 3;
-    }
-  }
   bytesCount += 3 + object.xref.length * 8;
   return bytesCount;
 }
@@ -1636,17 +1636,17 @@ void _jMdictSerialize(
   writer.writeStringList(offsets[0], object.dialect);
   writer.writeStringList(offsets[1], object.field);
   writer.writeFloat(offsets[2], object.frequency);
-  writer.writeStringList(offsets[3], object.kanjis);
+  writer.writeStringList(offsets[3], object.hiraganas);
+  writer.writeStringList(offsets[4], object.kanjis);
   writer.writeObjectList<LanguageMeanings>(
-    offsets[4],
+    offsets[5],
     allOffsets,
     LanguageMeaningsSchema.serialize,
     object.meanings,
   );
-  writer.writeStringList(offsets[5], object.partOfSpeech);
-  writer.writeStringList(offsets[6], object.re_inf);
-  writer.writeStringList(offsets[7], object.readings);
-  writer.writeStringList(offsets[8], object.romaji);
+  writer.writeStringList(offsets[6], object.partOfSpeech);
+  writer.writeStringList(offsets[7], object.re_inf);
+  writer.writeStringList(offsets[8], object.readings);
   writer.writeLongList(offsets[9], object.xref);
 }
 
@@ -1660,19 +1660,19 @@ JMdict _jMdictDeserialize(
     dialect: reader.readStringList(offsets[0]) ?? [],
     field: reader.readStringList(offsets[1]) ?? [],
     frequency: reader.readFloat(offsets[2]),
+    hiraganas: reader.readStringList(offsets[3]) ?? [],
     id: id,
-    kanjis: reader.readStringList(offsets[3]) ?? [],
+    kanjis: reader.readStringList(offsets[4]) ?? [],
     meanings: reader.readObjectList<LanguageMeanings>(
-          offsets[4],
+          offsets[5],
           LanguageMeaningsSchema.deserialize,
           allOffsets,
           LanguageMeanings(),
         ) ??
         [],
-    partOfSpeech: reader.readStringList(offsets[5]) ?? [],
-    re_inf: reader.readStringList(offsets[6]) ?? [],
-    readings: reader.readStringList(offsets[7]) ?? [],
-    romaji: reader.readStringList(offsets[8]) ?? [],
+    partOfSpeech: reader.readStringList(offsets[6]) ?? [],
+    re_inf: reader.readStringList(offsets[7]) ?? [],
+    readings: reader.readStringList(offsets[8]) ?? [],
     xref: reader.readLongList(offsets[9]) ?? [],
   );
   return object;
@@ -1694,6 +1694,8 @@ P _jMdictDeserializeProp<P>(
     case 3:
       return (reader.readStringList(offset) ?? []) as P;
     case 4:
+      return (reader.readStringList(offset) ?? []) as P;
+    case 5:
       return (reader.readObjectList<LanguageMeanings>(
             offset,
             LanguageMeaningsSchema.deserialize,
@@ -1701,8 +1703,6 @@ P _jMdictDeserializeProp<P>(
             LanguageMeanings(),
           ) ??
           []) as P;
-    case 5:
-      return (reader.readStringList(offset) ?? []) as P;
     case 6:
       return (reader.readStringList(offset) ?? []) as P;
     case 7:
@@ -2580,6 +2580,225 @@ extension JMdictQueryFilter on QueryBuilder<JMdict, JMdict, QFilterCondition> {
         includeUpper: includeUpper,
         epsilon: epsilon,
       ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> hiraganasElementEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'hiraganas',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition>
+      hiraganasElementGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'hiraganas',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> hiraganasElementLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'hiraganas',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> hiraganasElementBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'hiraganas',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition>
+      hiraganasElementStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'hiraganas',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> hiraganasElementEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'hiraganas',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> hiraganasElementContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'hiraganas',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> hiraganasElementMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'hiraganas',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition>
+      hiraganasElementIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'hiraganas',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition>
+      hiraganasElementIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'hiraganas',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> hiraganasLengthEqualTo(
+      int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'hiraganas',
+        length,
+        true,
+        length,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> hiraganasIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'hiraganas',
+        0,
+        true,
+        0,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> hiraganasIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'hiraganas',
+        0,
+        false,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> hiraganasLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'hiraganas',
+        0,
+        true,
+        length,
+        include,
+      );
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition>
+      hiraganasLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'hiraganas',
+        length,
+        include,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> hiraganasLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'hiraganas',
+        lower,
+        includeLower,
+        upper,
+        includeUpper,
+      );
     });
   }
 
@@ -3587,221 +3806,6 @@ extension JMdictQueryFilter on QueryBuilder<JMdict, JMdict, QFilterCondition> {
     });
   }
 
-  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> romajiElementEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'romaji',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> romajiElementGreaterThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'romaji',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> romajiElementLessThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'romaji',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> romajiElementBetween(
-    String lower,
-    String upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'romaji',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> romajiElementStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'romaji',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> romajiElementEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'romaji',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> romajiElementContains(
-      String value,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'romaji',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> romajiElementMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'romaji',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> romajiElementIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'romaji',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<JMdict, JMdict, QAfterFilterCondition>
-      romajiElementIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'romaji',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> romajiLengthEqualTo(
-      int length) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'romaji',
-        length,
-        true,
-        length,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> romajiIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'romaji',
-        0,
-        true,
-        0,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> romajiIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'romaji',
-        0,
-        false,
-        999999,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> romajiLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'romaji',
-        0,
-        true,
-        length,
-        include,
-      );
-    });
-  }
-
-  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> romajiLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'romaji',
-        length,
-        include,
-        999999,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> romajiLengthBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'romaji',
-        lower,
-        includeLower,
-        upper,
-        includeUpper,
-      );
-    });
-  }
-
   QueryBuilder<JMdict, JMdict, QAfterFilterCondition> xrefElementEqualTo(
       int value) {
     return QueryBuilder.apply(this, (query) {
@@ -4010,6 +4014,12 @@ extension JMdictQueryWhereDistinct on QueryBuilder<JMdict, JMdict, QDistinct> {
     });
   }
 
+  QueryBuilder<JMdict, JMdict, QDistinct> distinctByHiraganas() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'hiraganas');
+    });
+  }
+
   QueryBuilder<JMdict, JMdict, QDistinct> distinctByKanjis() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'kanjis');
@@ -4031,12 +4041,6 @@ extension JMdictQueryWhereDistinct on QueryBuilder<JMdict, JMdict, QDistinct> {
   QueryBuilder<JMdict, JMdict, QDistinct> distinctByReadings() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'readings');
-    });
-  }
-
-  QueryBuilder<JMdict, JMdict, QDistinct> distinctByRomaji() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'romaji');
     });
   }
 
@@ -4072,6 +4076,12 @@ extension JMdictQueryProperty on QueryBuilder<JMdict, JMdict, QQueryProperty> {
     });
   }
 
+  QueryBuilder<JMdict, List<String>, QQueryOperations> hiraganasProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'hiraganas');
+    });
+  }
+
   QueryBuilder<JMdict, List<String>, QQueryOperations> kanjisProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'kanjis');
@@ -4100,12 +4110,6 @@ extension JMdictQueryProperty on QueryBuilder<JMdict, JMdict, QQueryProperty> {
   QueryBuilder<JMdict, List<String>, QQueryOperations> readingsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'readings');
-    });
-  }
-
-  QueryBuilder<JMdict, List<String>, QQueryOperations> romajiProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'romaji');
     });
   }
 

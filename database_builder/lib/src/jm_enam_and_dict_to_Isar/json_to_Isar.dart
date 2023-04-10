@@ -23,7 +23,7 @@ List<JMdict> resolveReferences(List<JMdict_pre> items, Map map) {
         id: item.id,
         kanjis: item.kanjis,
         meanings: item.meanings,
-        romaji: item.hiraganas,
+        hiraganas: item.hiraganas,
         partOfSpeech: item.partOfSpeech,
         readings: item.readings,
         frequency: item.frequency,
