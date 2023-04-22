@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from dataclasses import dataclass, field
 # import xml.etree.ElementTree as ET
 import lxml.etree as ET
