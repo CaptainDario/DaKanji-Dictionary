@@ -52,93 +52,107 @@ class JMNEdict {
   }
 }
 
-/// Class to store the most important bits of a JMDict database entry. 
+
+/// Class to store the most important bits of a JMDict database entry.
+/// 
+/// This class is used to store the data in the Isar database.
+/// Rebuild isar auto generated code with
+/// `dart run build_runner build --delete-conflicting-outputs`
 @Collection(accessor: "jmdict")
 class JMdict {
   /// A unique ID identifying this JMDict entry
   Id id;
-  /// A list containing different versions how to write this entry using Kanji
-  @Index(type: IndexType.value)
-  List<String> kanjis;
-  /// A list containing different versions how to read this entry
-  @Index(type: IndexType.value)
-  List<String> readings;
-  /// A list containing different versions how to read this entry ONLY using Hiragana
-  List<String> hiraganas;
-  /// The part of speech elements of this entry
-  List<String> partOfSpeech;
-  /// The meanings of this entry and their translations
-  List<LanguageMeanings> meanings = <LanguageMeanings>[];
+
   /// The frequency of this entry (follows a zipf distribution)
   float frequency;
 
-  List<String> field;
-  List<String> dialect;
-  List<Id> xref;
-  List<String> re_inf;
-    // fld: list[str] = field(default_factory=list)
-    // dial: list[str] = field(default_factory=list)
-    // xref: list[int] = field(default_factory=list)
-    // re_inf: list[int] = field(default_factory=list)
+  /// A list containing different versions how to write this entry using Kanji
+  @Index(type: IndexType.value)
+  List<String> kanjis;
+  /// Indicates unusual aspects of the kanji used in the entry
+  /// 
+  /// Notes: matches `kanjis` in length, if not null
+  List<String?>? kanjiInfo;
+
+  /// A list containing different versions how to read this entry
+  /// 
+  /// Note: meach `kanjis` in length
+  List<String> readings;
+  /// used to indicate some unusual aspect of the reading.
+  /// 
+  /// Note: matches `readings` in length, if not null
+  List<String?>? readingInfo;
+  /// Indicates that the reading only applies to the kanji of `kanjis`
+  /// 
+  /// Note: matches `readings` in length, if not null
+  List<String?>? readingRestriction;
+  /// Contains different versions how to read this entry using ONLY Hiragana
+  @Index(type: IndexType.value)
+  List<String> hiraganas;
+
+  /// The meanings of this entry and their translations
+  List<LanguageMeanings> meanings = <LanguageMeanings>[];
+  /// Which kanji elements are associated with this sense
+  /// 
+  /// Note: matches `meanings` in length, if not null
+  List<String?>? senseKanjiTarget;
+  /// Which reading elements are associated with this sense
+  /// 
+  /// Note: matches `meanings` in length, if not null
+  List<String?>? senseReadingTarget;
+  /// Other entries that are related to this sense
+  /// 
+  /// Note: matches `meanings` in length, if not null
+  List<String?>? xref;
+  /// Part-of-speech information about this sense
+  /// 
+  /// Note: matches `meanings` in length, if not null
+  List<String?>? partOfSpeech;
+  /// Field of application of the entry/sense
+  /// 
+  /// Note: matches `meanings` in length, if not null
+  List<String?>? field;
+  /// Indicates the source language(s) of a loan-word/gairaigo
+  /// 
+  /// Note: matches `meanings` in length, if not null
+  List<String?>? source;
+  /// Indicates the dialect in which the entry is used
+  /// 
+  /// Note: matches `meanings` in length, if not null
+  List<String?>? dialect;
+  /// Miscellaneous information
+  /// 
+  /// Note: matches `meanings` in length, if not null
+  List<String?>? senseInfo;
+  
+
   JMdict(
     {
       required this.id,
-      required this.kanjis,
-      required this.readings,
-      required this.hiraganas,
-      required this.partOfSpeech,
-      required this.meanings,
+
+      // general
       required this.frequency,
-      required this.field,
-      required this.dialect,
-      required this.xref,
-      required this.re_inf
-    }
-  );
 
-  @override
-  String toString() {
-    return '$kanjis: $readings';
-  }
-}
-
-class JMdict_pre {
-  /// A unique ID identifying this JMDict entry
-  Id id;
-  /// A list containing different versions how to write this entry using Kanji
-  List<String> kanjis;
-  /// A list containing different versions how to read this entry
-  List<String> readings;
-  /// The same as `readings` but written ONLY in hiragana
-  List<String> hiraganas;
-  /// The part of speech elements of this entry
-  List<String> partOfSpeech;
-  /// The meanings of this entry and their translations
-  List<LanguageMeanings> meanings = <LanguageMeanings>[];
-  /// The frequency of this entry (follows a zipf distribution)
-  float frequency;
-
-  List<String> field;
-  List<String> dialect;
-  List<String> xref;
-  List<String> re_inf;
-    // fld: list[str] = field(default_factory=list)
-    // dial: list[str] = field(default_factory=list)
-    // xref: list[int] = field(default_factory=list)
-    // re_inf: list[int] = field(default_factory=list)
-  JMdict_pre(
-    {
-      required this.id,
+      // Kanji (k_ele)
       required this.kanjis,
+      required this.kanjiInfo,
+
+      // Readings (r_ele)
       required this.readings,
+      required this.readingInfo,
+      required this.readingRestriction,
       required this.hiraganas,
-      required this.partOfSpeech,
+
+      // translations (sense)
       required this.meanings,
-      required this.frequency,
-      required this.field,
-      required this.dialect,
+      required this.senseKanjiTarget,
+      required this.senseReadingTarget,
       required this.xref,
-      required this.re_inf
+      required this.partOfSpeech,
+      required this.field,
+      required this.source,
+      required this.dialect,
+      required this.senseInfo,
     }
   );
 
