@@ -12,14 +12,19 @@ Future<bool> jmEnamAndDictToIsar(Isar isar, List<String> translationIso639_2T) a
   // final isar = await Isar.open([JMdictSchema, JMNEdictSchema]);
   if (isar.jmdict.countSync() <= 0) {
     print("Starting reading json for jmdict");
-    List jmdict = jsonDecode(await File(p.join(
-            RepoPathManager.getPartiallyProcessedFilesPath(),
-            'JMdict',
-            'jmdict.json'))
-        .readAsString());
+    List jmdict = jsonDecode(
+      await File(
+        p.join(
+          RepoPathManager.getPartiallyProcessedFilesPath(),
+          'JMdict',
+          'jmdict.json'
+        )
+      ).readAsString());
     print("Json read, putting objects to box");
+
     jsonToIsar<JMdict>(jmdict, isar, translationIso639_2T);
   }
+
   /* CURRENTLY NOT USED IN APP
   if (isar.jmnedict.countSync() <= 0) {
     print("Starting reading json for jmnedict");
@@ -38,5 +43,5 @@ Future<bool> jmEnamAndDictToIsar(Isar isar, List<String> translationIso639_2T) a
   // isar.jmdict.filter().meaningsElement((LanguageMeanings) => LanguageMeanings.meaningsElementStartsWith("eat")) // good - it returns eat
   //                     .and().meaningsElement((q) => q.languageEqualTo("ger")).findFirstSync();
 
-  return Future<bool>.value(false);
+  return true;
 }
