@@ -10,34 +10,33 @@ import 'package:isar/isar.dart';
 
 
 
-List<JMdict> resolveReferences(List<JMdict_pre> items, Map map) {
-  List<JMdict> jmdict = <JMdict>[];
+/// Iterates over all entries in the given `items` and resolves the ID
+/// references in the fields `xref`
+void resolveReferences(List<JMdict> items, Map map) {
+
   for (var item in items) {
-    List<Id> xrefs = <Id>[];
-    List<Id> re_infs = <Id>[];
-    for (var xref in item.xref) {
-      xref = xref.split("・")[0];
-      xrefs.add(map[xref]);
+    if(item.xref == null) continue;
+
+    List<String?> originalXrefs = item.xref!; // avoid concurrent modification
+    item.xref = [];
+    for (String? xrefs in originalXrefs) {
+      if (xrefs == null) continue;
+
+      List<String> parsedXrefs = <String>[];
+      for (String subXref in  xrefs.split("⬜")){
+        String xref = subXref.split("・")[0];
+        parsedXrefs.add(map[xref].toString());
+      }
+
+      item.xref!.add(parsedXrefs.join("⬜"));
     }
-    jmdict.add(JMdict(
-        id: item.id,
-        kanjis: item.kanjis,
-        meanings: item.meanings,
-        hiraganas: item.hiraganas,
-        partOfSpeech: item.partOfSpeech,
-        readings: item.readings,
-        frequency: item.frequency,
-        field: item.field,
-        dialect: item.dialect,
-        xref: xrefs,
-        re_inf: item.re_inf));
   }
-  return jmdict;
+
 }
 
 List<T> dictJsonToList<T>(List dict) {
   List<T> entries = <T>[];
-  List<JMdict_pre> jmdictPre = <JMdict_pre>[];
+  List<JMdict> jmdict = <JMdict>[];
   Map<String, Id> map = HashMap();
   KanaKit k = KanaKit();
 
@@ -64,7 +63,9 @@ List<T> dictJsonToList<T>(List dict) {
           meanings: meanings,
           partOfSpeech: partOfSpeech,
           readings: readings) as T);
-    } else if (T == JMdict) {
+    }
+    else if (T == JMdict) {
+      // add the readings / kanjis to the map to later resolve the references
       kanjis.forEach((element) {
         map[element] = id;
       });
@@ -72,24 +73,45 @@ List<T> dictJsonToList<T>(List dict) {
         map[element] = id;
       });
 
-      jmdictPre.add(JMdict_pre(
+      JMdict jm = JMdict(
         id: id,
-        kanjis: kanjis,
-        meanings: meanings,
-        hiraganas: readings.map((e) => k.toHiragana(e)).toList(),
-        partOfSpeech: partOfSpeech,
-        readings: readings,
+
         frequency: jsonEntry["frequency"],
-        field: List<String>.from(jsonEntry["fld"]),
-        dialect: List<String>.from(jsonEntry["dial"]),
-        xref: List<String>.from(jsonEntry["xref"]),
-        re_inf: List<String>.from(jsonEntry["re_inf"])
-      ));
+
+        kanjis: kanjis,
+        kanjiInfo: jsonEntry["ke_inf"],
+
+        readings: readings,
+        readingInfo: (jsonEntry["re_inf"]).any((e) => e != null) ?
+          List<String?>.from(jsonEntry["re_inf"]) : null,
+        readingRestriction: jsonEntry["re_restr"].any((e) => e != null) ?
+          List<String?>.from(jsonEntry["re_restr"]) : null,
+        hiraganas: readings.map((e) => k.toHiragana(e)).toList(),
+        
+        meanings: meanings,
+        senseKanjiTarget: jsonEntry["stagk"].any((e) => e != null) ?
+          List<String?>.from(jsonEntry["stagk"]) : null,
+        senseReadingTarget: jsonEntry["stagr"].any((e) => e != null) ?
+          List<String?>.from(jsonEntry["stagr"]) : null,
+        partOfSpeech: jsonEntry["pos"].any((e) => e != null) ?
+          List<String?>.from(jsonEntry["pos"]) : null,
+        field: jsonEntry["fld"].any((e) => e != null) ?
+          List<String?>.from(jsonEntry["fld"]) : null,
+        source: jsonEntry["lsource"].any((e) => e != null) ?
+          List<String?>.from(jsonEntry["lsource"]) : null,
+        dialect: jsonEntry["dial"].any((e) => e != null) ?
+          List<String?>.from(jsonEntry["dial"]) : null,
+        senseInfo: jsonEntry["s_inf"].any((e) => e != null) ?
+          List<String?>.from(jsonEntry["s_inf"]) : null,
+        xref: (jsonEntry["xref"]).any((e) => e != null) ?
+          List<String?>.from(jsonEntry["xref"]) : null,
+      );
+      jmdict.add(jm);
     }
   }
 
   if (T == JMdict){
-    entries = resolveReferences(jmdictPre, map) as List<T>;
+    resolveReferences(jmdict, map);
   }
   return entries;
 }
@@ -137,7 +159,7 @@ void addLanguageToJMIsar(String meaningsJson, String iso639_2T, Isar isar){
 
 }
 
-jmdictJsonToIsar(List dict, Isar isar, List<String> translationIso639_2T){
+void jmdictJsonToIsar(List dict, Isar isar, List<String> translationIso639_2T){
   // get the whole dictionary as list of JMdict
   List<JMdict> wholeDict = dictJsonToList<JMdict>(dict);
   
@@ -170,7 +192,11 @@ jmdictJsonToIsar(List dict, Isar isar, List<String> translationIso639_2T){
   stdout.write("Added: ");
   for (var iso in translationIso639_2T) {
     addLanguageToJMIsar(
-      File(p.joinAll([RepoPathManager.getOutputFilesPath(), "jmdict_json", "$iso.json"])).readAsStringSync(),
+      File(
+        p.joinAll([
+          RepoPathManager.getOutputFilesPath(), "jmdict_json", "$iso.json"
+        ])
+      ).readAsStringSync(),
       iso, isar
     );
     stdout.write("$iso, ");
