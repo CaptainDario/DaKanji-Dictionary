@@ -22,10 +22,20 @@ class Entry:
     ent_seq: int = 0
     kanjis: list[str] = field(default_factory=list)
     readings: list[str] = field(default_factory=list)
-    part_of_speech: set[str] = field(default_factory=set)
+    part_of_speech: list[str] = field(default_factory=list)
     meanings: list[LanguageMeanings] = field(default_factory=list)
 
     def parse_meaning(self, language, meaning):
+        """ Parses the given meaning with the language `language` into a LanguageMeanings
+            object and appends it to the meanings list.
+        
+        Warning: Deprecated for JMDict
+
+        Args:
+            language : The langauge of the meaning
+            meaning  : The meaning itself
+        """
+
         for language_meaning in self.meanings:
             if language_meaning.language == language:
                 language_meaning.append_meaning(meaning)
