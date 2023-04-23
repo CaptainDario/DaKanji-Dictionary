@@ -1,4 +1,5 @@
 from __future__ import annotations
+import sys
 
 from dataclasses import dataclass, field
 # import xml.etree.ElementTree as ET
@@ -47,12 +48,31 @@ class Entry:
 
 @dataclass
 class JMDictEntry(Entry):
+
+    # general elements
     frequency: float = 0.0  # 0.0 - smallest, 10.0 - highest
-    fld: list[str] = field(default_factory=list)
-    dial: list[str] = field(default_factory=list)
-    xref: list[int] = field(default_factory=list)
+
+    # kanji related elements
+    k_inf: list[str] = field(default_factory=list)
+
+    # reading related elements
+    re_restr: list[int] = field(default_factory=list) # index of re_restr of k_ele
     re_inf: list[int] = field(default_factory=list)
 
+    # senses related elements
+    stagk:   list[int] = field(default_factory=list)
+    stagr:   list[int] = field(default_factory=list)
+    xref:    list[int] = field(default_factory=list)
+    ant:     list[int] = field(default_factory=list)
+    pos:     list[str] = field(default_factory=list)
+    fld:     list[str] = field(default_factory=list)
+    misc:    list[str] = field(default_factory=list)
+    lsource: list[str] = field(default_factory=list)
+    dial:    list[str] = field(default_factory=list)
+    pri:     list[str] = field(default_factory=list)
+    s_inf:   list[str] = field(default_factory=list)
+
+    
 
 class JMDictProcessor:
     def __init__(self, file) -> None:
@@ -65,33 +85,76 @@ class JMDictProcessor:
             result_entry = JMDictEntry()
             for ent_seq in entry.iter("ent_seq"):
                 result_entry.ent_seq = int(ent_seq.text)
-            for kanji in entry.iter('keb'):
-                result_entry.kanjis.append(kanji.text)
-                result_entry.frequency = max(
-                    result_entry.frequency, wordfreq.zipf_frequency(kanji.text, 'ja'))
 
-            for reading in entry.iter('reb'):
-                result_entry.readings.append(reading.text)
+            # kanji /reading related elements
+            for k_ele in entry.iter('k_ele'):
+
+                keb = k_ele.find('keb').text
+                result_entry.kanjis.append(keb)
+                result_entry.frequency = max(
+                    result_entry.frequency,
+                    wordfreq.zipf_frequency(keb, 'ja')
+                )
+
+                k_inf = list(map(lambda k : k.text, k_ele.iter('ke_inf')))
+                result_entry.k_inf.append(k_inf)
+
+            # reading related elements
+            for r_ele in entry.iter('r_ele'):
+                result_entry.readings.append(r_ele.find('reb').text)
                 if len(result_entry.kanjis) <= 0:
                     result_entry.frequency = max(
-                        result_entry.frequency, wordfreq.zipf_frequency(reading.text, 'ja'))
+                        result_entry.frequency, wordfreq.zipf_frequency(r_ele.find('reb').text, 'ja'))
+                    
+                re_inf = list(map(lambda r : r.text, r_ele.iter('re_inf')))
+                result_entry.re_inf.append(None if re_inf == [] else "⬜".join(re_inf))
 
+                re_restr = list(map(lambda r : r.text, r_ele.iter('re_restr')))
+                result_entry.re_restr.append(None if re_restr == [] else "⬜".join(re_restr))
+
+            # senses related elements
+            meanings_map = {}
             for sense in entry.iter('sense'):
-                for part in sense:
-                    if part.tag == "pos":
-                        result_entry.part_of_speech.add(part.text)
-                    if part.tag == "gloss":
-                        if part.text is not None:
-                            result_entry.parse_meaning(
-                                part.get('{http://www.w3.org/XML/1998/namespace}lang'), part.text)
-            for fld in entry.iter("field"):
-                result_entry.fld.append(fld.text)
-            for dial in entry.iter("dial"):
-                result_entry.dial.append(dial.text)
-            for xref in entry.iter("xref"):
-                result_entry.xref.append(xref.text)
-            for re_inf in entry.iter("re_inf"):
-                result_entry.re_inf.append(re_inf.text)
+
+                glosses_join = []
+                for gloss in sense.iter('gloss'):
+                    lang = gloss.get('{http://www.w3.org/XML/1998/namespace}lang')
+                    if(lang not in meanings_map.keys()):
+                        meanings_map[lang] = []
+                    if(gloss.text is not None):
+                        glosses_join.append(gloss.text)
+                meanings_map[lang].append("⬜".join(glosses_join))
+
+                stagk = list(map(lambda e : e.text, sense.iter('stagk')))
+                result_entry.stagk.append(None if stagk == [] else "⬜".join(stagk))
+
+                stagr = list(map(lambda e : e.text, sense.iter('stagr')))
+                result_entry.stagr.append(None if stagr == [] else "⬜".join(stagr))
+
+                xref = list(map(lambda e : e.text, sense.iter('xref')))
+                result_entry.xref.append(None if xref == [] else "⬜".join(xref))
+
+                ant = list(map(lambda e : e.text, sense.iter('ant')))
+                result_entry.ant.append(None if ant == [] else "⬜".join(ant))
+
+                pos = list(map(lambda e : e.text, sense.iter('pos')))
+                result_entry.pos.append(None if pos == [] else "⬜".join(pos))
+                
+                fld = list(map(lambda e : e.text, sense.iter('field')))
+                result_entry.fld.append(None if fld == [] else "⬜".join(fld))
+
+                lsource = list(map(lambda e : e.text, [x for x in sense.iter('lsource') if x.text is not None]))
+                result_entry.lsource.append(None if lsource == [] else "⬜".join(lsource))
+
+                dial = list(map(lambda e : e.text, sense.iter('dial')))
+                result_entry.dial.append(None if dial == [] else "⬜".join(dial)) 
+
+                s_inf = list(map(lambda e : e.text, sense.iter('s_inf')))
+                result_entry.s_inf.append(None if s_inf == [] else "⬜".join(s_inf))                
+
+            for lang, meanings in meanings_map.items():
+                meaning = LanguageMeanings(language=lang, meanings=meanings)
+                result_entry.meanings.append(meaning)
 
             result.append(result_entry)
         return result
@@ -117,7 +180,7 @@ class JMEdictProcessor:
             for sense in entry.iter('trans'):
                 for part in sense:
                     if part.tag == "name_type":
-                        result_entry.part_of_speech.add(part.text)
+                        result_entry.part_of_speech.append(part.text)
                     if part.tag == "trans_det":
                         if part.text is not None:
                             result_entry.parse_meaning('eng', part.text)
