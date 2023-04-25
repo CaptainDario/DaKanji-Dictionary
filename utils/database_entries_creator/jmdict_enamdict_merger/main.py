@@ -96,7 +96,7 @@ class JMDictProcessor:
                     wordfreq.zipf_frequency(keb, 'ja')
                 )
 
-                k_inf = list(map(lambda k : k.text, k_ele.iter('ke_inf')))
+                k_inf = "⬜".join(list(map(lambda k : k.text, k_ele.iter('ke_inf'))))
                 result_entry.k_inf.append(k_inf)
 
             # reading related elements
