@@ -36,7 +36,6 @@ void resolveReferences(List<JMdict> items, Map map) {
 
 List<T> dictJsonToList<T>(List dict) {
   List<T> entries = <T>[];
-  List<JMdict> jmdict = <JMdict>[];
   Map<String, Id> map = HashMap();
   KanaKit k = KanaKit();
 
@@ -73,13 +72,14 @@ List<T> dictJsonToList<T>(List dict) {
         map[element] = id;
       });
 
-      JMdict jm = JMdict(
+      entries.add(JMdict(
         id: id,
 
         frequency: jsonEntry["frequency"],
 
         kanjis: kanjis,
-        kanjiInfo: jsonEntry["ke_inf"],
+        kanjiInfo: (jsonEntry["k_inf"]).any((e) => e != null) ?
+          List<String?>.from(jsonEntry["k_inf"]) : null,
 
         readings: readings,
         readingInfo: (jsonEntry["re_inf"]).any((e) => e != null) ?
@@ -105,14 +105,14 @@ List<T> dictJsonToList<T>(List dict) {
           List<String?>.from(jsonEntry["s_inf"]) : null,
         xref: (jsonEntry["xref"]).any((e) => e != null) ?
           List<String?>.from(jsonEntry["xref"]) : null,
-      );
-      jmdict.add(jm);
+      ) as T);
     }
   }
 
   if (T == JMdict){
-    resolveReferences(jmdict, map);
+    resolveReferences(entries as List<JMdict>, map);
   }
+
   return entries;
 }
 
@@ -184,7 +184,7 @@ void jmdictJsonToIsar(List dict, Isar isar, List<String> translationIso639_2T){
 
   /// add base dictionary to isar (has no translations)
   isar.writeTxnSync(() {
-     isar.jmdict.putAllSync(emptyDict, saveLinks: true);
+    isar.jmdict.putAllSync(emptyDict, saveLinks: true);
   });
   
 
