@@ -15,7 +15,8 @@ void main() async {
 
   // all languages that should be included in the examples
   List<String> iso639_3oInclude  = ["eng", "deu", "rus", "zho", "ita", "fra", "spa", "pol"];
-  await createExamplesIsar(iso639_3oInclude);
+
+  await createKradIsar();
 
   print("ALL FINISHED");
   return;
@@ -65,4 +66,26 @@ Future<void> createExamplesIsar(List<String> iso639_3oInclude) async {
   encoder.addFile(File("${RepoPathManager.getOutputFilesPath()}/examples.isar"));
   encoder.close();
   print("Zipping Examples DB done");
+}
+
+
+Future<void> createKradIsar() async {
+
+  final isarKrad = await Isar.open(
+    [KradSchema],
+    name: "krad",
+    directory: RepoPathManager.getOutputFilesPath()
+  );
+  
+  await kradToIsar(isarKrad);
+  print("Krad done");
+
+  isarKrad.close();
+
+  var encoder = ZipFileEncoder();
+  encoder.create("${RepoPathManager.getOutputFilesPath()}/krad.zip");
+  encoder.addFile(File("${RepoPathManager.getOutputFilesPath()}/krad.isar"));
+  encoder.close();
+  print("Zipping Krad DB done");
+
 }
