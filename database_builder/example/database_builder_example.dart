@@ -33,6 +33,9 @@ Future<void> createDictionaryIsar(List<String> iso639_2ToInclude) async {
   );
   
   await jmEnamAndDictToIsar(isarDict, iso639_2ToInclude);
+  print("jm/enam created");
+  await addAccentsToDict(isarDict);
+  print("accents added");
   print("jm/enam done");
   await kanjidic2ToIsar(isarDict);
   print("kanjidic2 done");

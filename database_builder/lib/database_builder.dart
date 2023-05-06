@@ -16,5 +16,6 @@ export 'src/tatoeba_to_isar/tatoeba_to_isar.dart';
 export 'src/tatoeba_to_isar/data_classes.dart';
 export 'src/krad/krad_to_isar.dart';
 export 'src/krad/data_classes.dart';
+export 'src/accents/accents.dart';
 export 'src/utils/repo_path_manager.dart';
 export 'src/database_type.dart';
