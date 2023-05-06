@@ -29,22 +29,40 @@ First download the necessary dictionary files
 * [Tatoeba](https://tatoeba.org/en/downloads)
   * Weekly exports -> All languages -> sentences.csv
   * Links -> links.csv
+* [Radkfile simplified](https://github.com/scriptin/jmdict-simplified)
+  * Releases -> latest
+* [Wanikani audio files](https://github.com/tofugu/japanese-vocabulary-pronunciation-audio)
+  * Releases -> latest
+* [Pitch accent data](https://github.com/mifunetoshiro/kanjium/blob/master/data/source_files/raw/accents.txt)
+* JLPT data comes from [Jonath wallner](http://www.tanos.co.uk/jlpt/) and is curated by [stephenmk](https://github.com/stephenmk/yomichan-jlpt-vocab)
+  * Releases -> latest
 
 and place them in the `inputFiles directory`.
 Your folder should look like that
 
-* JMdict
+* inputFiles
+  * japanese-vocabulary-pronunciation-audio-master
+    * lib
+      * mp3
+      * ogg
+  * jlpt
+    * index.json
+    * term_meta_bank_{1-4}.json
   * JMdict
-  * JMnedict.xml
-* kanjidic2
-  * kanjidic2.xml
-* kanjiVG
-  * 0f9a8.svg
-  * 0f9ab.svg
-  * ...
-* tatoeba
-  * links.csv
-  * sentences.csv
+    * JMdict
+    * JMnedict.xml
+  * kanjidic2
+    * kanjidic2.xml
+  * kanjiVG
+    * 0f9a8.svg
+    * 0f9ab.svg
+    * ...
+  * tatoeba
+    * links.csv
+    * sentences.csv
+  * accents.txt
+  * radkfile-x.x.x.json
+  
 
 Now Run those commands (your current python environment needs to have all requirements from `requirments.txt` installed)
 
