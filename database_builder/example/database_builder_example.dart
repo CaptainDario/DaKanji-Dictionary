@@ -33,7 +33,7 @@ Future<void> createDictionaryIsar(List<String> iso639_2ToInclude) async {
   );
   
   await jmEnamAndDictToIsar(isarDict, iso639_2ToInclude);
-  print("jmenam done");
+  print("jm/enam done");
   await kanjidic2ToIsar(isarDict);
   print("kanjidic2 done");
   await kanjiVGToIsar(isarDict);

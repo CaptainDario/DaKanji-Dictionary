@@ -126,31 +126,31 @@ class JMDictProcessor:
                 meanings_map[lang].append("⬜".join(glosses_join))
 
                 stagk = list(map(lambda e : e.text, sense.iter('stagk')))
-                result_entry.stagk.append(None if stagk == [] else "⬜".join(stagk))
+                result_entry.stagk.append(None if stagk == [] else stagk)
 
                 stagr = list(map(lambda e : e.text, sense.iter('stagr')))
-                result_entry.stagr.append(None if stagr == [] else "⬜".join(stagr))
+                result_entry.stagr.append(None if stagr == [] else stagr)
 
                 xref = list(map(lambda e : e.text, sense.iter('xref')))
-                result_entry.xref.append(None if xref == [] else "⬜".join(xref))
+                result_entry.xref.append(None if xref == [] else xref)
 
                 ant = list(map(lambda e : e.text, sense.iter('ant')))
-                result_entry.ant.append(None if ant == [] else "⬜".join(ant))
+                result_entry.ant.append(None if ant == [] else ant)
 
                 pos = list(map(lambda e : e.text, sense.iter('pos')))
-                result_entry.pos.append(None if pos == [] else "⬜".join(pos))
+                result_entry.pos.append(None if pos == [] else pos)
                 
                 fld = list(map(lambda e : e.text, sense.iter('field')))
-                result_entry.fld.append(None if fld == [] else "⬜".join(fld))
+                result_entry.fld.append(None if fld == [] else fld)
 
-                lsource = list(map(lambda e : e.text, [x for x in sense.iter('lsource') if x.text is not None]))
-                result_entry.lsource.append(None if lsource == [] else "⬜".join(lsource))
+                lsource = list(map(lambda e : f"{e.attrib.values()[0]}: {e.text}", [x for x in sense.iter('lsource') if x.text is not None]))
+                result_entry.lsource.append(None if lsource == [] else lsource)
 
                 dial = list(map(lambda e : e.text, sense.iter('dial')))
-                result_entry.dial.append(None if dial == [] else "⬜".join(dial)) 
+                result_entry.dial.append(None if dial == [] else dial) 
 
                 s_inf = list(map(lambda e : e.text, sense.iter('s_inf')))
-                result_entry.s_inf.append(None if s_inf == [] else "⬜".join(s_inf))                
+                result_entry.s_inf.append(None if s_inf == [] else s_inf)                
 
             for lang, meanings in meanings_map.items():
                 meaning = LanguageMeanings(language=lang, meanings=meanings)

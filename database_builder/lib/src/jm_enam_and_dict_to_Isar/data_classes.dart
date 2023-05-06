@@ -1,14 +1,92 @@
 import 'package:isar/isar.dart';
+import 'package:json_annotation/json_annotation.dart';
+
 part 'data_classes.g.dart';
+
+
+
+@JsonSerializable()
+@embedded
+class LanguageMeaningsAttribute {
+
+  List<String?> attributes = <String>[];
+
+  LanguageMeaningsAttribute(
+    {
+      this.attributes = const []
+    }
+  );
+
+  factory LanguageMeaningsAttribute.fromJson(Map<String, dynamic> json) =>
+    _$LanguageMeaningsAttributeFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+    _$LanguageMeaningsAttributeToJson(this);
+}
 
 /// Convenience class to bundle the meanings of `JMdict` / `JMNEdict` entries
 /// and their translations (possibly different languages)
+@JsonSerializable()
 @embedded
 class LanguageMeanings {
-  String? language;
-  List<String>? meanings;
 
-  LanguageMeanings({this.language, this.meanings});
+  /// The language of this meanings
+  String? language;
+  /// The meanings of this entry in the given language
+  List<String>? meanings;
+  /// Which kanji elements are associated with this sense
+  /// 
+  /// Note: matches `meanings` in length, if not null
+  List<LanguageMeaningsAttribute?>? senseKanjiTarget;
+  /// Which reading elements are associated with this sense
+  /// 
+  /// Note: matches `meanings` in length, if not null
+  List<LanguageMeaningsAttribute?>? senseReadingTarget;
+  /// Other entries that are related to this sense
+  /// 
+  /// Note: matches `meanings` in length, if not null
+  List<LanguageMeaningsAttribute?>? xref;
+  /// Antonyms of this word
+  ///
+  /// Note: matches `meanings` in length, if not null
+  List<LanguageMeaningsAttribute?>? antonyms;
+  /// Part-of-speech information about this sense
+  /// 
+  /// Note: matches `meanings` in length, if not null
+  List<LanguageMeaningsAttribute?>? partOfSpeech;
+  /// Field of application of the entry/sense
+  /// 
+  /// Note: matches `meanings` in length, if not null
+  List<LanguageMeaningsAttribute?>? field;
+  /// Indicates the source language(s) of a loan-word/gairaigo
+  /// 
+  /// Note: matches `meanings` in length, if not null
+  List<LanguageMeaningsAttribute?>? source;
+  /// Indicates the dialect in which the entry is used
+  /// 
+  /// Note: matches `meanings` in length, if not null
+  List<LanguageMeaningsAttribute?>? dialect;
+  /// Miscellaneous information
+  /// 
+  /// Note: matches `meanings` in length, if not null
+  List<LanguageMeaningsAttribute?>? senseInfo;
+
+
+  LanguageMeanings(
+    {
+      this.language,
+      this.meanings,
+      this.senseKanjiTarget,
+      this.senseReadingTarget,
+      this.xref,
+      this.antonyms,
+      this.partOfSpeech,
+      this.field,
+      this.source,
+      this.dialect,
+      this.senseInfo,
+    }
+  );
 
   @override
   String toString() {
@@ -18,7 +96,12 @@ class LanguageMeanings {
     }
     return (representation);
   }
+
+  factory LanguageMeanings.fromJson(Map<String, dynamic> json) => _$LanguageMeaningsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$LanguageMeaningsToJson(this);
 }
+
 
 /// Class to store the most important bits of a JMNEdict database entry. 
 @Collection(accessor: "jmnedict")
@@ -65,10 +148,16 @@ class JMdict {
 
   /// The frequency of this entry (follows a zipf distribution)
   float frequency;
+  /// The JLPT level of this entry (can be different for different kanjis of
+  /// the same entry)
+  List<String>? jlptLevel;
 
   /// A list containing different versions how to write this entry using Kanji
   @Index(type: IndexType.value)
-  List<String> kanjis;
+  List<String> kanjis = <String>[];
+  /// A list containing additional search terms from which this entry can be 
+  @Index(type: IndexType.value)
+  List<String> kanjiIndexes = <String>[];
   /// Indicates unusual aspects of the kanji used in the entry
   /// 
   /// Notes: matches `kanjis` in length, if not null
@@ -86,44 +175,19 @@ class JMdict {
   /// 
   /// Note: matches `readings` in length, if not null
   List<String?>? readingRestriction;
+
   /// Contains different versions how to read this entry using ONLY Hiragana
   @Index(type: IndexType.value)
   List<String> hiraganas;
 
+  /// Indicates the pitch accent of the `readings` element at the same index
+  /// 
+  /// Note: matches `readings` in length, if not null
+  List<String?>? accents;
+
   /// The meanings of this entry and their translations
   List<LanguageMeanings> meanings = <LanguageMeanings>[];
-  /// Which kanji elements are associated with this sense
-  /// 
-  /// Note: matches `meanings` in length, if not null
-  List<String?>? senseKanjiTarget;
-  /// Which reading elements are associated with this sense
-  /// 
-  /// Note: matches `meanings` in length, if not null
-  List<String?>? senseReadingTarget;
-  /// Other entries that are related to this sense
-  /// 
-  /// Note: matches `meanings` in length, if not null
-  List<String?>? xref;
-  /// Part-of-speech information about this sense
-  /// 
-  /// Note: matches `meanings` in length, if not null
-  List<String?>? partOfSpeech;
-  /// Field of application of the entry/sense
-  /// 
-  /// Note: matches `meanings` in length, if not null
-  List<String?>? field;
-  /// Indicates the source language(s) of a loan-word/gairaigo
-  /// 
-  /// Note: matches `meanings` in length, if not null
-  List<String?>? source;
-  /// Indicates the dialect in which the entry is used
-  /// 
-  /// Note: matches `meanings` in length, if not null
-  List<String?>? dialect;
-  /// Miscellaneous information
-  /// 
-  /// Note: matches `meanings` in length, if not null
-  List<String?>? senseInfo;
+
   
 
   JMdict(
@@ -132,6 +196,7 @@ class JMdict {
 
       // general
       required this.frequency,
+      this.jlptLevel,
 
       // Kanji (k_ele)
       required this.kanjis,
@@ -142,17 +207,10 @@ class JMdict {
       required this.readingInfo,
       required this.readingRestriction,
       required this.hiraganas,
+      this.accents,
 
       // translations (sense)
       required this.meanings,
-      required this.senseKanjiTarget,
-      required this.senseReadingTarget,
-      required this.xref,
-      required this.partOfSpeech,
-      required this.field,
-      required this.source,
-      required this.dialect,
-      required this.senseInfo,
     }
   );
 
