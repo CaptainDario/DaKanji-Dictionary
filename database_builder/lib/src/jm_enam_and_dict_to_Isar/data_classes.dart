@@ -185,8 +185,16 @@ class JMdict {
 
   /// The meanings of this entry and their translations
   List<LanguageMeanings> meanings = <LanguageMeanings>[];
+  /// List of meanings indexes that are used to find this entry
+  /// 
+  /// example: "to eat" → ["to", "eat"]
+  @Index(type: IndexType.value, caseSensitive: false)
+  List<String> get meaningsIndexes => meanings.map(
+      (e) => e.meanings.map((e) => e.attributes)
+    ).flattened.flattened.whereNotNull()
+    //.map((e) => Isar.splitWords(e)).flattened
+    .toSet().toList();
 
-  
 
   JMdict(
     {
