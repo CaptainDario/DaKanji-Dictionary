@@ -38,6 +38,8 @@ Future<void> createDictionaryIsar(List<String> iso639_2ToInclude) async {
   print("accents added");
   await addJLPTToDict(isarDict);
   print("JLPT added");
+  processAudios(isarDict);
+  print("Audios added");
   print("jm/enam done");
   await kanjidic2ToIsar(isarDict);
   print("kanjidic2 done");
