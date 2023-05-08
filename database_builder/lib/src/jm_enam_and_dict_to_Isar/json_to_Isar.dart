@@ -56,9 +56,10 @@ void resolveReferences(List<JMdict> items, Map map) {
 
 }
 
-List<LanguageMeaningsAttribute?>? JsonToLanguageMeaningAttribute(List jsonAttributes){
+/// Converts the given `jsonAttributes` to a list of [JMDictAttribute]
+List<JMDictAttribute?>? JsonToAttribute(List jsonAttributes){
 
-  List<LanguageMeaningsAttribute?> attributes = List.filled(jsonAttributes.length, null);
+  List<JMDictAttribute?> attributes = List.filled(jsonAttributes.length, null);
 
   // if there are no attributes, return null
   if(jsonAttributes.every((e) => e == null)) return null;
@@ -68,7 +69,7 @@ List<LanguageMeaningsAttribute?>? JsonToLanguageMeaningAttribute(List jsonAttrib
       attributes[i] = null;
     }
     else{
-      attributes[i] = LanguageMeaningsAttribute(
+      attributes[i] = JMDictAttribute(
         attributes: List<String?>.from(jsonAttributes[i])
       );
     }
@@ -93,17 +94,18 @@ List<T> dictJsonToList<T>(List dict) {
 
       LanguageMeanings lM = LanguageMeanings(
         language: jsonMeaning["language"],
-        meanings: List<String>.from(jsonMeaning["meanings"]),
-        
-        senseKanjiTarget: JsonToLanguageMeaningAttribute(jsonEntry["stagk"].sublist(cnt, listEnd)),
-        senseReadingTarget: JsonToLanguageMeaningAttribute(jsonEntry["stagr"].sublist(cnt, listEnd)),
-        xref: JsonToLanguageMeaningAttribute(jsonEntry["xref"].sublist(cnt, listEnd)),
-        antonyms: JsonToLanguageMeaningAttribute(jsonEntry["ant"].sublist(cnt, listEnd)),
-        partOfSpeech: JsonToLanguageMeaningAttribute(jsonEntry["pos"].sublist(cnt, listEnd)),
-        field: JsonToLanguageMeaningAttribute(jsonEntry["fld"].sublist(cnt, listEnd)),
-        source: JsonToLanguageMeaningAttribute(jsonEntry["lsource"].sublist(cnt, listEnd)),
-        dialect: JsonToLanguageMeaningAttribute(jsonEntry["dial"].sublist(cnt, listEnd)),
-        senseInfo: JsonToLanguageMeaningAttribute(jsonEntry["s_inf"].sublist(cnt, listEnd)),
+        meanings: List<JMDictAttribute>.from(jsonMeaning["meanings"].map(
+          (m) => JMDictAttribute(attributes: List<String>.from(m))
+        )),
+        senseKanjiTarget: JsonToAttribute(jsonEntry["stagk"].sublist(cnt, listEnd)),
+        senseReadingTarget: JsonToAttribute(jsonEntry["stagr"].sublist(cnt, listEnd)),
+        xref: JsonToAttribute(jsonEntry["xref"].sublist(cnt, listEnd)),
+        antonyms: JsonToAttribute(jsonEntry["ant"].sublist(cnt, listEnd)),
+        partOfSpeech: JsonToAttribute(jsonEntry["pos"].sublist(cnt, listEnd)),
+        field: JsonToAttribute(jsonEntry["fld"].sublist(cnt, listEnd)),
+        source: JsonToAttribute(jsonEntry["lsource"].sublist(cnt, listEnd)),
+        dialect: JsonToAttribute(jsonEntry["dial"].sublist(cnt, listEnd)),
+        senseInfo: JsonToAttribute(jsonEntry["s_inf"].sublist(cnt, listEnd)),
       );
       meanings.add(lM);
       cnt = listEnd;
@@ -137,18 +139,13 @@ List<T> dictJsonToList<T>(List dict) {
         frequency: jsonEntry["frequency"],
 
         kanjis: kanjis,
-        kanjiInfo: (jsonEntry["k_inf"]).any((e) => e != null) ?
-          List<String?>.from(jsonEntry["k_inf"]) : null,
-
+        kanjiInfo: JsonToAttribute(jsonEntry["k_inf"]),
         readings: readings,
-        readingInfo: (jsonEntry["re_inf"]).any((e) => e != null) ?
-          List<String?>.from(jsonEntry["re_inf"]) : null,
-        readingRestriction: jsonEntry["re_restr"].any((e) => e != null) ?
-          List<String?>.from(jsonEntry["re_restr"]) : null,
+        readingInfo: JsonToAttribute(jsonEntry["re_inf"]),
+        readingRestriction: JsonToAttribute(jsonEntry["re_restr"]),
         hiraganas: readings.map((e) => k.toHiragana(e)).toList(),
         
         meanings: meanings,
-        
       ) as T);
     }
   }

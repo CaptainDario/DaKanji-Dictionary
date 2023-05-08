@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:isar/isar.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -7,21 +8,21 @@ part 'data_classes.g.dart';
 
 @JsonSerializable()
 @embedded
-class LanguageMeaningsAttribute {
+class JMDictAttribute {
 
   List<String?> attributes = <String>[];
 
-  LanguageMeaningsAttribute(
+  JMDictAttribute(
     {
       this.attributes = const []
     }
   );
 
-  factory LanguageMeaningsAttribute.fromJson(Map<String, dynamic> json) =>
-    _$LanguageMeaningsAttributeFromJson(json);
+  factory JMDictAttribute.fromJson(Map<String, dynamic> json) =>
+    _$JMDictAttributeFromJson(json);
 
   Map<String, dynamic> toJson() =>
-    _$LanguageMeaningsAttributeToJson(this);
+    _$JMDictAttributeToJson(this);
 }
 
 /// Convenience class to bundle the meanings of `JMdict` / `JMNEdict` entries
@@ -33,49 +34,49 @@ class LanguageMeanings {
   /// The language of this meanings
   String? language;
   /// The meanings of this entry in the given language
-  List<String>? meanings;
+  List<JMDictAttribute> meanings = const [];
   /// Which kanji elements are associated with this sense
   /// 
   /// Note: matches `meanings` in length, if not null
-  List<LanguageMeaningsAttribute?>? senseKanjiTarget;
+  List<JMDictAttribute?>? senseKanjiTarget;
   /// Which reading elements are associated with this sense
   /// 
   /// Note: matches `meanings` in length, if not null
-  List<LanguageMeaningsAttribute?>? senseReadingTarget;
+  List<JMDictAttribute?>? senseReadingTarget;
   /// Other entries that are related to this sense
   /// 
   /// Note: matches `meanings` in length, if not null
-  List<LanguageMeaningsAttribute?>? xref;
+  List<JMDictAttribute?>? xref;
   /// Antonyms of this word
   ///
   /// Note: matches `meanings` in length, if not null
-  List<LanguageMeaningsAttribute?>? antonyms;
+  List<JMDictAttribute?>? antonyms;
   /// Part-of-speech information about this sense
   /// 
   /// Note: matches `meanings` in length, if not null
-  List<LanguageMeaningsAttribute?>? partOfSpeech;
+  List<JMDictAttribute?>? partOfSpeech;
   /// Field of application of the entry/sense
   /// 
   /// Note: matches `meanings` in length, if not null
-  List<LanguageMeaningsAttribute?>? field;
+  List<JMDictAttribute?>? field;
   /// Indicates the source language(s) of a loan-word/gairaigo
   /// 
   /// Note: matches `meanings` in length, if not null
-  List<LanguageMeaningsAttribute?>? source;
+  List<JMDictAttribute?>? source;
   /// Indicates the dialect in which the entry is used
   /// 
   /// Note: matches `meanings` in length, if not null
-  List<LanguageMeaningsAttribute?>? dialect;
+  List<JMDictAttribute?>? dialect;
   /// Miscellaneous information
   /// 
   /// Note: matches `meanings` in length, if not null
-  List<LanguageMeaningsAttribute?>? senseInfo;
+  List<JMDictAttribute?>? senseInfo;
 
 
   LanguageMeanings(
     {
       this.language,
-      this.meanings,
+      this.meanings = const [],
       this.senseKanjiTarget,
       this.senseReadingTarget,
       this.xref,
@@ -91,8 +92,8 @@ class LanguageMeanings {
   @override
   String toString() {
     String representation = "Language: " + language! + "\n";
-    for (var meaning in meanings!) {
-      representation += meaning + "\n";
+    for (var meaning in meanings) {
+      representation += meaning.attributes.join(", ");
     }
     return (representation);
   }
@@ -151,17 +152,16 @@ class JMdict {
   /// The JLPT level of this entry (can be different for different kanjis of
   /// the same entry)
   List<String>? jlptLevel;
+  /// number of the audio file of this entry if it exists
+  int? audio;
 
   /// A list containing different versions how to write this entry using Kanji
   @Index(type: IndexType.value)
   List<String> kanjis = <String>[];
-  /// A list containing additional search terms from which this entry can be 
-  @Index(type: IndexType.value)
-  List<String> kanjiIndexes = <String>[];
   /// Indicates unusual aspects of the kanji used in the entry
   /// 
   /// Notes: matches `kanjis` in length, if not null
-  List<String?>? kanjiInfo;
+  List<JMDictAttribute?>? kanjiInfo;
 
   /// A list containing different versions how to read this entry
   /// 
@@ -170,20 +170,18 @@ class JMdict {
   /// used to indicate some unusual aspect of the reading.
   /// 
   /// Note: matches `readings` in length, if not null
-  List<String?>? readingInfo;
+  List<JMDictAttribute?>? readingInfo;
   /// Indicates that the reading only applies to the kanji of `kanjis`
   /// 
   /// Note: matches `readings` in length, if not null
-  List<String?>? readingRestriction;
-
+  List<JMDictAttribute?>? readingRestriction;
   /// Contains different versions how to read this entry using ONLY Hiragana
   @Index(type: IndexType.value)
   List<String> hiraganas;
-
   /// Indicates the pitch accent of the `readings` element at the same index
   /// 
   /// Note: matches `readings` in length, if not null
-  List<String?>? accents;
+  List<JMDictAttribute?>? accents;
 
   /// The meanings of this entry and their translations
   List<LanguageMeanings> meanings = <LanguageMeanings>[];

@@ -34,7 +34,10 @@ Future<void> addAccentsToDict(Isar dictIsar) async {
     for (var match in matches) {
       match.accents ??= List.generate(match.readings.length, (index) => null);
       
-      match.accents![match.readings.indexOf(row[1])] = row[2].toString();
+      match.accents![match.readings.indexOf(row[1])] = 
+        JMDictAttribute(
+          attributes: row[2].toString().split(",")
+        );
 
       dictIsar.writeTxnSync(() {
         dictIsar.jmdict.putSync(match);
