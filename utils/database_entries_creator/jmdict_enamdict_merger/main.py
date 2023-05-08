@@ -96,8 +96,8 @@ class JMDictProcessor:
                     wordfreq.zipf_frequency(keb, 'ja')
                 )
 
-                k_inf = "⬜".join(list(map(lambda k : k.text, k_ele.iter('ke_inf'))))
-                result_entry.k_inf.append(k_inf)
+                k_inf = list(map(lambda k : k.text, k_ele.iter('ke_inf')))
+                result_entry.k_inf.append(None if k_inf == [] else k_inf)
 
             # reading related elements
             for r_ele in entry.iter('r_ele'):
@@ -107,10 +107,10 @@ class JMDictProcessor:
                         result_entry.frequency, wordfreq.zipf_frequency(r_ele.find('reb').text, 'ja'))
                     
                 re_inf = list(map(lambda r : r.text, r_ele.iter('re_inf')))
-                result_entry.re_inf.append(None if re_inf == [] else "⬜".join(re_inf))
+                result_entry.re_inf.append(None if re_inf == [] else re_inf)
 
                 re_restr = list(map(lambda r : r.text, r_ele.iter('re_restr')))
-                result_entry.re_restr.append(None if re_restr == [] else "⬜".join(re_restr))
+                result_entry.re_restr.append(None if re_restr == [] else re_restr)
 
             # senses related elements
             meanings_map = {}
@@ -123,7 +123,7 @@ class JMDictProcessor:
                         meanings_map[lang] = []
                     if(gloss.text is not None):
                         glosses_join.append(gloss.text)
-                meanings_map[lang].append("⬜".join(glosses_join))
+                meanings_map[lang].append(glosses_join)
 
                 stagk = list(map(lambda e : e.text, sense.iter('stagk')))
                 result_entry.stagk.append(None if stagk == [] else stagk)
