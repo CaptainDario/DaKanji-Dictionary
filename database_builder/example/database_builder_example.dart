@@ -15,6 +15,7 @@ void main() async {
 
   // all languages that should be included in the examples
   List<String> iso639_3oInclude  = ["eng", "deu", "rus", "zho", "ita", "fra", "spa", "pol"];
+  await createExamplesIsar(iso639_3oInclude);
 
   await createKradIsar();
 
@@ -33,7 +34,7 @@ Future<void> createDictionaryIsar(List<String> iso639_2ToInclude) async {
   );
   
   await jmEnamAndDictToIsar(isarDict, iso639_2ToInclude);
-  print("jm/enam created");
+  print("jm/enam created with entries: ${isarDict.jmdict.countSync()}");
   await addAccentsToDict(isarDict);
   print("accents added");
   await addJLPTToDict(isarDict);
@@ -53,6 +54,11 @@ Future<void> createDictionaryIsar(List<String> iso639_2ToInclude) async {
   encoder.addFile(File("${RepoPathManager.getOutputFilesPath()}/dictionary.isar"));
   encoder.close();
   print("Zipping Dict DB done");
+
+  encoder.create("${RepoPathManager.getOutputFilesPath()}/audios.zip");
+  encoder.addDirectory(Directory("${RepoPathManager.getOutputFilesPath()}/audios"));
+  encoder.close();
+  print("Zipping audios done");
 }
 
 
