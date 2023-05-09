@@ -30,7 +30,9 @@ void processAudios(Isar isar) {
 
   int cnt = 0;
   RegExp re = RegExp(r"(.+)【(.+)】");
-  KanaKit k = KanaKit();
+  KanaKit k = KanaKit(
+    config: KanaKitConfig(passRomaji: true, passKanji: true, upcaseKatakana: false)
+  );
   for (File file in audioFilePaths) {
     //example name: 裁く【さばく】.mp3
     RegExpMatch match = re.firstMatch(
@@ -41,10 +43,10 @@ void processAudios(Isar isar) {
     file.copy(p.join(RepoPathManager.getOutputFilesPath(), "audios", "$cnt.mp3"));
 
     List<JMdict> results = isar.jmdict.where()
-      .kanjisElementEqualTo(kanji)
+      .kanjiIndexesElementEqualTo(k.toHiragana(kanji))
         .or()
-      .kanjisElementEqualTo(kanji.replaceAll("する", ""))
-    .filter()
+      .kanjiIndexesElementEqualTo(k.toHiragana(kanji).replaceAll("する", ""))
+        .filter()
       .hiraganasElementEqualTo(kana)
         .or()
       .hiraganasElementEqualTo(kana.replaceAll("する", ""))
@@ -61,7 +63,7 @@ void processAudios(Isar isar) {
       cnt++;
     }
     else{
-      print("No JMdict entry found for ${file.uri.pathSegments.last}: $kanji, $kana");
+      print("No JMdict entry found for sound: ${file.uri.pathSegments.last}: $kanji, $kana");
     }
   }
 }

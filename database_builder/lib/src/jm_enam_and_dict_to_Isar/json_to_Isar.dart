@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:database_builder/src/width_conversion.dart';
 import 'package:kana_kit/kana_kit.dart';
 import 'package:path/path.dart' as p;
 
@@ -16,6 +17,7 @@ void resolveReferences(List<JMdict> items, Map map) {
 
   for (JMdict item in items) {
     for (LanguageMeanings meaning in item.meanings) {
+      // convert xref
       if(meaning.xref != null) {
         for (int i = 0; i < meaning.xref!.length; i++) {
           if (meaning.xref![i] == null) continue;
@@ -34,6 +36,7 @@ void resolveReferences(List<JMdict> items, Map map) {
           meaning.xref![i]!.attributes = parsedXrefs;
         }
       }
+      // convert antonyms
       if(meaning.antonyms != null){
         for (int i = 0; i < meaning.antonyms!.length; i++) {
           if (meaning.antonyms![i] == null) continue;
@@ -57,7 +60,7 @@ void resolveReferences(List<JMdict> items, Map map) {
 }
 
 /// Converts the given `jsonAttributes` to a list of [JMDictAttribute]
-List<JMDictAttribute?>? JsonToAttribute(List jsonAttributes){
+List<JMDictAttribute?>? JsonToAttribute(List jsonAttributes, {bool convertToHalfWidth = false}){
 
   List<JMDictAttribute?> attributes = List.filled(jsonAttributes.length, null);
 
@@ -69,8 +72,13 @@ List<JMDictAttribute?>? JsonToAttribute(List jsonAttributes){
       attributes[i] = null;
     }
     else{
+      List<String?> parsedAttributes = List<String?>.from(jsonAttributes[i]);
+      if(convertToHalfWidth){
+        parsedAttributes = parsedAttributes.map((e) => e!.toHalfWidth()).toList();
+      }
+
       attributes[i] = JMDictAttribute(
-        attributes: List<String?>.from(jsonAttributes[i])
+        attributes: parsedAttributes
       );
     }
   }
@@ -82,7 +90,7 @@ List<JMDictAttribute?>? JsonToAttribute(List jsonAttributes){
 List<T> dictJsonToList<T>(List dict) {
   List<T> entries = <T>[];
   Map<String, Id> map = HashMap();
-  KanaKit k = KanaKit();
+  KanaKit k = KanaKit(config: KanaKitConfig(passRomaji: true, passKanji: true, upcaseKatakana: false));
 
   for (final jsonEntry in dict) {
     List<LanguageMeanings> meanings = <LanguageMeanings>[];
@@ -97,8 +105,8 @@ List<T> dictJsonToList<T>(List dict) {
         meanings: List<JMDictAttribute>.from(jsonMeaning["meanings"].map(
           (m) => JMDictAttribute(attributes: List<String>.from(m))
         )),
-        senseKanjiTarget: JsonToAttribute(jsonEntry["stagk"].sublist(cnt, listEnd)),
-        senseReadingTarget: JsonToAttribute(jsonEntry["stagr"].sublist(cnt, listEnd)),
+        senseKanjiTarget: JsonToAttribute(jsonEntry["stagk"].sublist(cnt, listEnd), convertToHalfWidth: true),
+        senseReadingTarget: JsonToAttribute(jsonEntry["stagr"].sublist(cnt, listEnd), convertToHalfWidth: true),
         xref: JsonToAttribute(jsonEntry["xref"].sublist(cnt, listEnd)),
         antonyms: JsonToAttribute(jsonEntry["ant"].sublist(cnt, listEnd)),
         partOfSpeech: JsonToAttribute(jsonEntry["pos"].sublist(cnt, listEnd)),
@@ -138,12 +146,13 @@ List<T> dictJsonToList<T>(List dict) {
 
         frequency: jsonEntry["frequency"],
 
-        kanjis: kanjis,
+        kanjis: kanjis.map((e) => e.toHalfWidth()).toList(),
+        kanjiIndexes: kanjis.map((e) => k.toHiragana(e).toHalfWidth()).toList(),
         kanjiInfo: JsonToAttribute(jsonEntry["k_inf"]),
         readings: readings,
         readingInfo: JsonToAttribute(jsonEntry["re_inf"]),
         readingRestriction: JsonToAttribute(jsonEntry["re_restr"]),
-        hiraganas: readings.map((e) => k.toHiragana(e)).toList(),
+        hiraganas: readings.map((e) => k.toHiragana(e).toHalfWidth()).toList(),
         
         meanings: meanings,
       ) as T);

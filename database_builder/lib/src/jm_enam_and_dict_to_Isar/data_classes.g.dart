@@ -1495,42 +1495,47 @@ const JMdictSchema = CollectionSchema(
       name: r'jlptLevel',
       type: IsarType.stringList,
     ),
-    r'kanjiInfo': PropertySchema(
+    r'kanjiIndexes': PropertySchema(
       id: 5,
+      name: r'kanjiIndexes',
+      type: IsarType.stringList,
+    ),
+    r'kanjiInfo': PropertySchema(
+      id: 6,
       name: r'kanjiInfo',
       type: IsarType.objectList,
       target: r'JMDictAttribute',
     ),
     r'kanjis': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'kanjis',
       type: IsarType.stringList,
     ),
     r'meanings': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'meanings',
       type: IsarType.objectList,
       target: r'LanguageMeanings',
     ),
     r'meaningsIndexes': PropertySchema(
-      id: 8,
+      id: 9,
       name: r'meaningsIndexes',
       type: IsarType.stringList,
     ),
     r'readingInfo': PropertySchema(
-      id: 9,
+      id: 10,
       name: r'readingInfo',
       type: IsarType.objectList,
       target: r'JMDictAttribute',
     ),
     r'readingRestriction': PropertySchema(
-      id: 10,
+      id: 11,
       name: r'readingRestriction',
       type: IsarType.objectList,
       target: r'JMDictAttribute',
     ),
     r'readings': PropertySchema(
-      id: 11,
+      id: 12,
       name: r'readings',
       type: IsarType.stringList,
     )
@@ -1541,16 +1546,29 @@ const JMdictSchema = CollectionSchema(
   deserializeProp: _jMdictDeserializeProp,
   idName: r'id',
   indexes: {
-    r'kanjis': IndexSchema(
-      id: 2657199644921628134,
-      name: r'kanjis',
+    r'kanjiIndexes': IndexSchema(
+      id: 4087535741008885126,
+      name: r'kanjiIndexes',
       unique: false,
       replace: false,
       properties: [
         IndexPropertySchema(
-          name: r'kanjis',
+          name: r'kanjiIndexes',
           type: IndexType.value,
-          caseSensitive: true,
+          caseSensitive: false,
+        )
+      ],
+    ),
+    r'readings': IndexSchema(
+      id: 3616145070140146735,
+      name: r'readings',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'readings',
+          type: IndexType.value,
+          caseSensitive: false,
         )
       ],
     ),
@@ -1563,7 +1581,7 @@ const JMdictSchema = CollectionSchema(
         IndexPropertySchema(
           name: r'hiraganas',
           type: IndexType.value,
-          caseSensitive: true,
+          caseSensitive: false,
         )
       ],
     ),
@@ -1631,6 +1649,13 @@ int _jMdictEstimateSize(
           bytesCount += value.length * 3;
         }
       }
+    }
+  }
+  bytesCount += 3 + object.kanjiIndexes.length * 3;
+  {
+    for (var i = 0; i < object.kanjiIndexes.length; i++) {
+      final value = object.kanjiIndexes[i];
+      bytesCount += value.length * 3;
     }
   }
   {
@@ -1730,33 +1755,34 @@ void _jMdictSerialize(
   writer.writeFloat(offsets[2], object.frequency);
   writer.writeStringList(offsets[3], object.hiraganas);
   writer.writeStringList(offsets[4], object.jlptLevel);
+  writer.writeStringList(offsets[5], object.kanjiIndexes);
   writer.writeObjectList<JMDictAttribute>(
-    offsets[5],
+    offsets[6],
     allOffsets,
     JMDictAttributeSchema.serialize,
     object.kanjiInfo,
   );
-  writer.writeStringList(offsets[6], object.kanjis);
+  writer.writeStringList(offsets[7], object.kanjis);
   writer.writeObjectList<LanguageMeanings>(
-    offsets[7],
+    offsets[8],
     allOffsets,
     LanguageMeaningsSchema.serialize,
     object.meanings,
   );
-  writer.writeStringList(offsets[8], object.meaningsIndexes);
+  writer.writeStringList(offsets[9], object.meaningsIndexes);
   writer.writeObjectList<JMDictAttribute>(
-    offsets[9],
+    offsets[10],
     allOffsets,
     JMDictAttributeSchema.serialize,
     object.readingInfo,
   );
   writer.writeObjectList<JMDictAttribute>(
-    offsets[10],
+    offsets[11],
     allOffsets,
     JMDictAttributeSchema.serialize,
     object.readingRestriction,
   );
-  writer.writeStringList(offsets[11], object.readings);
+  writer.writeStringList(offsets[12], object.readings);
 }
 
 JMdict _jMdictDeserialize(
@@ -1775,30 +1801,31 @@ JMdict _jMdictDeserialize(
     hiraganas: reader.readStringList(offsets[3]) ?? [],
     id: id,
     jlptLevel: reader.readStringList(offsets[4]),
+    kanjiIndexes: reader.readStringList(offsets[5]) ?? [],
     kanjiInfo: reader.readObjectOrNullList<JMDictAttribute>(
-      offsets[5],
+      offsets[6],
       JMDictAttributeSchema.deserialize,
       allOffsets,
     ),
-    kanjis: reader.readStringList(offsets[6]) ?? [],
+    kanjis: reader.readStringList(offsets[7]) ?? [],
     meanings: reader.readObjectList<LanguageMeanings>(
-          offsets[7],
+          offsets[8],
           LanguageMeaningsSchema.deserialize,
           allOffsets,
           LanguageMeanings(),
         ) ??
         [],
     readingInfo: reader.readObjectOrNullList<JMDictAttribute>(
-      offsets[9],
-      JMDictAttributeSchema.deserialize,
-      allOffsets,
-    ),
-    readingRestriction: reader.readObjectOrNullList<JMDictAttribute>(
       offsets[10],
       JMDictAttributeSchema.deserialize,
       allOffsets,
     ),
-    readings: reader.readStringList(offsets[11]) ?? [],
+    readingRestriction: reader.readObjectOrNullList<JMDictAttribute>(
+      offsets[11],
+      JMDictAttributeSchema.deserialize,
+      allOffsets,
+    ),
+    readings: reader.readStringList(offsets[12]) ?? [],
   );
   object.audio = reader.readLongOrNull(offsets[1]);
   return object;
@@ -1826,14 +1853,16 @@ P _jMdictDeserializeProp<P>(
     case 4:
       return (reader.readStringList(offset)) as P;
     case 5:
+      return (reader.readStringList(offset) ?? []) as P;
+    case 6:
       return (reader.readObjectOrNullList<JMDictAttribute>(
         offset,
         JMDictAttributeSchema.deserialize,
         allOffsets,
       )) as P;
-    case 6:
-      return (reader.readStringList(offset) ?? []) as P;
     case 7:
+      return (reader.readStringList(offset) ?? []) as P;
+    case 8:
       return (reader.readObjectList<LanguageMeanings>(
             offset,
             LanguageMeaningsSchema.deserialize,
@@ -1841,14 +1870,8 @@ P _jMdictDeserializeProp<P>(
             LanguageMeanings(),
           ) ??
           []) as P;
-    case 8:
-      return (reader.readStringList(offset) ?? []) as P;
     case 9:
-      return (reader.readObjectOrNullList<JMDictAttribute>(
-        offset,
-        JMDictAttributeSchema.deserialize,
-        allOffsets,
-      )) as P;
+      return (reader.readStringList(offset) ?? []) as P;
     case 10:
       return (reader.readObjectOrNullList<JMDictAttribute>(
         offset,
@@ -1856,6 +1879,12 @@ P _jMdictDeserializeProp<P>(
         allOffsets,
       )) as P;
     case 11:
+      return (reader.readObjectOrNullList<JMDictAttribute>(
+        offset,
+        JMDictAttributeSchema.deserialize,
+        allOffsets,
+      )) as P;
+    case 12:
       return (reader.readStringList(offset) ?? []) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -1881,10 +1910,18 @@ extension JMdictQueryWhereSort on QueryBuilder<JMdict, JMdict, QWhere> {
     });
   }
 
-  QueryBuilder<JMdict, JMdict, QAfterWhere> anyKanjisElement() {
+  QueryBuilder<JMdict, JMdict, QAfterWhere> anyKanjiIndexesElement() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
-        const IndexWhereClause.any(indexName: r'kanjis'),
+        const IndexWhereClause.any(indexName: r'kanjiIndexes'),
+      );
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterWhere> anyReadingsElement() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'readings'),
       );
     });
   }
@@ -1972,136 +2009,274 @@ extension JMdictQueryWhere on QueryBuilder<JMdict, JMdict, QWhereClause> {
     });
   }
 
-  QueryBuilder<JMdict, JMdict, QAfterWhereClause> kanjisElementEqualTo(
-      String kanjisElement) {
+  QueryBuilder<JMdict, JMdict, QAfterWhereClause> kanjiIndexesElementEqualTo(
+      String kanjiIndexesElement) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'kanjis',
-        value: [kanjisElement],
+        indexName: r'kanjiIndexes',
+        value: [kanjiIndexesElement],
       ));
     });
   }
 
-  QueryBuilder<JMdict, JMdict, QAfterWhereClause> kanjisElementNotEqualTo(
-      String kanjisElement) {
+  QueryBuilder<JMdict, JMdict, QAfterWhereClause> kanjiIndexesElementNotEqualTo(
+      String kanjiIndexesElement) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'kanjis',
+              indexName: r'kanjiIndexes',
               lower: [],
-              upper: [kanjisElement],
+              upper: [kanjiIndexesElement],
               includeUpper: false,
             ))
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'kanjis',
-              lower: [kanjisElement],
+              indexName: r'kanjiIndexes',
+              lower: [kanjiIndexesElement],
               includeLower: false,
               upper: [],
             ));
       } else {
         return query
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'kanjis',
-              lower: [kanjisElement],
+              indexName: r'kanjiIndexes',
+              lower: [kanjiIndexesElement],
               includeLower: false,
               upper: [],
             ))
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'kanjis',
+              indexName: r'kanjiIndexes',
               lower: [],
-              upper: [kanjisElement],
+              upper: [kanjiIndexesElement],
               includeUpper: false,
             ));
       }
     });
   }
 
-  QueryBuilder<JMdict, JMdict, QAfterWhereClause> kanjisElementGreaterThan(
-    String kanjisElement, {
+  QueryBuilder<JMdict, JMdict, QAfterWhereClause>
+      kanjiIndexesElementGreaterThan(
+    String kanjiIndexesElement, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'kanjis',
-        lower: [kanjisElement],
+        indexName: r'kanjiIndexes',
+        lower: [kanjiIndexesElement],
         includeLower: include,
         upper: [],
       ));
     });
   }
 
-  QueryBuilder<JMdict, JMdict, QAfterWhereClause> kanjisElementLessThan(
-    String kanjisElement, {
+  QueryBuilder<JMdict, JMdict, QAfterWhereClause> kanjiIndexesElementLessThan(
+    String kanjiIndexesElement, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'kanjis',
+        indexName: r'kanjiIndexes',
         lower: [],
-        upper: [kanjisElement],
+        upper: [kanjiIndexesElement],
         includeUpper: include,
       ));
     });
   }
 
-  QueryBuilder<JMdict, JMdict, QAfterWhereClause> kanjisElementBetween(
-    String lowerKanjisElement,
-    String upperKanjisElement, {
+  QueryBuilder<JMdict, JMdict, QAfterWhereClause> kanjiIndexesElementBetween(
+    String lowerKanjiIndexesElement,
+    String upperKanjiIndexesElement, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'kanjis',
-        lower: [lowerKanjisElement],
+        indexName: r'kanjiIndexes',
+        lower: [lowerKanjiIndexesElement],
         includeLower: includeLower,
-        upper: [upperKanjisElement],
+        upper: [upperKanjiIndexesElement],
         includeUpper: includeUpper,
       ));
     });
   }
 
-  QueryBuilder<JMdict, JMdict, QAfterWhereClause> kanjisElementStartsWith(
-      String KanjisElementPrefix) {
+  QueryBuilder<JMdict, JMdict, QAfterWhereClause> kanjiIndexesElementStartsWith(
+      String KanjiIndexesElementPrefix) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'kanjis',
-        lower: [KanjisElementPrefix],
-        upper: ['$KanjisElementPrefix\u{FFFFF}'],
+        indexName: r'kanjiIndexes',
+        lower: [KanjiIndexesElementPrefix],
+        upper: ['$KanjiIndexesElementPrefix\u{FFFFF}'],
       ));
     });
   }
 
-  QueryBuilder<JMdict, JMdict, QAfterWhereClause> kanjisElementIsEmpty() {
+  QueryBuilder<JMdict, JMdict, QAfterWhereClause> kanjiIndexesElementIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'kanjis',
+        indexName: r'kanjiIndexes',
         value: [''],
       ));
     });
   }
 
-  QueryBuilder<JMdict, JMdict, QAfterWhereClause> kanjisElementIsNotEmpty() {
+  QueryBuilder<JMdict, JMdict, QAfterWhereClause>
+      kanjiIndexesElementIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
             .addWhereClause(IndexWhereClause.lessThan(
-              indexName: r'kanjis',
+              indexName: r'kanjiIndexes',
               upper: [''],
             ))
             .addWhereClause(IndexWhereClause.greaterThan(
-              indexName: r'kanjis',
+              indexName: r'kanjiIndexes',
               lower: [''],
             ));
       } else {
         return query
             .addWhereClause(IndexWhereClause.greaterThan(
-              indexName: r'kanjis',
+              indexName: r'kanjiIndexes',
               lower: [''],
             ))
             .addWhereClause(IndexWhereClause.lessThan(
-              indexName: r'kanjis',
+              indexName: r'kanjiIndexes',
+              upper: [''],
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterWhereClause> readingsElementEqualTo(
+      String readingsElement) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'readings',
+        value: [readingsElement],
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterWhereClause> readingsElementNotEqualTo(
+      String readingsElement) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'readings',
+              lower: [],
+              upper: [readingsElement],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'readings',
+              lower: [readingsElement],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'readings',
+              lower: [readingsElement],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'readings',
+              lower: [],
+              upper: [readingsElement],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterWhereClause> readingsElementGreaterThan(
+    String readingsElement, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'readings',
+        lower: [readingsElement],
+        includeLower: include,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterWhereClause> readingsElementLessThan(
+    String readingsElement, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'readings',
+        lower: [],
+        upper: [readingsElement],
+        includeUpper: include,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterWhereClause> readingsElementBetween(
+    String lowerReadingsElement,
+    String upperReadingsElement, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'readings',
+        lower: [lowerReadingsElement],
+        includeLower: includeLower,
+        upper: [upperReadingsElement],
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterWhereClause> readingsElementStartsWith(
+      String ReadingsElementPrefix) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'readings',
+        lower: [ReadingsElementPrefix],
+        upper: ['$ReadingsElementPrefix\u{FFFFF}'],
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterWhereClause> readingsElementIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'readings',
+        value: [''],
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterWhereClause> readingsElementIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.lessThan(
+              indexName: r'readings',
+              upper: [''],
+            ))
+            .addWhereClause(IndexWhereClause.greaterThan(
+              indexName: r'readings',
+              lower: [''],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.greaterThan(
+              indexName: r'readings',
+              lower: [''],
+            ))
+            .addWhereClause(IndexWhereClause.lessThan(
+              indexName: r'readings',
               upper: [''],
             ));
       }
@@ -3131,6 +3306,228 @@ extension JMdictQueryFilter on QueryBuilder<JMdict, JMdict, QFilterCondition> {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'jlptLevel',
+        lower,
+        includeLower,
+        upper,
+        includeUpper,
+      );
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition>
+      kanjiIndexesElementEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'kanjiIndexes',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition>
+      kanjiIndexesElementGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'kanjiIndexes',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition>
+      kanjiIndexesElementLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'kanjiIndexes',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition>
+      kanjiIndexesElementBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'kanjiIndexes',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition>
+      kanjiIndexesElementStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'kanjiIndexes',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition>
+      kanjiIndexesElementEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'kanjiIndexes',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition>
+      kanjiIndexesElementContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'kanjiIndexes',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition>
+      kanjiIndexesElementMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'kanjiIndexes',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition>
+      kanjiIndexesElementIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'kanjiIndexes',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition>
+      kanjiIndexesElementIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'kanjiIndexes',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> kanjiIndexesLengthEqualTo(
+      int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'kanjiIndexes',
+        length,
+        true,
+        length,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> kanjiIndexesIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'kanjiIndexes',
+        0,
+        true,
+        0,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> kanjiIndexesIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'kanjiIndexes',
+        0,
+        false,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition>
+      kanjiIndexesLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'kanjiIndexes',
+        0,
+        true,
+        length,
+        include,
+      );
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition>
+      kanjiIndexesLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'kanjiIndexes',
+        length,
+        include,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<JMdict, JMdict, QAfterFilterCondition> kanjiIndexesLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'kanjiIndexes',
         lower,
         includeLower,
         upper,
@@ -4371,6 +4768,12 @@ extension JMdictQueryWhereDistinct on QueryBuilder<JMdict, JMdict, QDistinct> {
     });
   }
 
+  QueryBuilder<JMdict, JMdict, QDistinct> distinctByKanjiIndexes() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'kanjiIndexes');
+    });
+  }
+
   QueryBuilder<JMdict, JMdict, QDistinct> distinctByKanjis() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'kanjis');
@@ -4425,6 +4828,12 @@ extension JMdictQueryProperty on QueryBuilder<JMdict, JMdict, QQueryProperty> {
   QueryBuilder<JMdict, List<String>?, QQueryOperations> jlptLevelProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'jlptLevel');
+    });
+  }
+
+  QueryBuilder<JMdict, List<String>, QQueryOperations> kanjiIndexesProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'kanjiIndexes');
     });
   }
 

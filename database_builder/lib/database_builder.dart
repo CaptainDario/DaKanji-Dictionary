@@ -21,3 +21,4 @@ export 'src/jlpt/jlpt.dart';
 export 'src/vocab_audio/vocab_audio.dart';
 export 'src/utils/repo_path_manager.dart';
 export 'src/database_type.dart';
+export 'src/width_conversion.dart';

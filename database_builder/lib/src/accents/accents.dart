@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:kana_kit/kana_kit.dart';
 import 'package:path/path.dart' as p;
 
 import 'package:isar/isar.dart';
@@ -23,26 +24,41 @@ Future<void> addAccentsToDict(Isar dictIsar) async {
 
   
   List<JMdict> addedAccents = [];
-  for (var row in accentRows) {
+  KanaKit k = KanaKit(config:
+    KanaKitConfig(passRomaji: true, passKanji: true, upcaseKatakana: false)
+  );
 
+  int i = 0;
+  for (var row in accentRows) {
+    String kanji = k.toHiragana(((row[1] == "" ? "" : row[0]) as String).toHalfWidth());
+    String reading = k.toHiragana(((row[1] == "" ? row[0] : row[1]) as String).toHalfWidth());
     List<JMdict> matches = dictIsar.jmdict.where()
-      .kanjisElementEqualTo(row[0])
+      .optional(kanji != "", (q) => 
+        q.kanjiIndexesElementEqualTo(kanji)
+      )
     .filter()
-      .readingsElementEqualTo(row[1])
+      .hiraganasElementEqualTo(reading)
     .findAllSync();
 
     for (var match in matches) {
       match.accents ??= List.generate(match.readings.length, (index) => null);
       
-      match.accents![match.readings.indexOf(row[1])] = 
+      match.accents![match.readings.map((e) => k.toHiragana(e)).toList().indexOf(reading)] = 
         JMDictAttribute(
           attributes: row[2].toString().split(",")
         );
 
-      dictIsar.writeTxnSync(() {
-        dictIsar.jmdict.putSync(match);
-      });
+      addedAccents.add(match);
+      //dictIsar.writeTxnSync(() {
+      //  dictIsar.jmdict.putSync(match);
+      //});
     }
+
+    if(matches.isEmpty){
+      print("No JMdict entry found for accent $i/${accentRows.length}: $kanji, $reading, ${row[2]}");
+    }
+
+    i++;
   }
 
   dictIsar.writeTxnSync(() {

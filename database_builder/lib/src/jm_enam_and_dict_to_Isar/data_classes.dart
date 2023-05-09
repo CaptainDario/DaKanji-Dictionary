@@ -156,13 +156,15 @@ class JMdict {
   int? audio;
 
   /// A list containing different versions how to write this entry using Kanji
-  @Index(type: IndexType.value)
   List<String> kanjis = <String>[];
+  /// List of indexes to find this entry
+  @Index(type: IndexType.value, caseSensitive: false)
+  List<String> kanjiIndexes = <String>[];
   /// Indicates unusual aspects of the kanji used in the entry
   /// 
   /// Notes: matches `kanjis` in length, if not null
   List<JMDictAttribute?>? kanjiInfo;
-
+  @Index(type: IndexType.value, caseSensitive: false)
   /// A list containing different versions how to read this entry
   /// 
   /// Note: meach `kanjis` in length
@@ -176,13 +178,12 @@ class JMdict {
   /// Note: matches `readings` in length, if not null
   List<JMDictAttribute?>? readingRestriction;
   /// Contains different versions how to read this entry using ONLY Hiragana
-  @Index(type: IndexType.value)
+  @Index(type: IndexType.value, caseSensitive: false)
   List<String> hiraganas;
   /// Indicates the pitch accent of the `readings` element at the same index
   /// 
   /// Note: matches `readings` in length, if not null
   List<JMDictAttribute?>? accents;
-
   /// The meanings of this entry and their translations
   List<LanguageMeanings> meanings = <LanguageMeanings>[];
   /// List of meanings indexes that are used to find this entry
@@ -206,6 +207,7 @@ class JMdict {
 
       // Kanji (k_ele)
       required this.kanjis,
+      required this.kanjiIndexes,
       required this.kanjiInfo,
 
       // Readings (r_ele)
