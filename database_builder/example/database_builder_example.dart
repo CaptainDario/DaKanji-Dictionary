@@ -17,6 +17,8 @@ void main() async {
   List<String> iso639_3oInclude  = ["eng", "deu", "rus", "zho", "ita", "fra", "spa", "pol"];
   await createExamplesIsar(iso639_3oInclude);
 
+  await createKradIsar();
+
   print("ALL FINISHED");
   return;
   
@@ -32,7 +34,14 @@ Future<void> createDictionaryIsar(List<String> iso639_2ToInclude) async {
   );
   
   await jmEnamAndDictToIsar(isarDict, iso639_2ToInclude);
-  print("jmenam done");
+  print("jm/enam created with entries: ${isarDict.jmdict.countSync()}");
+  await addAccentsToDict(isarDict);
+  print("accents added");
+  await addJLPTToDict(isarDict);
+  print("JLPT added");
+  processAudios(isarDict);
+  print("Audios added");
+  print("jm/enam done");
   await kanjidic2ToIsar(isarDict);
   print("kanjidic2 done");
   await kanjiVGToIsar(isarDict);
@@ -45,6 +54,11 @@ Future<void> createDictionaryIsar(List<String> iso639_2ToInclude) async {
   encoder.addFile(File("${RepoPathManager.getOutputFilesPath()}/dictionary.isar"));
   encoder.close();
   print("Zipping Dict DB done");
+
+  encoder.create("${RepoPathManager.getOutputFilesPath()}/audios.zip");
+  encoder.addDirectory(Directory("${RepoPathManager.getOutputFilesPath()}/audios"));
+  encoder.close();
+  print("Zipping audios done");
 }
 
 
@@ -65,4 +79,26 @@ Future<void> createExamplesIsar(List<String> iso639_3oInclude) async {
   encoder.addFile(File("${RepoPathManager.getOutputFilesPath()}/examples.isar"));
   encoder.close();
   print("Zipping Examples DB done");
+}
+
+
+Future<void> createKradIsar() async {
+
+  final isarKrad = await Isar.open(
+    [KradSchema],
+    name: "krad",
+    directory: RepoPathManager.getOutputFilesPath()
+  );
+  
+  await kradToIsar(isarKrad);
+  print("Krad done");
+
+  isarKrad.close();
+
+  var encoder = ZipFileEncoder();
+  encoder.create("${RepoPathManager.getOutputFilesPath()}/krad.zip");
+  encoder.addFile(File("${RepoPathManager.getOutputFilesPath()}/krad.isar"));
+  encoder.close();
+  print("Zipping Krad DB done");
+
 }

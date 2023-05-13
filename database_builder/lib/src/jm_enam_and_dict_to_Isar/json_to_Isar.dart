@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:database_builder/src/width_conversion.dart';
 import 'package:kana_kit/kana_kit.dart';
 import 'package:path/path.dart' as p;
 
@@ -10,46 +11,112 @@ import 'package:isar/isar.dart';
 
 
 
-List<JMdict> resolveReferences(List<JMdict_pre> items, Map map) {
-  List<JMdict> jmdict = <JMdict>[];
-  for (var item in items) {
-    List<Id> xrefs = <Id>[];
-    List<Id> re_infs = <Id>[];
-    for (var xref in item.xref) {
-      xref = xref.split("・")[0];
-      xrefs.add(map[xref]);
+/// Iterates over all entries in the given `items` and resolves the ID
+/// references in the fields `xref` and `antonyms` to the actual IDs
+void resolveReferences(List<JMdict> items, Map map) {
+
+  for (JMdict item in items) {
+    for (LanguageMeanings meaning in item.meanings) {
+      // convert xref
+      if(meaning.xref != null) {
+        for (int i = 0; i < meaning.xref!.length; i++) {
+          if (meaning.xref![i] == null) continue;
+
+          List<String?> parsedXrefs = <String>[];
+          for (String? subXref in  meaning.xref![i]!.attributes){
+
+            if(subXref == null) {
+              parsedXrefs.add(null);
+            }
+            else{
+              String xref = subXref.split("・")[0];
+              parsedXrefs.add(map[xref].toString());
+            }
+          }
+          meaning.xref![i]!.attributes = parsedXrefs;
+        }
+      }
+      // convert antonyms
+      if(meaning.antonyms != null){
+        for (int i = 0; i < meaning.antonyms!.length; i++) {
+          if (meaning.antonyms![i] == null) continue;
+          List<String?> parsedAnts = <String>[];
+          for (String? subAnt in  meaning.antonyms![i]!.attributes){
+
+            if(subAnt == null) {
+              parsedAnts.add(null);
+            }
+            else{
+              String ant = subAnt.split("・")[0];
+              parsedAnts.add(map[ant].toString());
+            }
+          }
+          meaning.antonyms![i]!.attributes = parsedAnts;
+        }
+      }
     }
-    jmdict.add(JMdict(
-        id: item.id,
-        kanjis: item.kanjis,
-        meanings: item.meanings,
-        hiraganas: item.hiraganas,
-        partOfSpeech: item.partOfSpeech,
-        readings: item.readings,
-        frequency: item.frequency,
-        field: item.field,
-        dialect: item.dialect,
-        xref: xrefs,
-        re_inf: item.re_inf));
   }
-  return jmdict;
+
+}
+
+/// Converts the given `jsonAttributes` to a list of [JMDictAttribute]
+List<JMDictAttribute?>? JsonToAttribute(List jsonAttributes, {bool convertToHalfWidth = false}){
+
+  List<JMDictAttribute?> attributes = List.filled(jsonAttributes.length, null);
+
+  // if there are no attributes, return null
+  if(jsonAttributes.every((e) => e == null)) return null;
+
+  for (int i = 0; i < jsonAttributes.length; i++) {
+    if(jsonAttributes[i] == null){
+      attributes[i] = null;
+    }
+    else{
+      List<String?> parsedAttributes = List<String?>.from(jsonAttributes[i]);
+      if(convertToHalfWidth){
+        parsedAttributes = parsedAttributes.map((e) => e!.toHalfWidth()).toList();
+      }
+
+      attributes[i] = JMDictAttribute(
+        attributes: parsedAttributes
+      );
+    }
+  }
+
+  return attributes;
+
 }
 
 List<T> dictJsonToList<T>(List dict) {
   List<T> entries = <T>[];
-  List<JMdict_pre> jmdictPre = <JMdict_pre>[];
   Map<String, Id> map = HashMap();
-  KanaKit k = KanaKit();
+  KanaKit k = KanaKit(config: KanaKitConfig(passRomaji: true, passKanji: true, upcaseKatakana: false));
 
   for (final jsonEntry in dict) {
     List<LanguageMeanings> meanings = <LanguageMeanings>[];
-    for (final jsonMeaning in jsonEntry["meanings"]) {
-      meanings.add(
-        LanguageMeanings(
-          language: jsonMeaning["language"],
-          meanings: List<String>.from(jsonMeaning["meanings"])
-        )
+
+    int cnt = 0;
+    for (var jsonMeaning in jsonEntry["meanings"]) {
+
+      int listEnd = cnt + jsonMeaning["meanings"].length as int;
+
+      LanguageMeanings lM = LanguageMeanings(
+        language: jsonMeaning["language"],
+        meanings: List<JMDictAttribute>.from(jsonMeaning["meanings"].map(
+          (m) => JMDictAttribute(attributes: List<String>.from(m))
+        )),
+        senseKanjiTarget: JsonToAttribute(jsonEntry["stagk"].sublist(cnt, listEnd), convertToHalfWidth: true),
+        senseReadingTarget: JsonToAttribute(jsonEntry["stagr"].sublist(cnt, listEnd), convertToHalfWidth: true),
+        xref: JsonToAttribute(jsonEntry["xref"].sublist(cnt, listEnd)),
+        antonyms: JsonToAttribute(jsonEntry["ant"].sublist(cnt, listEnd)),
+        partOfSpeech: JsonToAttribute(jsonEntry["pos"].sublist(cnt, listEnd)),
+        field: JsonToAttribute(jsonEntry["fld"].sublist(cnt, listEnd)),
+        source: JsonToAttribute(jsonEntry["lsource"].sublist(cnt, listEnd)),
+        dialect: JsonToAttribute(jsonEntry["dial"].sublist(cnt, listEnd)),
+        senseInfo: JsonToAttribute(jsonEntry["s_inf"].sublist(cnt, listEnd)),
       );
+      meanings.add(lM);
+      cnt = listEnd;
     }
 
     Id id = jsonEntry["ent_seq"];
@@ -64,7 +131,9 @@ List<T> dictJsonToList<T>(List dict) {
           meanings: meanings,
           partOfSpeech: partOfSpeech,
           readings: readings) as T);
-    } else if (T == JMdict) {
+    }
+    else if (T == JMdict) {
+      // add the readings / kanjis to the map to later resolve the references
       kanjis.forEach((element) {
         map[element] = id;
       });
@@ -72,38 +141,41 @@ List<T> dictJsonToList<T>(List dict) {
         map[element] = id;
       });
 
-      jmdictPre.add(JMdict_pre(
+      entries.add(JMdict(
         id: id,
-        kanjis: kanjis,
-        meanings: meanings,
-        hiraganas: readings.map((e) => k.toHiragana(e)).toList(),
-        partOfSpeech: partOfSpeech,
-        readings: readings,
+
         frequency: jsonEntry["frequency"],
-        field: List<String>.from(jsonEntry["fld"]),
-        dialect: List<String>.from(jsonEntry["dial"]),
-        xref: List<String>.from(jsonEntry["xref"]),
-        re_inf: List<String>.from(jsonEntry["re_inf"])
-      ));
+
+        kanjis: kanjis.map((e) => e.toHalfWidth()).toList(),
+        kanjiIndexes: kanjis.map((e) => k.toHiragana(e).toHalfWidth()).toList(),
+        kanjiInfo: JsonToAttribute(jsonEntry["k_inf"]),
+        readings: readings,
+        readingInfo: JsonToAttribute(jsonEntry["re_inf"]),
+        readingRestriction: JsonToAttribute(jsonEntry["re_restr"]),
+        hiraganas: readings.map((e) => k.toHiragana(e).toHalfWidth()).toList(),
+        
+        meanings: meanings,
+      ) as T);
     }
   }
 
   if (T == JMdict){
-    entries = resolveReferences(jmdictPre, map) as List<T>;
+    resolveReferences(entries as List<JMdict>, map);
   }
+
   return entries;
 }
 
 /// Extracts the meanings of the language given by `iso639_2T` from the
 /// dictionary `wholeDict` and returns a json map with the id of the JMdict
 /// entry as key and the meaning as value.
-Map<String, List<String>> jmListToMeaningJson(List<JMdict> wholeDict, String iso639_2T){
-  Map<String, List<String>> dict = {};
+Map<String, String> jmListToMeaningJson(List<JMdict> wholeDict, String iso639_2T){
+  Map<String, String> dict = {};
 
   for (JMdict jm in wholeDict) {
     for (LanguageMeanings meaning in jm.meanings) {
       if(meaning.language == iso639_2T){
-        dict[jm.id.toString()] = meaning.meanings!;
+        dict[jm.id.toString()] = jsonEncode(meaning);
       }
     }
   }
@@ -119,16 +191,14 @@ Map<String, List<String>> jmListToMeaningJson(List<JMdict> wholeDict, String iso
 void addLanguageToJMIsar(String meaningsJson, String iso639_2T, Isar isar){
 
   // convert the json string to a Map<String, List<String>>
-  Map<int, List<String>> meanings =
-    (jsonDecode(meaningsJson) as Map<String, dynamic>)
-      .map((key, value) => MapEntry(int.parse(key), List<String>.from(value)));
+  Map meanings = jsonDecode(meaningsJson);
 
   for (var entry in meanings.entries) {
-    JMdict jm = isar.jmdict.getSync(entry.key)!;
+    JMdict jm = isar.jmdict.getSync(int.parse(entry.key))!;
     // update meanings in isar with new language
     jm.meanings = [
       ...jm.meanings.where((e) => e.language != iso639_2T).toList(),
-      LanguageMeanings(language: iso639_2T, meanings: entry.value)
+      LanguageMeanings.fromJson(jsonDecode(entry.value))
     ];
     isar.writeTxnSync(() {
       isar.jmdict.putSync(jm);
@@ -137,7 +207,7 @@ void addLanguageToJMIsar(String meaningsJson, String iso639_2T, Isar isar){
 
 }
 
-jmdictJsonToIsar(List dict, Isar isar, List<String> translationIso639_2T){
+void jmdictJsonToIsar(List dict, Isar isar, List<String> translationIso639_2T){
   // get the whole dictionary as list of JMdict
   List<JMdict> wholeDict = dictJsonToList<JMdict>(dict);
   
@@ -162,7 +232,7 @@ jmdictJsonToIsar(List dict, Isar isar, List<String> translationIso639_2T){
 
   /// add base dictionary to isar (has no translations)
   isar.writeTxnSync(() {
-     isar.jmdict.putAllSync(emptyDict, saveLinks: true);
+    isar.jmdict.putAllSync(emptyDict, saveLinks: true);
   });
   
 
@@ -170,7 +240,11 @@ jmdictJsonToIsar(List dict, Isar isar, List<String> translationIso639_2T){
   stdout.write("Added: ");
   for (var iso in translationIso639_2T) {
     addLanguageToJMIsar(
-      File(p.joinAll([RepoPathManager.getOutputFilesPath(), "jmdict_json", "$iso.json"])).readAsStringSync(),
+      File(
+        p.joinAll([
+          RepoPathManager.getOutputFilesPath(), "jmdict_json", "$iso.json"
+        ])
+      ).readAsStringSync(),
       iso, isar
     );
     stdout.write("$iso, ");

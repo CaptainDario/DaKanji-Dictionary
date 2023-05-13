@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import json
 # import prettyprinter as pp
 from dataclasses import dataclass, field
