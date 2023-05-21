@@ -23,7 +23,6 @@ Future<void> addAccentsToDict(Isar dictIsar) async {
     ).convert(accentsFile);
 
   
-  List<JMdict> addedAccents = [];
   KanaKit k = KanaKit(config:
     KanaKitConfig(passRomaji: true, passKanji: true, upcaseKatakana: false)
   );
@@ -48,10 +47,9 @@ Future<void> addAccentsToDict(Isar dictIsar) async {
           attributes: row[2].toString().split(",")
         );
 
-      addedAccents.add(match);
-      //dictIsar.writeTxnSync(() {
-      //  dictIsar.jmdict.putSync(match);
-      //});
+      dictIsar.writeTxnSync(() {
+        dictIsar.jmdict.putSync(match);
+      });
     }
 
     if(matches.isEmpty){
@@ -61,7 +59,4 @@ Future<void> addAccentsToDict(Isar dictIsar) async {
     i++;
   }
 
-  dictIsar.writeTxnSync(() {
-    dictIsar.jmdict.putAllSync(addedAccents);
-  });
 }
