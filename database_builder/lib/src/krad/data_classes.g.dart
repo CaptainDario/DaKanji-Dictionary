@@ -60,7 +60,7 @@ const KradSchema = CollectionSchema(
       properties: [
         IndexPropertySchema(
           name: r'kanjis',
-          type: IndexType.hash,
+          type: IndexType.hashElements,
           caseSensitive: true,
         )
       ],
@@ -287,30 +287,30 @@ extension KradQueryWhere on QueryBuilder<Krad, Krad, QWhereClause> {
     });
   }
 
-  QueryBuilder<Krad, Krad, QAfterWhereClause> kanjisEqualTo(
-      List<String> kanjis) {
+  QueryBuilder<Krad, Krad, QAfterWhereClause> kanjisElementEqualTo(
+      String kanjisElement) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
         indexName: r'kanjis',
-        value: [kanjis],
+        value: [kanjisElement],
       ));
     });
   }
 
-  QueryBuilder<Krad, Krad, QAfterWhereClause> kanjisNotEqualTo(
-      List<String> kanjis) {
+  QueryBuilder<Krad, Krad, QAfterWhereClause> kanjisElementNotEqualTo(
+      String kanjisElement) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
             .addWhereClause(IndexWhereClause.between(
               indexName: r'kanjis',
               lower: [],
-              upper: [kanjis],
+              upper: [kanjisElement],
               includeUpper: false,
             ))
             .addWhereClause(IndexWhereClause.between(
               indexName: r'kanjis',
-              lower: [kanjis],
+              lower: [kanjisElement],
               includeLower: false,
               upper: [],
             ));
@@ -318,14 +318,14 @@ extension KradQueryWhere on QueryBuilder<Krad, Krad, QWhereClause> {
         return query
             .addWhereClause(IndexWhereClause.between(
               indexName: r'kanjis',
-              lower: [kanjis],
+              lower: [kanjisElement],
               includeLower: false,
               upper: [],
             ))
             .addWhereClause(IndexWhereClause.between(
               indexName: r'kanjis',
               lower: [],
-              upper: [kanjis],
+              upper: [kanjisElement],
               includeUpper: false,
             ));
       }

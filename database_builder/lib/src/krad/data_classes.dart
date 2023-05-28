@@ -14,7 +14,7 @@ class Krad {
   /// This entries radical character
   @Index()
   String character;
-  @Index()
+  @Index(type: IndexType.hashElements)
   List<String> kanjis = <String>[];
   /// The stroke count of this radical
   @Index()
