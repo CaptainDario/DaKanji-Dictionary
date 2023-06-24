@@ -41,6 +41,7 @@ and place them in the `inputFiles directory`.
 Your folder should look like that
 
 * inputFiles
+  * accents.txt
   * japanese-vocabulary-pronunciation-audio-master
     * lib
       * mp3
@@ -56,13 +57,12 @@ Your folder should look like that
   * kanjiVG
     * 0f9a8.svg
     * 0f9ab.svg
-    * ...
+    * ...  
+  * radkfile-x.x.x.json
+  * kradfile-x.x.x.json
   * tatoeba
     * links.csv
     * sentences.csv
-  * accents.txt
-  * radkfile-x.x.x.json
-  
 
 Now Run those commands (your current python environment needs to have all requirements from `requirments.txt` installed)
 
