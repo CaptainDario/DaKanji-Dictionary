@@ -11,13 +11,14 @@ void main() async {
 
   // all languages that should be included in the dict
   List<String> iso639_2ToInclude = ["eng", "ger", "rus", "chi", "ita", "fre", "spa", "pol"];
-  await createDictionaryIsar(iso639_2ToInclude);
+  //await createDictionaryIsar(iso639_2ToInclude);
 
   // all languages that should be included in the examples
   List<String> iso639_3oInclude  = ["eng", "deu", "rus", "zho", "ita", "fra", "spa", "pol"];
-  await createExamplesIsar(iso639_3oInclude);
+  //await createExamplesIsar(iso639_3oInclude);
 
   await createKradIsar();
+  await createRadkIsar();
 
   print("ALL FINISHED");
   return;
@@ -100,5 +101,26 @@ Future<void> createKradIsar() async {
   encoder.addFile(File("${RepoPathManager.getOutputFilesPath()}/krad.isar"));
   encoder.close();
   print("Zipping Krad DB done");
+
+}
+
+Future<void> createRadkIsar() async {
+
+  final isarRadk = await Isar.open(
+    [RadkSchema],
+    name: "radk",
+    directory: RepoPathManager.getOutputFilesPath()
+  );
+  
+  await radkToIsar(isarRadk);
+  print("Radk done");
+
+  isarRadk.close();
+
+  var encoder = ZipFileEncoder();
+  encoder.create("${RepoPathManager.getOutputFilesPath()}/radk.zip");
+  encoder.addFile(File("${RepoPathManager.getOutputFilesPath()}/radk.isar"));
+  encoder.close();
+  print("Zipping Radk DB done");
 
 }
