@@ -36,6 +36,9 @@ class Meaning {
 }
 
 /// Class to store the most important bits of a KanjiDic2 database entry. 
+///
+/// To generate the Isar code run:
+/// `dart run build_runner build --delete-conflicting-outputs`
 @collection
 class Kanjidic2 {
   /// A unique id of this Kanji's entry in the database
@@ -49,6 +52,8 @@ class Kanjidic2 {
   List<JIS> variants = <JIS>[];
   /// The frequency of this Kanji
   int frequency;
+  /// How many strokes does this kanji have
+  int strokeCount;
   /// The jlpt level in which this kanji should be learned
   int jlpt;
   /// A list of all meanings of this character
@@ -63,6 +68,7 @@ class Kanjidic2 {
       required this.character,
       required this.grade,
       required this.frequency,
+      required this.strokeCount,
       required this.jlpt,
       required this.nanoris
     }

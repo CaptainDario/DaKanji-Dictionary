@@ -19,6 +19,7 @@ void jsonToIsar(List data, Isar isar) {
         character: jsonEntry["literal"],
         grade: jsonEntry["grade"],
         frequency: jsonEntry["frequency"],
+        strokeCount: jsonEntry["stroke_count"],
         jlpt: jsonEntry["jlpt"],
         nanoris: nanoris);
     entry.variants.addAll(variants);

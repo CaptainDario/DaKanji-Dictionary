@@ -54,8 +54,13 @@ const Kanjidic2Schema = CollectionSchema(
       type: IsarType.objectList,
       target: r'Reading',
     ),
-    r'variants': PropertySchema(
+    r'strokeCount': PropertySchema(
       id: 7,
+      name: r'strokeCount',
+      type: IsarType.long,
+    ),
+    r'variants': PropertySchema(
+      id: 8,
       name: r'variants',
       type: IsarType.objectList,
       target: r'JIS',
@@ -157,8 +162,9 @@ void _kanjidic2Serialize(
     ReadingSchema.serialize,
     object.readings,
   );
+  writer.writeLong(offsets[7], object.strokeCount);
   writer.writeObjectList<JIS>(
-    offsets[7],
+    offsets[8],
     allOffsets,
     JISSchema.serialize,
     object.variants,
@@ -177,6 +183,7 @@ Kanjidic2 _kanjidic2Deserialize(
     grade: reader.readLong(offsets[2]),
     jlpt: reader.readLong(offsets[3]),
     nanoris: reader.readStringList(offsets[5]) ?? [],
+    strokeCount: reader.readLong(offsets[7]),
   );
   object.id = id;
   object.meanings = reader.readObjectList<Meaning>(
@@ -194,7 +201,7 @@ Kanjidic2 _kanjidic2Deserialize(
       ) ??
       [];
   object.variants = reader.readObjectList<JIS>(
-        offsets[7],
+        offsets[8],
         JISSchema.deserialize,
         allOffsets,
         JIS(),
@@ -237,6 +244,8 @@ P _kanjidic2DeserializeProp<P>(
           ) ??
           []) as P;
     case 7:
+      return (reader.readLong(offset)) as P;
+    case 8:
       return (reader.readObjectList<JIS>(
             offset,
             JISSchema.deserialize,
@@ -1130,6 +1139,60 @@ extension Kanjidic2QueryFilter
     });
   }
 
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> strokeCountEqualTo(
+      int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'strokeCount',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      strokeCountGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'strokeCount',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> strokeCountLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'strokeCount',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> strokeCountBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'strokeCount',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
       variantsLengthEqualTo(int length) {
     return QueryBuilder.apply(this, (query) {
@@ -1294,6 +1357,18 @@ extension Kanjidic2QuerySortBy on QueryBuilder<Kanjidic2, Kanjidic2, QSortBy> {
       return query.addSortBy(r'jlpt', Sort.desc);
     });
   }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByStrokeCount() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'strokeCount', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByStrokeCountDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'strokeCount', Sort.desc);
+    });
+  }
 }
 
 extension Kanjidic2QuerySortThenBy
@@ -1357,6 +1432,18 @@ extension Kanjidic2QuerySortThenBy
       return query.addSortBy(r'jlpt', Sort.desc);
     });
   }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByStrokeCount() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'strokeCount', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByStrokeCountDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'strokeCount', Sort.desc);
+    });
+  }
 }
 
 extension Kanjidic2QueryWhereDistinct
@@ -1389,6 +1476,12 @@ extension Kanjidic2QueryWhereDistinct
   QueryBuilder<Kanjidic2, Kanjidic2, QDistinct> distinctByNanoris() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'nanoris');
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QDistinct> distinctByStrokeCount() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'strokeCount');
     });
   }
 }
@@ -1440,6 +1533,12 @@ extension Kanjidic2QueryProperty
   QueryBuilder<Kanjidic2, List<Reading>, QQueryOperations> readingsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'readings');
+    });
+  }
+
+  QueryBuilder<Kanjidic2, int, QQueryOperations> strokeCountProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'strokeCount');
     });
   }
 

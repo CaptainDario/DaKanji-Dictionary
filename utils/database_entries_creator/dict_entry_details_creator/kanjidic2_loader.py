@@ -28,6 +28,7 @@ class Entry:
     grade: int = -1
     variants: list[JIS] = field(default_factory=list)
     frequency: int = -1
+    stroke_count: int = -1
     jlpt: int = -1
     readings: list[Reading] = field(default_factory=list)
     meanings: list[Meaning] = field(default_factory=list)
@@ -65,6 +66,8 @@ def execute():
             entry.grade = int(elem.text)
         elif elem.tag == "freq":
             entry.frequency = int(elem.text)
+        elif elem.tag == "stroke_count":
+            entry.stroke_count = int(elem.text)
         elif elem.tag == "jlpt":
             entry.jlpt = int(elem.text)
         elif elem.tag == "variant":
