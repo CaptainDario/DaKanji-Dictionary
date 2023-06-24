@@ -12,18 +12,17 @@ Future<bool> kradToIsar(Isar isar) async {
   List<Krad> entries = <Krad>[];
 
   // read radical definitions
-  Map radicals = getRadicals()["radicals"];
-  for (MapEntry radicalDef in radicals.entries) {
+  Map radicals = parseKradFile()["kanji"];
+  for (MapEntry kanjiDef in radicals.entries) {
     Krad krad = Krad(
-      character: radicalDef.key,
-      kanjis: List<String>.from(radicalDef.value["kanji"]),
-      strokeCount: radicalDef.value["strokeCount"],
+      kanji: kanjiDef.key,
+      radicals: List<String>.from(kanjiDef.value),
     );
     entries.add(krad);
   }
 
-  isar.writeTxn(() async {
-    isar.krads.putAll(entries);
+  isar.writeTxnSync(()  {
+    isar.krads.putAllSync(entries);
   });
   print(isar.krads.countSync());
 
@@ -32,11 +31,11 @@ Future<bool> kradToIsar(Isar isar) async {
 }
 
 /// parses the KRADFILE into a list of lists
-Map getRadicals(){
+Map parseKradFile(){
 
   return jsonDecode(
     File(
-      p.join(RepoPathManager.getInputFilesPath(), "radkfile-3.5.0.json")
+      p.join(RepoPathManager.getInputFilesPath(), "kradfile-3.5.0.json")
     ).readAsStringSync()
   );
 
