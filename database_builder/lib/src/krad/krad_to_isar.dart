@@ -12,7 +12,7 @@ Future<bool> kradToIsar(Isar isar) async {
   List<Krad> entries = <Krad>[];
 
   // read radical definitions
-  Map radicals = parseKradFile()["kanji"];
+  Map radicals = parseKradFile();
   for (MapEntry kanjiDef in radicals.entries) {
     Krad krad = Krad(
       kanji: kanjiDef.key,
@@ -35,7 +35,7 @@ Map parseKradFile(){
 
   return jsonDecode(
     File(
-      p.join(RepoPathManager.getPartiallyProcessedFilesPath(), "kradfile.json")
+      p.join(RepoPathManager.getPartiallyProcessedFilesPath(), "radicals", "krad.json")
     ).readAsStringSync()
   );
 

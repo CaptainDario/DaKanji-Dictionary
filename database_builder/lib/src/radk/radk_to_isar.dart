@@ -12,7 +12,7 @@ Future<bool> radkToIsar(Isar isar) async {
   List<Radk> entries = <Radk>[];
 
   // read radical definitions
-  Map radicals = parseRadkFile()["radicals"];
+  Map radicals = parseRadkFile();
   for (MapEntry radicalDef in radicals.entries) {
     Radk radk = Radk(
       radical: radicalDef.key,
@@ -36,7 +36,7 @@ Map parseRadkFile(){
 
   return jsonDecode(
     File(
-      p.join(RepoPathManager.getPartiallyProcessedFilesPath(), "radkfile.json")
+      p.join(RepoPathManager.getPartiallyProcessedFilesPath(), "radicals", "radk.json")
     ).readAsStringSync()
   );
 
