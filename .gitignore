@@ -36,6 +36,7 @@ inputFiles/**
 partiallyProcessedFiles/JMdict/*
 partiallyProcessedFiles/kanjidic2/*
 partiallyProcessedFiles/kanjiVG/*
+partiallyProcessedFiles/radicals/*
 !partiallyProcessedFiles/JMdict/.gitkeep
 !partiallyProcessedFiles/kanjidic2/.gitkeep
 !partiallyProcessedFiles/kanjiVG/.gitkeep
