@@ -11,11 +11,11 @@ void main() async {
 
   // all languages that should be included in the dict
   List<String> iso639_2ToInclude = ["eng", "ger", "rus", "chi", "ita", "fre", "spa", "pol"];
-  //await createDictionaryIsar(iso639_2ToInclude);
+  await createDictionaryIsar(iso639_2ToInclude);
 
   // all languages that should be included in the examples
   List<String> iso639_3oInclude  = ["eng", "deu", "rus", "zho", "ita", "fra", "spa", "pol"];
-  //await createExamplesIsar(iso639_3oInclude);
+  await createExamplesIsar(iso639_3oInclude);
 
   await createKradIsar();
   await createRadkIsar();
