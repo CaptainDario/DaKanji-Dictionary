@@ -51,7 +51,7 @@ def preprocess(krad_path : str, radk_path : str):
             del json_data[elem]
 
         # save new radk file to disk
-        new_radk_file = os.path.join(partially_processed_files_dir, os.path.basename(os.path.normpath(radk_path)))
+        new_radk_file = os.path.join(partially_processed_files_dir, "radk.json")
         with open(new_radk_file, mode="w+", encoding="utf8") as f:
             f.write(json.dumps(json_data, ensure_ascii=False))
 
@@ -61,8 +61,8 @@ def preprocess(krad_path : str, radk_path : str):
             for old_radical, new_radical in zip(remove, add):
                 krad = krad.replace(old_radical, new_radical)
 
-            new_radk_file = os.path.join(partially_processed_files_dir, os.path.basename(os.path.normpath(krad_path)))
-            with open(new_radk_file, mode="w+", encoding="utf8") as f:
+            new_krad_file = os.path.join(partially_processed_files_dir, "krad.json")
+            with open(new_krad_file, mode="w+", encoding="utf8") as f:
                 f.write(krad)
 
 

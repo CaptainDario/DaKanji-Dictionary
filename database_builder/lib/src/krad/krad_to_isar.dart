@@ -35,7 +35,7 @@ Map parseKradFile(){
 
   return jsonDecode(
     File(
-      p.join(RepoPathManager.getInputFilesPath(), "kradfile-3.5.0.json")
+      p.join(RepoPathManager.getPartiallyProcessedFilesPath(), "kradfile.json")
     ).readAsStringSync()
   );
 

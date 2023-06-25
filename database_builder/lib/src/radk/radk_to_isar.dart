@@ -36,7 +36,7 @@ Map parseRadkFile(){
 
   return jsonDecode(
     File(
-      p.join(RepoPathManager.getInputFilesPath(), "radkfile-3.5.0.json")
+      p.join(RepoPathManager.getPartiallyProcessedFilesPath(), "radkfile.json")
     ).readAsStringSync()
   );
 
