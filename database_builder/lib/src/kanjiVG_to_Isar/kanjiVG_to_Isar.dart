@@ -3,10 +3,14 @@ import 'package:database_builder/database_builder.dart';
 import 'package:isar/isar.dart';
 import 'package:path/path.dart' as p;
 
+
+
+/// Extracts the stroke count from the given `fileContent` (kanjivg entry)
 short getStrokeCount(String fileContent){
   return RegExp(r'<text transform="matrix.*<\/text>').allMatches(fileContent).length;
 }
 
+/// Extracs all radicals from the given `fileContent` (kanjivg entry)
 List<String> getAllRadicals(String fileContent){
   List<String> radicals = <String>[];
   for (final Match m in RegExp(r'<g.* kvg:element="(.)".* kvg:radical="(.)*">').allMatches(fileContent)) {
@@ -15,6 +19,7 @@ List<String> getAllRadicals(String fileContent){
   return radicals;
 }
 
+/// Converts the kanjiVG database to an isar instance
 Future<bool> kanjiVGToIsar(Isar isar) async {
 // Future<bool> main() async{
   var dbName = 'kanji_SVG';
