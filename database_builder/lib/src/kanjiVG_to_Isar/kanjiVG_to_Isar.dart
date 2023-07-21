@@ -21,8 +21,7 @@ List<String> getAllRadicals(String fileContent){
 
 /// Converts the kanjiVG database to an isar instance
 Future<bool> kanjiVGToIsar(Isar isar) async {
-// Future<bool> main() async{
-  var dbName = 'kanji_SVG';
+  
   print("Starting kanjiVg");
   
   if (isar.kanjiSVGs.countSync() <= 0) {
@@ -37,7 +36,13 @@ Future<bool> kanjiVGToIsar(Isar isar) async {
             radix: 16));
         var fileContent = (file).readAsStringSync();
 
-        var kanjiSVG = KanjiSVG(character: character, svg: fileContent, strokes: getStrokeCount(fileContent), radicals: getAllRadicals(fileContent));
+        var kanjiSVG = KanjiSVG(
+          kanjiVGId: file.uri.pathSegments.last.replaceAll(".svg", ""),
+          character: character,
+          svg: fileContent,
+          strokes: getStrokeCount(fileContent),
+          radicals: getAllRadicals(fileContent)
+        );
         kanjis.add(kanjiSVG);
       }
     }
