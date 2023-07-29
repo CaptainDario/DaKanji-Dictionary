@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'data_classes.dart';
 import 'package:isar/isar.dart';
 
@@ -20,7 +22,13 @@ void jsonToIsar(List data, Isar isar) {
         grade: jsonEntry["grade"],
         frequency: jsonEntry["frequency"],
         strokeCount: jsonEntry["stroke_count"],
-        jlpt: jsonEntry["jlpt"],
+        jlptOld: jsonEntry["jlpt_old"],
+        jlptNew: jsonEntry["jlpt_new"],
+        klc: jsonEntry["klc"],
+        wanikani: jsonEntry["wanikani"],
+        rtkOld: jsonEntry["rtk_old"],
+        rtkNew: jsonEntry["rtk_new"],
+        kanken: jsonEntry["kanken"],
         nanoris: nanoris);
     entry.variants.addAll(variants);
     entry.readings.addAll(readings);

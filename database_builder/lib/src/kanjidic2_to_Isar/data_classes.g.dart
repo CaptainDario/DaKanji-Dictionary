@@ -32,38 +32,68 @@ const Kanjidic2Schema = CollectionSchema(
       name: r'grade',
       type: IsarType.long,
     ),
-    r'jlpt': PropertySchema(
+    r'jlptNew': PropertySchema(
       id: 3,
-      name: r'jlpt',
+      name: r'jlptNew',
+      type: IsarType.long,
+    ),
+    r'jlptOld': PropertySchema(
+      id: 4,
+      name: r'jlptOld',
+      type: IsarType.long,
+    ),
+    r'kanken': PropertySchema(
+      id: 5,
+      name: r'kanken',
+      type: IsarType.string,
+    ),
+    r'klc': PropertySchema(
+      id: 6,
+      name: r'klc',
       type: IsarType.long,
     ),
     r'meanings': PropertySchema(
-      id: 4,
+      id: 7,
       name: r'meanings',
       type: IsarType.objectList,
       target: r'Meaning',
     ),
     r'nanoris': PropertySchema(
-      id: 5,
+      id: 8,
       name: r'nanoris',
       type: IsarType.stringList,
     ),
     r'readings': PropertySchema(
-      id: 6,
+      id: 9,
       name: r'readings',
       type: IsarType.objectList,
       target: r'Reading',
     ),
+    r'rtkNew': PropertySchema(
+      id: 10,
+      name: r'rtkNew',
+      type: IsarType.long,
+    ),
+    r'rtkOld': PropertySchema(
+      id: 11,
+      name: r'rtkOld',
+      type: IsarType.long,
+    ),
     r'strokeCount': PropertySchema(
-      id: 7,
+      id: 12,
       name: r'strokeCount',
       type: IsarType.long,
     ),
     r'variants': PropertySchema(
-      id: 8,
+      id: 13,
       name: r'variants',
       type: IsarType.objectList,
       target: r'JIS',
+    ),
+    r'wanikani': PropertySchema(
+      id: 14,
+      name: r'wanikani',
+      type: IsarType.long,
     )
   },
   estimateSize: _kanjidic2EstimateSize,
@@ -105,6 +135,7 @@ int _kanjidic2EstimateSize(
 ) {
   var bytesCount = offsets.last;
   bytesCount += 3 + object.character.length * 3;
+  bytesCount += 3 + object.kanken.length * 3;
   bytesCount += 3 + object.meanings.length * 3;
   {
     final offsets = allOffsets[Meaning]!;
@@ -148,27 +179,33 @@ void _kanjidic2Serialize(
   writer.writeString(offsets[0], object.character);
   writer.writeLong(offsets[1], object.frequency);
   writer.writeLong(offsets[2], object.grade);
-  writer.writeLong(offsets[3], object.jlpt);
+  writer.writeLong(offsets[3], object.jlptNew);
+  writer.writeLong(offsets[4], object.jlptOld);
+  writer.writeString(offsets[5], object.kanken);
+  writer.writeLong(offsets[6], object.klc);
   writer.writeObjectList<Meaning>(
-    offsets[4],
+    offsets[7],
     allOffsets,
     MeaningSchema.serialize,
     object.meanings,
   );
-  writer.writeStringList(offsets[5], object.nanoris);
+  writer.writeStringList(offsets[8], object.nanoris);
   writer.writeObjectList<Reading>(
-    offsets[6],
+    offsets[9],
     allOffsets,
     ReadingSchema.serialize,
     object.readings,
   );
-  writer.writeLong(offsets[7], object.strokeCount);
+  writer.writeLong(offsets[10], object.rtkNew);
+  writer.writeLong(offsets[11], object.rtkOld);
+  writer.writeLong(offsets[12], object.strokeCount);
   writer.writeObjectList<JIS>(
-    offsets[8],
+    offsets[13],
     allOffsets,
     JISSchema.serialize,
     object.variants,
   );
+  writer.writeLong(offsets[14], object.wanikani);
 }
 
 Kanjidic2 _kanjidic2Deserialize(
@@ -181,27 +218,33 @@ Kanjidic2 _kanjidic2Deserialize(
     character: reader.readString(offsets[0]),
     frequency: reader.readLong(offsets[1]),
     grade: reader.readLong(offsets[2]),
-    jlpt: reader.readLong(offsets[3]),
-    nanoris: reader.readStringList(offsets[5]) ?? [],
-    strokeCount: reader.readLong(offsets[7]),
+    jlptNew: reader.readLong(offsets[3]),
+    jlptOld: reader.readLong(offsets[4]),
+    kanken: reader.readString(offsets[5]),
+    klc: reader.readLong(offsets[6]),
+    nanoris: reader.readStringList(offsets[8]) ?? [],
+    rtkNew: reader.readLong(offsets[10]),
+    rtkOld: reader.readLong(offsets[11]),
+    strokeCount: reader.readLong(offsets[12]),
+    wanikani: reader.readLong(offsets[14]),
   );
   object.id = id;
   object.meanings = reader.readObjectList<Meaning>(
-        offsets[4],
+        offsets[7],
         MeaningSchema.deserialize,
         allOffsets,
         Meaning(),
       ) ??
       [];
   object.readings = reader.readObjectList<Reading>(
-        offsets[6],
+        offsets[9],
         ReadingSchema.deserialize,
         allOffsets,
         Reading(),
       ) ??
       [];
   object.variants = reader.readObjectList<JIS>(
-        offsets[8],
+        offsets[13],
         JISSchema.deserialize,
         allOffsets,
         JIS(),
@@ -226,6 +269,12 @@ P _kanjidic2DeserializeProp<P>(
     case 3:
       return (reader.readLong(offset)) as P;
     case 4:
+      return (reader.readLong(offset)) as P;
+    case 5:
+      return (reader.readString(offset)) as P;
+    case 6:
+      return (reader.readLong(offset)) as P;
+    case 7:
       return (reader.readObjectList<Meaning>(
             offset,
             MeaningSchema.deserialize,
@@ -233,9 +282,9 @@ P _kanjidic2DeserializeProp<P>(
             Meaning(),
           ) ??
           []) as P;
-    case 5:
+    case 8:
       return (reader.readStringList(offset) ?? []) as P;
-    case 6:
+    case 9:
       return (reader.readObjectList<Reading>(
             offset,
             ReadingSchema.deserialize,
@@ -243,9 +292,13 @@ P _kanjidic2DeserializeProp<P>(
             Reading(),
           ) ??
           []) as P;
-    case 7:
+    case 10:
       return (reader.readLong(offset)) as P;
-    case 8:
+    case 11:
+      return (reader.readLong(offset)) as P;
+    case 12:
+      return (reader.readLong(offset)) as P;
+    case 13:
       return (reader.readObjectList<JIS>(
             offset,
             JISSchema.deserialize,
@@ -253,6 +306,8 @@ P _kanjidic2DeserializeProp<P>(
             JIS(),
           ) ??
           []) as P;
+    case 14:
+      return (reader.readLong(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -686,43 +741,43 @@ extension Kanjidic2QueryFilter
     });
   }
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> jlptEqualTo(
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> jlptNewEqualTo(
       int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'jlpt',
+        property: r'jlptNew',
         value: value,
       ));
     });
   }
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> jlptGreaterThan(
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> jlptNewGreaterThan(
     int value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'jlpt',
+        property: r'jlptNew',
         value: value,
       ));
     });
   }
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> jlptLessThan(
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> jlptNewLessThan(
     int value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'jlpt',
+        property: r'jlptNew',
         value: value,
       ));
     });
   }
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> jlptBetween(
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> jlptNewBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -730,7 +785,243 @@ extension Kanjidic2QueryFilter
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'jlpt',
+        property: r'jlptNew',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> jlptOldEqualTo(
+      int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'jlptOld',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> jlptOldGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'jlptOld',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> jlptOldLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'jlptOld',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> jlptOldBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'jlptOld',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> kankenEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'kanken',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> kankenGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'kanken',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> kankenLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'kanken',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> kankenBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'kanken',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> kankenStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'kanken',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> kankenEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'kanken',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> kankenContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'kanken',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> kankenMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'kanken',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> kankenIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'kanken',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> kankenIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'kanken',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> klcEqualTo(
+      int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'klc',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> klcGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'klc',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> klcLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'klc',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> klcBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'klc',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -1139,6 +1430,112 @@ extension Kanjidic2QueryFilter
     });
   }
 
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> rtkNewEqualTo(
+      int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'rtkNew',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> rtkNewGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'rtkNew',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> rtkNewLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'rtkNew',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> rtkNewBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'rtkNew',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> rtkOldEqualTo(
+      int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'rtkOld',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> rtkOldGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'rtkOld',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> rtkOldLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'rtkOld',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> rtkOldBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'rtkOld',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> strokeCountEqualTo(
       int value) {
     return QueryBuilder.apply(this, (query) {
@@ -1280,6 +1677,59 @@ extension Kanjidic2QueryFilter
       );
     });
   }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> wanikaniEqualTo(
+      int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'wanikani',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> wanikaniGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'wanikani',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> wanikaniLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'wanikani',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> wanikaniBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'wanikani',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
 }
 
 extension Kanjidic2QueryObject
@@ -1346,15 +1796,75 @@ extension Kanjidic2QuerySortBy on QueryBuilder<Kanjidic2, Kanjidic2, QSortBy> {
     });
   }
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByJlpt() {
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByJlptNew() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'jlpt', Sort.asc);
+      return query.addSortBy(r'jlptNew', Sort.asc);
     });
   }
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByJlptDesc() {
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByJlptNewDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'jlpt', Sort.desc);
+      return query.addSortBy(r'jlptNew', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByJlptOld() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'jlptOld', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByJlptOldDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'jlptOld', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByKanken() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'kanken', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByKankenDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'kanken', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByKlc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'klc', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByKlcDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'klc', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByRtkNew() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'rtkNew', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByRtkNewDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'rtkNew', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByRtkOld() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'rtkOld', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByRtkOldDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'rtkOld', Sort.desc);
     });
   }
 
@@ -1367,6 +1877,18 @@ extension Kanjidic2QuerySortBy on QueryBuilder<Kanjidic2, Kanjidic2, QSortBy> {
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByStrokeCountDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'strokeCount', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByWanikani() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'wanikani', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByWanikaniDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'wanikani', Sort.desc);
     });
   }
 }
@@ -1421,15 +1943,75 @@ extension Kanjidic2QuerySortThenBy
     });
   }
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByJlpt() {
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByJlptNew() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'jlpt', Sort.asc);
+      return query.addSortBy(r'jlptNew', Sort.asc);
     });
   }
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByJlptDesc() {
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByJlptNewDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'jlpt', Sort.desc);
+      return query.addSortBy(r'jlptNew', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByJlptOld() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'jlptOld', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByJlptOldDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'jlptOld', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByKanken() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'kanken', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByKankenDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'kanken', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByKlc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'klc', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByKlcDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'klc', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByRtkNew() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'rtkNew', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByRtkNewDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'rtkNew', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByRtkOld() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'rtkOld', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByRtkOldDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'rtkOld', Sort.desc);
     });
   }
 
@@ -1442,6 +2024,18 @@ extension Kanjidic2QuerySortThenBy
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByStrokeCountDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'strokeCount', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByWanikani() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'wanikani', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByWanikaniDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'wanikani', Sort.desc);
     });
   }
 }
@@ -1467,9 +2061,28 @@ extension Kanjidic2QueryWhereDistinct
     });
   }
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QDistinct> distinctByJlpt() {
+  QueryBuilder<Kanjidic2, Kanjidic2, QDistinct> distinctByJlptNew() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'jlpt');
+      return query.addDistinctBy(r'jlptNew');
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QDistinct> distinctByJlptOld() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'jlptOld');
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QDistinct> distinctByKanken(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'kanken', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QDistinct> distinctByKlc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'klc');
     });
   }
 
@@ -1479,9 +2092,27 @@ extension Kanjidic2QueryWhereDistinct
     });
   }
 
+  QueryBuilder<Kanjidic2, Kanjidic2, QDistinct> distinctByRtkNew() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'rtkNew');
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QDistinct> distinctByRtkOld() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'rtkOld');
+    });
+  }
+
   QueryBuilder<Kanjidic2, Kanjidic2, QDistinct> distinctByStrokeCount() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'strokeCount');
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QDistinct> distinctByWanikani() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'wanikani');
     });
   }
 }
@@ -1512,9 +2143,27 @@ extension Kanjidic2QueryProperty
     });
   }
 
-  QueryBuilder<Kanjidic2, int, QQueryOperations> jlptProperty() {
+  QueryBuilder<Kanjidic2, int, QQueryOperations> jlptNewProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'jlpt');
+      return query.addPropertyName(r'jlptNew');
+    });
+  }
+
+  QueryBuilder<Kanjidic2, int, QQueryOperations> jlptOldProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'jlptOld');
+    });
+  }
+
+  QueryBuilder<Kanjidic2, String, QQueryOperations> kankenProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'kanken');
+    });
+  }
+
+  QueryBuilder<Kanjidic2, int, QQueryOperations> klcProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'klc');
     });
   }
 
@@ -1536,6 +2185,18 @@ extension Kanjidic2QueryProperty
     });
   }
 
+  QueryBuilder<Kanjidic2, int, QQueryOperations> rtkNewProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'rtkNew');
+    });
+  }
+
+  QueryBuilder<Kanjidic2, int, QQueryOperations> rtkOldProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'rtkOld');
+    });
+  }
+
   QueryBuilder<Kanjidic2, int, QQueryOperations> strokeCountProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'strokeCount');
@@ -1545,6 +2206,12 @@ extension Kanjidic2QueryProperty
   QueryBuilder<Kanjidic2, List<JIS>, QQueryOperations> variantsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'variants');
+    });
+  }
+
+  QueryBuilder<Kanjidic2, int, QQueryOperations> wanikaniProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'wanikani');
     });
   }
 }
