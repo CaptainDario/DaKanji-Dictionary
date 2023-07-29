@@ -29,7 +29,14 @@ First download the necessary dictionary files
   * Releases -> latest
 * [JMDict](https://www.edrdg.org/jmdict/j_jmdict.html) or [direct download](http://ftp.edrdg.org/pub/Nihongo//JMdict.gz)
 * [KanjiDic2](http://www.edrdg.org/wiki/index.php/KANJIDIC_Project) or [direct download](http://www.edrdg.org/kanjidic/kanjidic2.xml.gz)
+* Kanjium
+  * [Antonyms](https://github.com/mifunetoshiro/kanjium/blob/master/data/source_files/antonyms.txt)
+  * [Kanjidict](https://github.com/mifunetoshiro/kanjium/blob/master/data/source_files/kanjidict.txt)
+  * [Look alikes](https://github.com/mifunetoshiro/kanjium/blob/master/data/source_files/lookalikes.txt)
+  * [particles](https://raw.githubusercontent.com/mifunetoshiro/kanjium/master/data/source_files/raw/particles.txt)
+  * [Synonyms](https://github.com/mifunetoshiro/kanjium/blob/master/data/source_files/synonyms.txt)
 * [KanjiVG](https://github.com/KanjiVG/kanjivg/releases/latest) (Download the `kanjivg-xxx-all.zip`)
+* [KLC order](https://github.com/vadasambar/kanji_order/blob/master/database.js)
 * [Tatoeba](https://tatoeba.org/en/downloads)
   * Weekly exports -> All languages -> sentences.csv
   * Links -> links.csv
@@ -42,7 +49,6 @@ and place them in the `inputFiles directory`.
 Your folder should look like that
 
 * inputFiles
-  * accents.txt
   * japanese-vocabulary-pronunciation-audio-master
     * lib
       * mp3
@@ -55,13 +61,21 @@ Your folder should look like that
     * JMnedict.xml
   * kanjidic2
     * kanjidic2.xml
+  * kanjium
+    * antonyms.txt
+    * kanjidict.txt
+    * lookalikes.txt
+    * synonyms.txt
   * kanjiVG
     * 0f9a8.svg
     * 0f9ab.svg
-    * ...  
+    * ...
+  * klc
+    * database.js
   * tatoeba
     * links.csv
     * sentences.csv
+  * accents.txt
   * radkfile-x.x.x.json
   * kradfile-x.x.x.json
 

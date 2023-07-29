@@ -31,6 +31,8 @@ inputFiles/**
 !inputFiles/kanjidic2/.gitkeep
 !inputFiles/kanjiVG/.gitkeep
 !inputFiles/tatoeba/.gitkeep
+!inputFiles/kanjium/.gitkeep
+!inputFiles/klc/.gitkeep
 !inputFiles/README.md
 
 partiallyProcessedFiles/JMdict/*
