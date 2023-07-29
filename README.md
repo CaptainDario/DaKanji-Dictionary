@@ -20,7 +20,10 @@ First install the necessary requirements:
     * `brew install mecab`
     * `brew install mecab-ipadic`
 
-First download the necessary dictionary files
+Additionally, the isar binaries for your platform are requried.
+They can be downloaded [here](https://github.com/isar/isar/releases) (make sure that the isar library version matches your platform and the version in `pubspec.yaml`). After downloading the library, copy it to `database_builder/example/libisar.{dylilb|so|dll}`.
+
+Now download the necessary dictionary files
 
 * [Pitch accent data](https://github.com/mifunetoshiro/kanjium/blob/master/data/source_files/raw/accents.txt)
 * [Wanikani audio files](https://github.com/tofugu/japanese-vocabulary-pronunciation-audio)
