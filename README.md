@@ -22,20 +22,21 @@ First install the necessary requirements:
 
 First download the necessary dictionary files
 
+* [Pitch accent data](https://github.com/mifunetoshiro/kanjium/blob/master/data/source_files/raw/accents.txt)
+* [Wanikani audio files](https://github.com/tofugu/japanese-vocabulary-pronunciation-audio)
+  * Releases -> latest
+* JLPT data comes from [Jonath wallner](http://www.tanos.co.uk/jlpt/) and is curated by [stephenmk](https://github.com/stephenmk/yomichan-jlpt-vocab)
+  * Releases -> latest
 * [JMDict](https://www.edrdg.org/jmdict/j_jmdict.html) or [direct download](http://ftp.edrdg.org/pub/Nihongo//JMdict.gz)
-* [KanjiDic](http://www.edrdg.org/wiki/index.php/KANJIDIC_Project) or [direct download](http://www.edrdg.org/kanjidic/kanjidic2.xml.gz)
-* [ENAMDICT](https://www.edrdg.org/enamdict/enamdict_doc.html) or [direct download](http://ftp.edrdg.org/pub/Nihongo/JMnedict.xml.gz)
+* [KanjiDic2](http://www.edrdg.org/wiki/index.php/KANJIDIC_Project) or [direct download](http://www.edrdg.org/kanjidic/kanjidic2.xml.gz)
 * [KanjiVG](https://github.com/KanjiVG/kanjivg/releases/latest) (Download the `kanjivg-xxx-all.zip`)
 * [Tatoeba](https://tatoeba.org/en/downloads)
   * Weekly exports -> All languages -> sentences.csv
   * Links -> links.csv
-* [Radkfile simplified](https://github.com/scriptin/jmdict-simplified)
+* [Radkfile / Kradfile](https://github.com/scriptin/jmdict-simplified)
   * Releases -> latest
-* [Wanikani audio files](https://github.com/tofugu/japanese-vocabulary-pronunciation-audio)
-  * Releases -> latest
-* [Pitch accent data](https://github.com/mifunetoshiro/kanjium/blob/master/data/source_files/raw/accents.txt)
-* JLPT data comes from [Jonath wallner](http://www.tanos.co.uk/jlpt/) and is curated by [stephenmk](https://github.com/stephenmk/yomichan-jlpt-vocab)
-  * Releases -> latest
+* Currently unused
+  * [ENAMDICT](https://www.edrdg.org/enamdict/enamdict_doc.html) or [direct download](http://ftp.edrdg.org/pub/Nihongo/JMnedict.xml.gz)
 
 and place them in the `inputFiles directory`.
 Your folder should look like that
@@ -58,11 +59,11 @@ Your folder should look like that
     * 0f9a8.svg
     * 0f9ab.svg
     * ...  
-  * radkfile-x.x.x.json
-  * kradfile-x.x.x.json
   * tatoeba
     * links.csv
     * sentences.csv
+  * radkfile-x.x.x.json
+  * kradfile-x.x.x.json
 
 Now Run those commands (your current python environment needs to have all requirements from `requirments.txt` installed)
 
