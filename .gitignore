@@ -50,6 +50,8 @@ outputFiles/**
 
 # ignore dynamic libraries
 database_builder/example/libisar.dylib
+database_builder/example/libisar.dll
+database_builder/example/libisar.so
 
 *.hive
 *.lock
