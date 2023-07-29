@@ -48,6 +48,9 @@ outputFiles/**
 !outputFiles/.gitkeep
 !outputFiles/README.md
 
+# ignore dynamic libraries
+database_builder/example/libisar.dylib
+
 *.hive
 *.lock
 *.mdb
