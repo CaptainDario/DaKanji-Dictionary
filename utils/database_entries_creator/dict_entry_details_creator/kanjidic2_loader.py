@@ -36,7 +36,7 @@ class Entry:
     wanikani: int = -1
     rtk_old: int = -1
     rtk_new: int = -1
-    kanken: str = "-1"
+    kanken: float = -1.0
     readings: list[Reading] = field(default_factory=list)
     antonyms: list[str] = field(default_factory=list)
     synonyms: list[str] = field(default_factory=list)
@@ -62,6 +62,24 @@ def kuten_to_utf8(kuten):
         euc = bytearray([0x8f,euc0,euc1]).decode('euc_jisx0213','replace')
     return euc
 
+def convert_kanken_to_float(kanken : str):
+    """ Converts the given kanken level from str to floa.
+    pre-1 = 1.5
+    pre-2 = 2.5
+
+    Args:
+        kanken (str): the kanken level that should be converted
+    """
+
+    if(kanken == "pre-1"):
+        kanken = 1.5
+    elif(kanken == "pre-2"):
+        kanken = 2.5
+    else:
+        kanken = float(kanken)
+    
+    return kanken
+
 def execute():
     kanjidic2 = open('inputFiles/kanjidic2/kanjidic2.xml', 'r', encoding="utf-8")
     with open('inputFiles/klc/database.js', 'r', encoding="utf-8") as f:
@@ -77,12 +95,10 @@ def execute():
         lookalikes = {rows[0] : rows[1].split(",") for rows in reader}
     with open('inputFiles/kanjium/kanjidict.txt', 'r', encoding="utf-8") as f:
         reader = csv.reader(f, delimiter="\t")
-        rtk_old = {rows[0] : int(rows[18]) for rows in reader if rows[18] != ""}
-        f.seek(0)
-        rtk_new = {rows[0] : int(rows[19]) for rows in reader if rows[19] != ""}
-        f.seek(0)
-        kanken = {rows[0] : rows[14] for rows in reader if rows[14] != ""}
-        f.seek(0)
+        rtk_old  = {rows[0] : int(rows[18]) for rows in reader if rows[18] != ""}; f.seek(0)
+        rtk_new  = {rows[0] : int(rows[19]) for rows in reader if rows[19] != ""}; f.seek(0)
+        kanken   = {rows[0] : convert_kanken_to_float(rows[14]) for rows in reader if rows[14] != ""}; f.seek(0)
+        wanikani = {rows[0] : int(rows[23]) for rows in reader if rows[23] != ""}; f.seek(0)
         jlpt_new = {rows[0] : int(rows[13].replace("N", "")[:1]) for rows in reader if rows[13] != ""}
     entry = Entry()
     entries = list()
@@ -91,7 +107,7 @@ def execute():
         if elem.tag == "literal":
             entries.append(entry)
             entry = Entry()
-            entry.literal     = elem.text
+            entry.literal    = elem.text
             entry.klc        = int(klc[elem.text]["id"]) if elem.text in klc else -1
             entry.antonyms   = antonyms[elem.text] if elem.text in antonyms else None
             entry.synonyms   = synonyms[elem.text] if elem.text in synonyms else None
@@ -99,7 +115,8 @@ def execute():
             entry.rtk_old    = rtk_old[elem.text] if elem.text in rtk_old else -1
             entry.rtk_new    = rtk_new[elem.text] if elem.text in rtk_new else -1
             entry.jlpt_new   = jlpt_new[elem.text] if elem.text in jlpt_new else -1
-            entry.kanken     = kanken[elem.text] if elem.text in kanken else -1
+            entry.kanken     = kanken[elem.text] if elem.text in kanken else -1.0
+            entry.wanikani   = wanikani[elem.text] if elem.text in wanikani else -1
         elif elem.tag == "grade":
             entry.grade = int(elem.text)
         elif elem.tag == "freq":
