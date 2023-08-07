@@ -57,8 +57,7 @@ Your folder should look like that
       * mp3
       * ogg
   * jlpt
-    * index.json
-    * term_meta_bank_{1-4}.json
+    * n_{1-5}.csv
   * JMdict
     * JMdict
     * JMnedict.xml
