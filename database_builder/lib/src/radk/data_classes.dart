@@ -18,14 +18,14 @@ class Radk {
   List<String> kanjis = <String>[];
   /// The stroke count of this radical
   @Index()
-  int radicalStrokeCount;
+  int strokeCount;
 
 
   Radk(
     {
       required this.radical,
       required this.kanjis,
-      required this.radicalStrokeCount,
+      required this.strokeCount,
     }
   );
 }

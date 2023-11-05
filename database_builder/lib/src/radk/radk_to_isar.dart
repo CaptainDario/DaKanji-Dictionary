@@ -17,7 +17,7 @@ Future<bool> radkToIsar(Isar isar) async {
     Radk radk = Radk(
       radical: radicalDef.key,
       kanjis: List<String>.from(radicalDef.value["kanji"]),
-      radicalStrokeCount: radicalDef.value["strokeCount"],
+      strokeCount: radicalDef.value["strokeCount"],
     );
     entries.add(radk);
   }
