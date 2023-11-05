@@ -27,9 +27,9 @@ const RadkSchema = CollectionSchema(
       name: r'radical',
       type: IsarType.string,
     ),
-    r'strokeCount': PropertySchema(
+    r'radicalStrokeCount': PropertySchema(
       id: 2,
-      name: r'strokeCount',
+      name: r'radicalStrokeCount',
       type: IsarType.long,
     )
   },
@@ -65,14 +65,14 @@ const RadkSchema = CollectionSchema(
         )
       ],
     ),
-    r'strokeCount': IndexSchema(
-      id: -4801866139363888128,
-      name: r'strokeCount',
+    r'radicalStrokeCount': IndexSchema(
+      id: 324071907776355455,
+      name: r'radicalStrokeCount',
       unique: false,
       replace: false,
       properties: [
         IndexPropertySchema(
-          name: r'strokeCount',
+          name: r'radicalStrokeCount',
           type: IndexType.value,
           caseSensitive: false,
         )
@@ -112,7 +112,7 @@ void _radkSerialize(
 ) {
   writer.writeStringList(offsets[0], object.kanjis);
   writer.writeString(offsets[1], object.radical);
-  writer.writeLong(offsets[2], object.strokeCount);
+  writer.writeLong(offsets[2], object.radicalStrokeCount);
 }
 
 Radk _radkDeserialize(
@@ -124,7 +124,7 @@ Radk _radkDeserialize(
   final object = Radk(
     kanjis: reader.readStringList(offsets[0]) ?? [],
     radical: reader.readString(offsets[1]),
-    strokeCount: reader.readLong(offsets[2]),
+    radicalStrokeCount: reader.readLong(offsets[2]),
   );
   object.id = id;
   return object;
@@ -167,10 +167,10 @@ extension RadkQueryWhereSort on QueryBuilder<Radk, Radk, QWhere> {
     });
   }
 
-  QueryBuilder<Radk, Radk, QAfterWhere> anyStrokeCount() {
+  QueryBuilder<Radk, Radk, QAfterWhere> anyRadicalStrokeCount() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
-        const IndexWhereClause.any(indexName: r'strokeCount'),
+        const IndexWhereClause.any(indexName: r'radicalStrokeCount'),
       );
     });
   }
@@ -331,91 +331,91 @@ extension RadkQueryWhere on QueryBuilder<Radk, Radk, QWhereClause> {
     });
   }
 
-  QueryBuilder<Radk, Radk, QAfterWhereClause> strokeCountEqualTo(
-      int strokeCount) {
+  QueryBuilder<Radk, Radk, QAfterWhereClause> radicalStrokeCountEqualTo(
+      int radicalStrokeCount) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'strokeCount',
-        value: [strokeCount],
+        indexName: r'radicalStrokeCount',
+        value: [radicalStrokeCount],
       ));
     });
   }
 
-  QueryBuilder<Radk, Radk, QAfterWhereClause> strokeCountNotEqualTo(
-      int strokeCount) {
+  QueryBuilder<Radk, Radk, QAfterWhereClause> radicalStrokeCountNotEqualTo(
+      int radicalStrokeCount) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'strokeCount',
+              indexName: r'radicalStrokeCount',
               lower: [],
-              upper: [strokeCount],
+              upper: [radicalStrokeCount],
               includeUpper: false,
             ))
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'strokeCount',
-              lower: [strokeCount],
+              indexName: r'radicalStrokeCount',
+              lower: [radicalStrokeCount],
               includeLower: false,
               upper: [],
             ));
       } else {
         return query
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'strokeCount',
-              lower: [strokeCount],
+              indexName: r'radicalStrokeCount',
+              lower: [radicalStrokeCount],
               includeLower: false,
               upper: [],
             ))
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'strokeCount',
+              indexName: r'radicalStrokeCount',
               lower: [],
-              upper: [strokeCount],
+              upper: [radicalStrokeCount],
               includeUpper: false,
             ));
       }
     });
   }
 
-  QueryBuilder<Radk, Radk, QAfterWhereClause> strokeCountGreaterThan(
-    int strokeCount, {
+  QueryBuilder<Radk, Radk, QAfterWhereClause> radicalStrokeCountGreaterThan(
+    int radicalStrokeCount, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'strokeCount',
-        lower: [strokeCount],
+        indexName: r'radicalStrokeCount',
+        lower: [radicalStrokeCount],
         includeLower: include,
         upper: [],
       ));
     });
   }
 
-  QueryBuilder<Radk, Radk, QAfterWhereClause> strokeCountLessThan(
-    int strokeCount, {
+  QueryBuilder<Radk, Radk, QAfterWhereClause> radicalStrokeCountLessThan(
+    int radicalStrokeCount, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'strokeCount',
+        indexName: r'radicalStrokeCount',
         lower: [],
-        upper: [strokeCount],
+        upper: [radicalStrokeCount],
         includeUpper: include,
       ));
     });
   }
 
-  QueryBuilder<Radk, Radk, QAfterWhereClause> strokeCountBetween(
-    int lowerStrokeCount,
-    int upperStrokeCount, {
+  QueryBuilder<Radk, Radk, QAfterWhereClause> radicalStrokeCountBetween(
+    int lowerRadicalStrokeCount,
+    int upperRadicalStrokeCount, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'strokeCount',
-        lower: [lowerStrokeCount],
+        indexName: r'radicalStrokeCount',
+        lower: [lowerRadicalStrokeCount],
         includeLower: includeLower,
-        upper: [upperStrokeCount],
+        upper: [upperRadicalStrokeCount],
         includeUpper: includeUpper,
       ));
     });
@@ -817,43 +817,43 @@ extension RadkQueryFilter on QueryBuilder<Radk, Radk, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Radk, Radk, QAfterFilterCondition> strokeCountEqualTo(
+  QueryBuilder<Radk, Radk, QAfterFilterCondition> radicalStrokeCountEqualTo(
       int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'strokeCount',
+        property: r'radicalStrokeCount',
         value: value,
       ));
     });
   }
 
-  QueryBuilder<Radk, Radk, QAfterFilterCondition> strokeCountGreaterThan(
+  QueryBuilder<Radk, Radk, QAfterFilterCondition> radicalStrokeCountGreaterThan(
     int value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'strokeCount',
+        property: r'radicalStrokeCount',
         value: value,
       ));
     });
   }
 
-  QueryBuilder<Radk, Radk, QAfterFilterCondition> strokeCountLessThan(
+  QueryBuilder<Radk, Radk, QAfterFilterCondition> radicalStrokeCountLessThan(
     int value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'strokeCount',
+        property: r'radicalStrokeCount',
         value: value,
       ));
     });
   }
 
-  QueryBuilder<Radk, Radk, QAfterFilterCondition> strokeCountBetween(
+  QueryBuilder<Radk, Radk, QAfterFilterCondition> radicalStrokeCountBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -861,7 +861,7 @@ extension RadkQueryFilter on QueryBuilder<Radk, Radk, QFilterCondition> {
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'strokeCount',
+        property: r'radicalStrokeCount',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -888,15 +888,15 @@ extension RadkQuerySortBy on QueryBuilder<Radk, Radk, QSortBy> {
     });
   }
 
-  QueryBuilder<Radk, Radk, QAfterSortBy> sortByStrokeCount() {
+  QueryBuilder<Radk, Radk, QAfterSortBy> sortByRadicalStrokeCount() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'strokeCount', Sort.asc);
+      return query.addSortBy(r'radicalStrokeCount', Sort.asc);
     });
   }
 
-  QueryBuilder<Radk, Radk, QAfterSortBy> sortByStrokeCountDesc() {
+  QueryBuilder<Radk, Radk, QAfterSortBy> sortByRadicalStrokeCountDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'strokeCount', Sort.desc);
+      return query.addSortBy(r'radicalStrokeCount', Sort.desc);
     });
   }
 }
@@ -926,15 +926,15 @@ extension RadkQuerySortThenBy on QueryBuilder<Radk, Radk, QSortThenBy> {
     });
   }
 
-  QueryBuilder<Radk, Radk, QAfterSortBy> thenByStrokeCount() {
+  QueryBuilder<Radk, Radk, QAfterSortBy> thenByRadicalStrokeCount() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'strokeCount', Sort.asc);
+      return query.addSortBy(r'radicalStrokeCount', Sort.asc);
     });
   }
 
-  QueryBuilder<Radk, Radk, QAfterSortBy> thenByStrokeCountDesc() {
+  QueryBuilder<Radk, Radk, QAfterSortBy> thenByRadicalStrokeCountDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'strokeCount', Sort.desc);
+      return query.addSortBy(r'radicalStrokeCount', Sort.desc);
     });
   }
 }
@@ -953,9 +953,9 @@ extension RadkQueryWhereDistinct on QueryBuilder<Radk, Radk, QDistinct> {
     });
   }
 
-  QueryBuilder<Radk, Radk, QDistinct> distinctByStrokeCount() {
+  QueryBuilder<Radk, Radk, QDistinct> distinctByRadicalStrokeCount() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'strokeCount');
+      return query.addDistinctBy(r'radicalStrokeCount');
     });
   }
 }
@@ -979,9 +979,9 @@ extension RadkQueryProperty on QueryBuilder<Radk, Radk, QQueryProperty> {
     });
   }
 
-  QueryBuilder<Radk, int, QQueryOperations> strokeCountProperty() {
+  QueryBuilder<Radk, int, QQueryOperations> radicalStrokeCountProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'strokeCount');
+      return query.addPropertyName(r'radicalStrokeCount');
     });
   }
 }
