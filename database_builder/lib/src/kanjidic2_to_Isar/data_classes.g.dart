@@ -129,6 +129,19 @@ const Kanjidic2Schema = CollectionSchema(
           caseSensitive: true,
         )
       ],
+    ),
+    r'strokeCount': IndexSchema(
+      id: -4801866139363888128,
+      name: r'strokeCount',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'strokeCount',
+          type: IndexType.value,
+          caseSensitive: false,
+        )
+      ],
     )
   },
   links: {},
@@ -394,6 +407,14 @@ extension Kanjidic2QueryWhereSort
       return query.addWhereClause(const IdWhereClause.any());
     });
   }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterWhere> anyStrokeCount() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'strokeCount'),
+      );
+    });
+  }
 }
 
 extension Kanjidic2QueryWhere
@@ -505,6 +526,96 @@ extension Kanjidic2QueryWhere
               includeUpper: false,
             ));
       }
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterWhereClause> strokeCountEqualTo(
+      int strokeCount) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'strokeCount',
+        value: [strokeCount],
+      ));
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterWhereClause> strokeCountNotEqualTo(
+      int strokeCount) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'strokeCount',
+              lower: [],
+              upper: [strokeCount],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'strokeCount',
+              lower: [strokeCount],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'strokeCount',
+              lower: [strokeCount],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'strokeCount',
+              lower: [],
+              upper: [strokeCount],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterWhereClause> strokeCountGreaterThan(
+    int strokeCount, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'strokeCount',
+        lower: [strokeCount],
+        includeLower: include,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterWhereClause> strokeCountLessThan(
+    int strokeCount, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'strokeCount',
+        lower: [],
+        upper: [strokeCount],
+        includeUpper: include,
+      ));
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterWhereClause> strokeCountBetween(
+    int lowerStrokeCount,
+    int upperStrokeCount, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'strokeCount',
+        lower: [lowerStrokeCount],
+        includeLower: includeLower,
+        upper: [upperStrokeCount],
+        includeUpper: includeUpper,
+      ));
     });
   }
 }

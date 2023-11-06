@@ -51,6 +51,7 @@ class Kanjidic2 {
   /// The frequency of this Kanji
   int frequency;
   /// How many strokes does this kanji have
+  @Index(type: IndexType.value)
   int strokeCount;
   /// The school grade in which this kanji is thought
   int grade;
