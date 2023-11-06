@@ -22,18 +22,23 @@ const KanjiSVGSchema = CollectionSchema(
       name: r'character',
       type: IsarType.string,
     ),
-    r'radicals': PropertySchema(
+    r'kanjiVGId': PropertySchema(
       id: 1,
+      name: r'kanjiVGId',
+      type: IsarType.string,
+    ),
+    r'radicals': PropertySchema(
+      id: 2,
       name: r'radicals',
       type: IsarType.stringList,
     ),
     r'strokes': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'strokes',
       type: IsarType.int,
     ),
     r'svg': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'svg',
       type: IsarType.string,
     )
@@ -86,6 +91,7 @@ int _kanjiSVGEstimateSize(
 ) {
   var bytesCount = offsets.last;
   bytesCount += 3 + object.character.length * 3;
+  bytesCount += 3 + object.kanjiVGId.length * 3;
   bytesCount += 3 + object.radicals.length * 3;
   {
     for (var i = 0; i < object.radicals.length; i++) {
@@ -104,9 +110,10 @@ void _kanjiSVGSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.character);
-  writer.writeStringList(offsets[1], object.radicals);
-  writer.writeInt(offsets[2], object.strokes);
-  writer.writeString(offsets[3], object.svg);
+  writer.writeString(offsets[1], object.kanjiVGId);
+  writer.writeStringList(offsets[2], object.radicals);
+  writer.writeInt(offsets[3], object.strokes);
+  writer.writeString(offsets[4], object.svg);
 }
 
 KanjiSVG _kanjiSVGDeserialize(
@@ -117,9 +124,10 @@ KanjiSVG _kanjiSVGDeserialize(
 ) {
   final object = KanjiSVG(
     character: reader.readString(offsets[0]),
-    radicals: reader.readStringList(offsets[1]) ?? [],
-    strokes: reader.readInt(offsets[2]),
-    svg: reader.readString(offsets[3]),
+    kanjiVGId: reader.readString(offsets[1]),
+    radicals: reader.readStringList(offsets[2]) ?? [],
+    strokes: reader.readInt(offsets[3]),
+    svg: reader.readString(offsets[4]),
   );
   object.id = id;
   return object;
@@ -135,10 +143,12 @@ P _kanjiSVGDeserializeProp<P>(
     case 0:
       return (reader.readString(offset)) as P;
     case 1:
-      return (reader.readStringList(offset) ?? []) as P;
+      return (reader.readString(offset)) as P;
     case 2:
-      return (reader.readInt(offset)) as P;
+      return (reader.readStringList(offset) ?? []) as P;
     case 3:
+      return (reader.readInt(offset)) as P;
+    case 4:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -556,6 +566,137 @@ extension KanjiSVGQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<KanjiSVG, KanjiSVG, QAfterFilterCondition> kanjiVGIdEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'kanjiVGId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<KanjiSVG, KanjiSVG, QAfterFilterCondition> kanjiVGIdGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'kanjiVGId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<KanjiSVG, KanjiSVG, QAfterFilterCondition> kanjiVGIdLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'kanjiVGId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<KanjiSVG, KanjiSVG, QAfterFilterCondition> kanjiVGIdBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'kanjiVGId',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<KanjiSVG, KanjiSVG, QAfterFilterCondition> kanjiVGIdStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'kanjiVGId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<KanjiSVG, KanjiSVG, QAfterFilterCondition> kanjiVGIdEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'kanjiVGId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<KanjiSVG, KanjiSVG, QAfterFilterCondition> kanjiVGIdContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'kanjiVGId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<KanjiSVG, KanjiSVG, QAfterFilterCondition> kanjiVGIdMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'kanjiVGId',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<KanjiSVG, KanjiSVG, QAfterFilterCondition> kanjiVGIdIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'kanjiVGId',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<KanjiSVG, KanjiSVG, QAfterFilterCondition>
+      kanjiVGIdIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'kanjiVGId',
+        value: '',
       ));
     });
   }
@@ -985,6 +1126,18 @@ extension KanjiSVGQuerySortBy on QueryBuilder<KanjiSVG, KanjiSVG, QSortBy> {
     });
   }
 
+  QueryBuilder<KanjiSVG, KanjiSVG, QAfterSortBy> sortByKanjiVGId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'kanjiVGId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<KanjiSVG, KanjiSVG, QAfterSortBy> sortByKanjiVGIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'kanjiVGId', Sort.desc);
+    });
+  }
+
   QueryBuilder<KanjiSVG, KanjiSVG, QAfterSortBy> sortByStrokes() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'strokes', Sort.asc);
@@ -1036,6 +1189,18 @@ extension KanjiSVGQuerySortThenBy
     });
   }
 
+  QueryBuilder<KanjiSVG, KanjiSVG, QAfterSortBy> thenByKanjiVGId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'kanjiVGId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<KanjiSVG, KanjiSVG, QAfterSortBy> thenByKanjiVGIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'kanjiVGId', Sort.desc);
+    });
+  }
+
   QueryBuilder<KanjiSVG, KanjiSVG, QAfterSortBy> thenByStrokes() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'strokes', Sort.asc);
@@ -1070,6 +1235,13 @@ extension KanjiSVGQueryWhereDistinct
     });
   }
 
+  QueryBuilder<KanjiSVG, KanjiSVG, QDistinct> distinctByKanjiVGId(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'kanjiVGId', caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<KanjiSVG, KanjiSVG, QDistinct> distinctByRadicals() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'radicals');
@@ -1101,6 +1273,12 @@ extension KanjiSVGQueryProperty
   QueryBuilder<KanjiSVG, String, QQueryOperations> characterProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'character');
+    });
+  }
+
+  QueryBuilder<KanjiSVG, String, QQueryOperations> kanjiVGIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'kanjiVGId');
     });
   }
 

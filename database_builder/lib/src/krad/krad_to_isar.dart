@@ -7,23 +7,33 @@ import 'package:isar/isar.dart';
 
 
 
-Future<bool> kradToIsar(Isar isar) async {
+Future<bool> kradToIsar(Isar isar, IsarCollection<Kanjidic2> kanjidirIsar) async {
 
   List<Krad> entries = <Krad>[];
 
   // read radical definitions
-  Map radicals = getRadicals()["radicals"];
-  for (MapEntry radicalDef in radicals.entries) {
-    Krad krad = Krad(
-      character: radicalDef.key,
-      kanjis: List<String>.from(radicalDef.value["kanji"]),
-      strokeCount: radicalDef.value["strokeCount"],
-    );
-    entries.add(krad);
+  Map radicals = parseKradFile();
+  for (MapEntry kanjiDef in radicals.entries) {
+
+    List<Kanjidic2> kanjidicEntry = kanjidirIsar.where()
+      .characterEqualTo(kanjiDef.key)
+    .findAllSync();
+
+    if(kanjidicEntry.length == 1){
+      Krad krad = Krad(
+        kanji: kanjiDef.key,
+        radicals: List<String>.from(kanjiDef.value),
+        kanjiStrokeCount: kanjidicEntry.first.strokeCount
+      );
+      entries.add(krad);
+    }
+    else{
+      print("$kanjidicEntry has ${kanjidicEntry.length} matches, skipping...");
+    }
   }
 
-  isar.writeTxn(() async {
-    isar.krads.putAll(entries);
+  isar.writeTxnSync(()  {
+    isar.krads.putAllSync(entries);
   });
   print(isar.krads.countSync());
 
@@ -32,11 +42,11 @@ Future<bool> kradToIsar(Isar isar) async {
 }
 
 /// parses the KRADFILE into a list of lists
-Map getRadicals(){
+Map parseKradFile(){
 
   return jsonDecode(
     File(
-      p.join(RepoPathManager.getInputFilesPath(), "radkfile-3.5.0.json")
+      p.join(RepoPathManager.getPartiallyProcessedFilesPath(), "radicals", "krad.json")
     ).readAsStringSync()
   );
 

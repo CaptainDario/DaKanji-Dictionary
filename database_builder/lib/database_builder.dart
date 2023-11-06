@@ -16,6 +16,8 @@ export 'src/tatoeba_to_isar/tatoeba_to_isar.dart';
 export 'src/tatoeba_to_isar/data_classes.dart';
 export 'src/krad/krad_to_isar.dart';
 export 'src/krad/data_classes.dart';
+export 'src/radk/radk_to_isar.dart';
+export 'src/radk/data_classes.dart';
 export 'src/accents/accents.dart';
 export 'src/jlpt/jlpt.dart';
 export 'src/vocab_audio/vocab_audio.dart';

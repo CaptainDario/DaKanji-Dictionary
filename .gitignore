@@ -31,11 +31,14 @@ inputFiles/**
 !inputFiles/kanjidic2/.gitkeep
 !inputFiles/kanjiVG/.gitkeep
 !inputFiles/tatoeba/.gitkeep
+!inputFiles/kanjium/.gitkeep
+!inputFiles/klc/.gitkeep
 !inputFiles/README.md
 
 partiallyProcessedFiles/JMdict/*
 partiallyProcessedFiles/kanjidic2/*
 partiallyProcessedFiles/kanjiVG/*
+partiallyProcessedFiles/radicals/*
 !partiallyProcessedFiles/JMdict/.gitkeep
 !partiallyProcessedFiles/kanjidic2/.gitkeep
 !partiallyProcessedFiles/kanjiVG/.gitkeep
@@ -44,6 +47,11 @@ partiallyProcessedFiles/kanjiVG/*
 outputFiles/**
 !outputFiles/.gitkeep
 !outputFiles/README.md
+
+# ignore dynamic libraries
+database_builder/example/libisar.dylib
+database_builder/example/libisar.dll
+database_builder/example/libisar.so
 
 *.hive
 *.lock
