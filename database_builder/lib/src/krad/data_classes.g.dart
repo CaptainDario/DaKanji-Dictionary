@@ -22,8 +22,13 @@ const KradSchema = CollectionSchema(
       name: r'kanji',
       type: IsarType.string,
     ),
-    r'radicals': PropertySchema(
+    r'kanjiStrokeCount': PropertySchema(
       id: 1,
+      name: r'kanjiStrokeCount',
+      type: IsarType.long,
+    ),
+    r'radicals': PropertySchema(
+      id: 2,
       name: r'radicals',
       type: IsarType.stringList,
     )
@@ -57,6 +62,19 @@ const KradSchema = CollectionSchema(
           name: r'radicals',
           type: IndexType.hashElements,
           caseSensitive: true,
+        )
+      ],
+    ),
+    r'kanjiStrokeCount': IndexSchema(
+      id: 8215527850107644880,
+      name: r'kanjiStrokeCount',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'kanjiStrokeCount',
+          type: IndexType.value,
+          caseSensitive: false,
         )
       ],
     )
@@ -93,7 +111,8 @@ void _kradSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.kanji);
-  writer.writeStringList(offsets[1], object.radicals);
+  writer.writeLong(offsets[1], object.kanjiStrokeCount);
+  writer.writeStringList(offsets[2], object.radicals);
 }
 
 Krad _kradDeserialize(
@@ -104,7 +123,8 @@ Krad _kradDeserialize(
 ) {
   final object = Krad(
     kanji: reader.readString(offsets[0]),
-    radicals: reader.readStringList(offsets[1]) ?? [],
+    kanjiStrokeCount: reader.readLong(offsets[1]),
+    radicals: reader.readStringList(offsets[2]) ?? [],
   );
   object.id = id;
   return object;
@@ -120,6 +140,8 @@ P _kradDeserializeProp<P>(
     case 0:
       return (reader.readString(offset)) as P;
     case 1:
+      return (reader.readLong(offset)) as P;
+    case 2:
       return (reader.readStringList(offset) ?? []) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -142,6 +164,14 @@ extension KradQueryWhereSort on QueryBuilder<Krad, Krad, QWhere> {
   QueryBuilder<Krad, Krad, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
+    });
+  }
+
+  QueryBuilder<Krad, Krad, QAfterWhere> anyKanjiStrokeCount() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'kanjiStrokeCount'),
+      );
     });
   }
 }
@@ -297,6 +327,96 @@ extension KradQueryWhere on QueryBuilder<Krad, Krad, QWhereClause> {
               includeUpper: false,
             ));
       }
+    });
+  }
+
+  QueryBuilder<Krad, Krad, QAfterWhereClause> kanjiStrokeCountEqualTo(
+      int kanjiStrokeCount) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'kanjiStrokeCount',
+        value: [kanjiStrokeCount],
+      ));
+    });
+  }
+
+  QueryBuilder<Krad, Krad, QAfterWhereClause> kanjiStrokeCountNotEqualTo(
+      int kanjiStrokeCount) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'kanjiStrokeCount',
+              lower: [],
+              upper: [kanjiStrokeCount],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'kanjiStrokeCount',
+              lower: [kanjiStrokeCount],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'kanjiStrokeCount',
+              lower: [kanjiStrokeCount],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'kanjiStrokeCount',
+              lower: [],
+              upper: [kanjiStrokeCount],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<Krad, Krad, QAfterWhereClause> kanjiStrokeCountGreaterThan(
+    int kanjiStrokeCount, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'kanjiStrokeCount',
+        lower: [kanjiStrokeCount],
+        includeLower: include,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<Krad, Krad, QAfterWhereClause> kanjiStrokeCountLessThan(
+    int kanjiStrokeCount, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'kanjiStrokeCount',
+        lower: [],
+        upper: [kanjiStrokeCount],
+        includeUpper: include,
+      ));
+    });
+  }
+
+  QueryBuilder<Krad, Krad, QAfterWhereClause> kanjiStrokeCountBetween(
+    int lowerKanjiStrokeCount,
+    int upperKanjiStrokeCount, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'kanjiStrokeCount',
+        lower: [lowerKanjiStrokeCount],
+        includeLower: includeLower,
+        upper: [upperKanjiStrokeCount],
+        includeUpper: includeUpper,
+      ));
     });
   }
 }
@@ -478,6 +598,59 @@ extension KradQueryFilter on QueryBuilder<Krad, Krad, QFilterCondition> {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'kanji',
         value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Krad, Krad, QAfterFilterCondition> kanjiStrokeCountEqualTo(
+      int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'kanjiStrokeCount',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Krad, Krad, QAfterFilterCondition> kanjiStrokeCountGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'kanjiStrokeCount',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Krad, Krad, QAfterFilterCondition> kanjiStrokeCountLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'kanjiStrokeCount',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Krad, Krad, QAfterFilterCondition> kanjiStrokeCountBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'kanjiStrokeCount',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
       ));
     });
   }
@@ -713,6 +886,18 @@ extension KradQuerySortBy on QueryBuilder<Krad, Krad, QSortBy> {
       return query.addSortBy(r'kanji', Sort.desc);
     });
   }
+
+  QueryBuilder<Krad, Krad, QAfterSortBy> sortByKanjiStrokeCount() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'kanjiStrokeCount', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Krad, Krad, QAfterSortBy> sortByKanjiStrokeCountDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'kanjiStrokeCount', Sort.desc);
+    });
+  }
 }
 
 extension KradQuerySortThenBy on QueryBuilder<Krad, Krad, QSortThenBy> {
@@ -739,6 +924,18 @@ extension KradQuerySortThenBy on QueryBuilder<Krad, Krad, QSortThenBy> {
       return query.addSortBy(r'kanji', Sort.desc);
     });
   }
+
+  QueryBuilder<Krad, Krad, QAfterSortBy> thenByKanjiStrokeCount() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'kanjiStrokeCount', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Krad, Krad, QAfterSortBy> thenByKanjiStrokeCountDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'kanjiStrokeCount', Sort.desc);
+    });
+  }
 }
 
 extension KradQueryWhereDistinct on QueryBuilder<Krad, Krad, QDistinct> {
@@ -746,6 +943,12 @@ extension KradQueryWhereDistinct on QueryBuilder<Krad, Krad, QDistinct> {
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'kanji', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<Krad, Krad, QDistinct> distinctByKanjiStrokeCount() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'kanjiStrokeCount');
     });
   }
 
@@ -766,6 +969,12 @@ extension KradQueryProperty on QueryBuilder<Krad, Krad, QQueryProperty> {
   QueryBuilder<Krad, String, QQueryOperations> kanjiProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'kanji');
+    });
+  }
+
+  QueryBuilder<Krad, int, QQueryOperations> kanjiStrokeCountProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'kanjiStrokeCount');
     });
   }
 

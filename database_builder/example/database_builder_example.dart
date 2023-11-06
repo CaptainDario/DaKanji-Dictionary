@@ -42,14 +42,15 @@ Future<void> createDictionaryIsar(List<String> iso639_2ToInclude) async {
   print("JLPT added");
   processAudios(isarDict);
   print("Audios added");
-  print("jm/enam done");
   await kanjidic2ToIsar(isarDict);
   print("kanjidic2 done");
   await kanjiVGToIsar(isarDict);
   print("kanjiVg done");
 
   isarDict.close();
+  print("Dictionary.zip done");
 
+  
   var encoder = ZipFileEncoder();
   encoder.create("${RepoPathManager.getOutputFilesPath()}/dictionary.zip");
   encoder.addFile(File("${RepoPathManager.getOutputFilesPath()}/dictionary.isar"));
@@ -90,8 +91,14 @@ Future<void> createKradIsar() async {
     name: "krad",
     directory: RepoPathManager.getOutputFilesPath()
   );
+
+  final isarDict = await Isar.open(
+    [JMdictSchema, Kanjidic2Schema, KanjiSVGSchema], //JMNEdictSchema],
+    name: "dictionary",
+    directory: RepoPathManager.getOutputFilesPath()
+  );
   
-  await kradToIsar(isarKrad);
+  await kradToIsar(isarKrad, isarDict.kanjidic2s);
   print("Krad done");
 
   isarKrad.close();

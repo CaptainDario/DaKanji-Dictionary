@@ -17,12 +17,16 @@ class Krad {
   /// The radicals used in `kanjis`
   @Index(type: IndexType.hashElements)
   List<String> radicals = <String>[];
+  /// Stroke count of this kanji
+  @Index()
+  int kanjiStrokeCount;
 
 
   Krad(
     {
       required this.kanji,
       required this.radicals,
+      required this.kanjiStrokeCount
     }
   );
 }
