@@ -90,8 +90,14 @@ Future<void> createKradIsar() async {
     name: "krad",
     directory: RepoPathManager.getOutputFilesPath()
   );
+
+  final isarDict = await Isar.open(
+    [JMdictSchema, Kanjidic2Schema, KanjiSVGSchema], //JMNEdictSchema],
+    name: "dictionary",
+    directory: RepoPathManager.getOutputFilesPath()
+  );
   
-  await kradToIsar(isarKrad);
+  await kradToIsar(isarKrad, isarDict.kanjidic2s);
   print("Krad done");
 
   isarKrad.close();

@@ -7,18 +7,29 @@ import 'package:isar/isar.dart';
 
 
 
-Future<bool> kradToIsar(Isar isar) async {
+Future<bool> kradToIsar(Isar isar, IsarCollection<Kanjidic2> kanjidirIsar) async {
 
   List<Krad> entries = <Krad>[];
 
   // read radical definitions
   Map radicals = parseKradFile();
   for (MapEntry kanjiDef in radicals.entries) {
-    Krad krad = Krad(
-      kanji: kanjiDef.key,
-      radicals: List<String>.from(kanjiDef.value),
-    );
-    entries.add(krad);
+
+    List<Kanjidic2> kanjidicEntry = kanjidirIsar.where()
+      .characterEqualTo(kanjiDef.key)
+    .findAllSync();
+
+    if(kanjidicEntry.length == 1){
+      Krad krad = Krad(
+        kanji: kanjiDef.key,
+        radicals: List<String>.from(kanjiDef.value),
+        kanjiStrokeCount: kanjidicEntry.first.strokeCount
+      );
+      entries.add(krad);
+    }
+    else{
+      print("$kanjidicEntry has ${kanjidicEntry.length} matches, skipping...");
+    }
   }
 
   isar.writeTxnSync(()  {
