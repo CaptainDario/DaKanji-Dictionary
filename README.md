@@ -81,7 +81,17 @@ Your folder should look like that
   * radkfile-x.x.x.json
   * kradfile-x.x.x.json
 
-Now Run those commands (your current python environment needs to have all requirements from `requirments.txt` installed)
+Now, you need to make sure that your python environment have 
+all the requirements from `requirments.txt`. You can use 
+`python -m pip install -r requirements.txt` if you want 
+to install them on your main environment, or use
+`python -m pip install virtualenv`, followed by `virtualenv venv`.
+Next, if you use linux, use `source venv/bin/activate` or
+`venv\Scripts\activate` if on windows. At last, just use 
+`pip install -r requirements.txt` like you would normally.
+
+Afterwards, you can either use `execute.sh` or manually run 
+the following commands if the shell script doesn't work:
 
 * `python utils/database_entries_creator/dict_entry_details_creator/kanjidic2_loader.py`
 * `python utils/database_entries_creator/kanjivg_preprocessor/main.py`
