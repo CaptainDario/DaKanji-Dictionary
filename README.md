@@ -10,7 +10,8 @@ You can either download the latest release from the [releases page](https://gith
 
 First install the necessary requirements:
 
-* a python environment with all dependiencies in `requirements.txt` installed
+* a python environment with all dependiencies in `requirements.txt` installed. We recommend python 3.10.12, as this version is tested to work. 
+Currently (19.11.2023), it seems that not everything works on 3.12.
   * Assure Cairo is installed and on path for cairocffi
   * Assure this environemnt is set as current environment (python3 defaults to this env.)
 * dart
@@ -93,9 +94,7 @@ Next, if you use linux, use `source venv/bin/activate` or
 Afterwards, you can either use `execute.sh` or manually run 
 the following commands if the shell script doesn't work:
 
-* `python utils/database_entries_creator/dict_entry_details_creator/kanjidic2_loader.py`
-* `python utils/database_entries_creator/kanjivg_preprocessor/main.py`
-* `python utils/database_entries_creator/jmdict_enamdict_merger/main.py`
+* `python utils/database_entries_creator/databdatabase_entries_creator -a
 * ASSURE MeCab is installed in your default python environment
 * `cd database_builder`
 * `dart run build_runner build`

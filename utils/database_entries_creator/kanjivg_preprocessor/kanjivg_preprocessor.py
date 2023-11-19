@@ -25,9 +25,7 @@ class KanjiVGPreprocessor():
         return re.sub(r'(<!--)(.|\n)*(-->)', '', file.read())
 
 
-
-#note the id and the name is the unicode of the kanji
-if __name__ == "__main__":
+def execute():
     # KanjiVGPreprocessor.showSVGFromPath('inputFiles/0f9a8.svg')
     for svg in os.listdir(KanjiVGPreprocessor.kanjiVGDirectory):
         # skip all not svg files
@@ -44,3 +42,8 @@ if __name__ == "__main__":
             svgOutput.write(svgNoCopyright)
         except Exception:
             print(f"Error while reading {svg}")
+
+
+#note the id and the name is the unicode of the kanji
+if __name__ == "__main__":
+    execute()

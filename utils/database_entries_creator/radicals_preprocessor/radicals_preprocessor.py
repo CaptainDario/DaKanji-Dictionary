@@ -65,11 +65,7 @@ def preprocess(krad_path : str, radk_path : str):
             with open(new_krad_file, mode="w+", encoding="utf8") as f:
                 f.write(json.dumps(json.loads(krad)["kanji"], ensure_ascii=False))
 
-
-
-
-if __name__ == "__main__":
-
+def execute():
     input_files = os.listdir(input_files_dir)
 
     krad_name = [i for i in input_files if i.startswith('krad') and i.endswith(".json")][0]
@@ -79,3 +75,7 @@ if __name__ == "__main__":
     radk_path = os.path.join(input_files_dir, radk_name)
 
     preprocess(krad_path, radk_path)
+
+
+if __name__ == "__main__":
+    execute()
