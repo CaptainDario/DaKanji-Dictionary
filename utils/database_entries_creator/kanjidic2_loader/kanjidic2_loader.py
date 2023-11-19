@@ -1,5 +1,5 @@
 from __future__ import annotations
-
+from commons import *
 import json
 import csv
 # import prettyprinter as pp
@@ -138,10 +138,10 @@ def execute():
             entry.nanoris.append(elem.text)
 
     entries.pop(0)
-    out_file = open("partiallyProcessedFiles/kanjidic2/kanjidic2.json", "wb")
+    out_file = open(partiallyProcessedFilesPath.joinpath(kanjidic2Path, "kanjidic2.json"), "wb")
     out = orjson.dumps(entries, out_file, option=orjson.OPT_INDENT_2)
     out_file.write(out)
     kanjidic2.close()
 
-if __name__ == "__main__":
-    execute()
+def outputPaths():
+    return [partiallyProcessedFilesPath.joinpath(kanjidic2Path, "kanjidic2.json")]

@@ -1,4 +1,5 @@
 import os
+from commons import *
 import re
 from io import BytesIO, TextIOWrapper
 
@@ -6,8 +7,8 @@ from cairosvg import svg2png
 from PIL import Image
 
 class KanjiVGPreprocessor():
-    kanjiVGDirectory = 'inputFiles/kanjiVG'
-    kanjiVGOutputDirectory = 'partiallyProcessedFiles/kanjiVG'
+    kanjiVGDirectory = inputFilesPath.joinpath(kanjiVGPath)
+    kanjiVGOutputDirectory = partiallyProcessedFilesPath.joinpath(kanjiVGPath)
 
     @staticmethod
     def show_svg_from_path(path: str):
@@ -24,7 +25,7 @@ class KanjiVGPreprocessor():
         ## reattached.
         return re.sub(r'(<!--)(.|\n)*(-->)', '', file.read())
 
-
+#note the id and the name is the unicode of the kanji
 def execute():
     # KanjiVGPreprocessor.showSVGFromPath('inputFiles/0f9a8.svg')
     for svg in os.listdir(KanjiVGPreprocessor.kanjiVGDirectory):
@@ -43,7 +44,7 @@ def execute():
         except Exception:
             print(f"Error while reading {svg}")
 
+def outputPaths():
+    return [inputFilesPath.joinpath(kanjiVGPath),
+            partiallyProcessedFilesPath.joinpath(kanjiVGPath)]
 
-#note the id and the name is the unicode of the kanji
-if __name__ == "__main__":
-    execute()

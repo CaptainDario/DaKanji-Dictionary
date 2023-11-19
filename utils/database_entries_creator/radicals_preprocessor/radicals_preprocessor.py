@@ -1,9 +1,9 @@
 import json
 import os
-import re
+from commons import *
 
-input_files_dir = "inputFiles"
-partially_processed_files_dir = os.path.join("partiallyProcessedFiles", "radicals")
+input_files_dir = inputFilesPath
+partially_processed_files_dir = partiallyProcessedFilesPath.joinpath(radicalsPath)
 
 code_lookup = {
     "js01" : "⺅", # 化
@@ -76,6 +76,6 @@ def execute():
 
     preprocess(krad_path, radk_path)
 
-
-if __name__ == "__main__":
-    execute()
+def outputPaths():
+    return [partially_processed_files_dir.joinpath("krad.json"),
+            partially_processed_files_dir.joinpath("radk.json")]

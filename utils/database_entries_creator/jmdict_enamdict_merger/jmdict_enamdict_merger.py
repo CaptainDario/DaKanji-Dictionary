@@ -1,5 +1,5 @@
 from __future__ import annotations
-import sys
+from commons import *
 
 from dataclasses import dataclass, field
 # import xml.etree.ElementTree as ET
@@ -207,14 +207,14 @@ def dict_process(input, Dict_porcessor, output):
 
 
 def jmdict_process():
-    dict_process('inputFiles/JMdict/JMdict', JMDictProcessor,
-                 "partiallyProcessedFiles/JMdict/jmdict.json")
+    dict_process(inputFilesPath.joinpath(JMdictPath, Path("JMdict")), JMDictProcessor, 
+                 partiallyProcessedFilesPath.joinpath(JMdictPath, Path("jmdict.json")))
     print("Jmdict done")
 
 
 def jmnedict_process():
-    dict_process('inputFiles/JMdict/JMnedict.xml', JMEdictProcessor,
-                 "partiallyProcessedFiles/JMdict/jmnedict.json")
+    dict_process(inputFilesPath.joinpath(JMdictPath, Path("JMnedict.xml")), JMDictProcessor, 
+                 partiallyProcessedFilesPath.joinpath(JMdictPath, Path("jmnedict.json")))
     print("JMnedict done")
 
 
@@ -222,6 +222,6 @@ def execute():
     jmdict_process()
     jmnedict_process()
 
-
-if __name__ == "__main__":
-    execute()
+def outputPaths():
+    return [partiallyProcessedFilesPath.joinpath(JMdictPath, Path("jmdict.json")), 
+               partiallyProcessedFilesPath.joinpath(JMdictPath, Path("jmnedict.json"))]
