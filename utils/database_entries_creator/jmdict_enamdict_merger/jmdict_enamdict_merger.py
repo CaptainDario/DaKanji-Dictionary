@@ -218,10 +218,10 @@ def jmnedict_process():
     print("JMnedict done")
 
 
-def execute():
+def execute(isEnglishOnly):
     jmdict_process()
     jmnedict_process()
 
-def outputPaths():
+def outputFiles():
     return [partiallyProcessedFilesPath.joinpath(JMdictPath, Path("jmdict.json")), 
                partiallyProcessedFilesPath.joinpath(JMdictPath, Path("jmnedict.json"))]

@@ -80,7 +80,7 @@ def convert_kanken_to_float(kanken : str):
     
     return kanken
 
-def execute():
+def execute(isEnglishOnly):
     kanjidic2 = open('inputFiles/kanjidic2/kanjidic2.xml', 'r', encoding="utf-8")
     with open('inputFiles/klc/database.js', 'r', encoding="utf-8") as f:
         klc = json.loads(f.read().replace("var database = ", "")[:-2])
@@ -143,5 +143,5 @@ def execute():
     out_file.write(out)
     kanjidic2.close()
 
-def outputPaths():
+def outputFiles():
     return [partiallyProcessedFilesPath.joinpath(kanjidic2Path, "kanjidic2.json")]

@@ -26,7 +26,7 @@ class KanjiVGPreprocessor():
         return re.sub(r'(<!--)(.|\n)*(-->)', '', file.read())
 
 #note the id and the name is the unicode of the kanji
-def execute():
+def execute(isEnglishOnly):
     # KanjiVGPreprocessor.showSVGFromPath('inputFiles/0f9a8.svg')
     for svg in os.listdir(KanjiVGPreprocessor.kanjiVGDirectory):
         # skip all not svg files
@@ -44,7 +44,11 @@ def execute():
         except Exception:
             print(f"Error while reading {svg}")
 
-def outputPaths():
-    return [inputFilesPath.joinpath(kanjiVGPath),
-            partiallyProcessedFilesPath.joinpath(kanjiVGPath)]
+def outputFiles():
+    return [partiallyProcessedFilesPath.joinpath(kanjiVGPath, "0f9a8.svg"),
+            partiallyProcessedFilesPath.joinpath(kanjiVGPath, "09786.svg")]
 
+def clearAll():
+    for file in partiallyProcessedFilesPath.joinpath(kanjiVGPath).iterdir():
+        if file.name != '.gitkeep':
+            file.unlink()
