@@ -80,6 +80,10 @@ class JMDictProcessor:
         self.file = file
         self.isEnglishOnly = isEnglishOnly
 
+    @staticmethod
+    def field_population_help(result_field, iterable):
+        result_field += list(map(lambda e : e.text, iterable))
+
     def xml_to_dict(self,) -> list():
         result = list()
         xml_file = ET.parse(self.file)  # type: ET.ElementTree
@@ -98,8 +102,7 @@ class JMDictProcessor:
                     wordfreq.zipf_frequency(keb, 'ja')
                 )
 
-                k_inf = list(map(lambda k : k.text, k_ele.iter('ke_inf')))
-                result_entry.k_inf.append(None if k_inf == [] else k_inf)
+                self.field_population_help(result_entry.k_inf, k_ele.iter('ke_inf'))
 
             # reading related elements
             for r_ele in entry.iter('r_ele'):
@@ -107,15 +110,11 @@ class JMDictProcessor:
                 if len(result_entry.kanjis) <= 0:
                     result_entry.frequency = max(
                         result_entry.frequency, wordfreq.zipf_frequency(r_ele.find('reb').text, 'ja'))
-                    
-                re_inf = list(map(lambda r : r.text, r_ele.iter('re_inf')))
-                result_entry.re_inf.append(None if re_inf == [] else re_inf)
-
-                re_restr = list(map(lambda r : r.text, r_ele.iter('re_restr')))
-                result_entry.re_restr.append(None if re_restr == [] else re_restr)
+                
+                self.field_population_help(result_entry.re_inf, r_ele.iter('re_inf'))
+                self.field_population_help(result_entry.re_restr, r_ele.iter('re_restr'))
 
             # senses related elements
-            # meanings_map = {}
             meanings_map = collections.defaultdict(list)
             for sense in entry.iter('sense'):
 
@@ -127,32 +126,17 @@ class JMDictProcessor:
                 if self.isEnglishOnly and lang == 'eng' or not self.isEnglishOnly:
                     meanings_map[lang].append(glosses_join)
 
-                stagk = list(map(lambda e : e.text, sense.iter('stagk')))
-                result_entry.stagk.append(None if stagk == [] else stagk)
+                self.field_population_help(result_entry.stagk, sense.iter('stagk'))
+                self.field_population_help(result_entry.stagr, sense.iter('stagr'))
+                self.field_population_help(result_entry.xref, sense.iter('xref'))
+                self.field_population_help(result_entry.ant, sense.iter('ant'))
+                self.field_population_help(result_entry.pos, sense.iter('pos'))
+                self.field_population_help(result_entry.fld, sense.iter('fld'))
 
-                stagr = list(map(lambda e : e.text, sense.iter('stagr')))
-                result_entry.stagr.append(None if stagr == [] else stagr)
+                result_entry.lsource += list(map(lambda e : f"{e.attrib.values()[0]}: {e.text}", [x for x in sense.iter('lsource') if x.text is not None]))
 
-                xref = list(map(lambda e : e.text, sense.iter('xref')))
-                result_entry.xref.append(None if xref == [] else xref)
-
-                ant = list(map(lambda e : e.text, sense.iter('ant')))
-                result_entry.ant.append(None if ant == [] else ant)
-
-                pos = list(map(lambda e : e.text, sense.iter('pos')))
-                result_entry.pos.append(None if pos == [] else pos)
-                
-                fld = list(map(lambda e : e.text, sense.iter('field')))
-                result_entry.fld.append(None if fld == [] else fld)
-
-                lsource = list(map(lambda e : f"{e.attrib.values()[0]}: {e.text}", [x for x in sense.iter('lsource') if x.text is not None]))
-                result_entry.lsource.append(None if lsource == [] else lsource)
-
-                dial = list(map(lambda e : e.text, sense.iter('dial')))
-                result_entry.dial.append(None if dial == [] else dial) 
-
-                s_inf = list(map(lambda e : e.text, sense.iter('s_inf')))
-                result_entry.s_inf.append(None if s_inf == [] else s_inf)                
+                self.field_population_help(result_entry.dial, sense.iter('dial'))
+                self.field_population_help(result_entry.s_inf, sense.iter('s_inf'))
 
             for lang, meanings in meanings_map.items():
                 meaning = LanguageMeanings(language=lang, meanings=meanings)
