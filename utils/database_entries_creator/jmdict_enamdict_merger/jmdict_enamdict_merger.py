@@ -6,6 +6,7 @@ from dataclasses import dataclass, field
 import lxml.etree as ET
 import orjson
 import wordfreq
+import collections
 
 
 @dataclass
@@ -75,8 +76,9 @@ class JMDictEntry(Entry):
     
 
 class JMDictProcessor:
-    def __init__(self, file) -> None:
+    def __init__(self, file, isEnglishOnly) -> None:
         self.file = file
+        self.isEnglishOnly = isEnglishOnly
 
     def xml_to_dict(self,) -> list():
         result = list()
@@ -113,17 +115,17 @@ class JMDictProcessor:
                 result_entry.re_restr.append(None if re_restr == [] else re_restr)
 
             # senses related elements
-            meanings_map = {}
+            # meanings_map = {}
+            meanings_map = collections.defaultdict(list)
             for sense in entry.iter('sense'):
 
                 glosses_join = []
                 for gloss in sense.iter('gloss'):
                     lang = gloss.get('{http://www.w3.org/XML/1998/namespace}lang')
-                    if(lang not in meanings_map.keys()):
-                        meanings_map[lang] = []
-                    if(gloss.text is not None):
+                    if gloss.text is not None and (self.isEnglishOnly and lang == 'eng' or not self.isEnglishOnly):
                         glosses_join.append(gloss.text)
-                meanings_map[lang].append(glosses_join)
+                if self.isEnglishOnly and lang == 'eng' or not self.isEnglishOnly:
+                    meanings_map[lang].append(glosses_join)
 
                 stagk = list(map(lambda e : e.text, sense.iter('stagk')))
                 result_entry.stagk.append(None if stagk == [] else stagk)
@@ -161,7 +163,7 @@ class JMDictProcessor:
 
 
 class JMEdictProcessor:
-    def __init__(self, file) -> None:
+    def __init__(self, file, isEnglishOnly) -> None:
         self.file = file
 
     def xml_to_dict(self,) -> list():
@@ -195,9 +197,9 @@ def default(obj):
     return obj
 
 
-def dict_process(input, Dict_porcessor, output):
+def dict_process(input, Dict_porcessor, output, isEnglishOnly):
     dict_file = open(input, 'r', encoding="utf-8")
-    dict_processor = Dict_porcessor(dict_file)
+    dict_processor = Dict_porcessor(dict_file, isEnglishOnly)
     processed_dict = dict_processor.xml_to_dict()
     out_file = open(output, "wb")
     json_out = orjson.dumps(
@@ -206,21 +208,25 @@ def dict_process(input, Dict_porcessor, output):
     out_file.close()
 
 
-def jmdict_process():
-    dict_process(inputFilesPath.joinpath(JMdictPath, Path("JMdict")), JMDictProcessor, 
-                 partiallyProcessedFilesPath.joinpath(JMdictPath, Path("jmdict.json")))
+def jmdict_process(isEnglishOnly):
+    dict_process(inputFilesPath.joinpath(JMdictPath, Path("JMdict")), 
+                 JMDictProcessor, 
+                 partiallyProcessedFilesPath.joinpath(JMdictPath, Path("jmdict.json")),
+                 isEnglishOnly)
     print("Jmdict done")
 
 
-def jmnedict_process():
-    dict_process(inputFilesPath.joinpath(JMdictPath, Path("JMnedict.xml")), JMDictProcessor, 
-                 partiallyProcessedFilesPath.joinpath(JMdictPath, Path("jmnedict.json")))
+def jmnedict_process(isEnglishOnly):
+    dict_process(inputFilesPath.joinpath(JMdictPath, Path("JMnedict.xml")), 
+                 JMDictProcessor, 
+                 partiallyProcessedFilesPath.joinpath(JMdictPath, Path("jmnedict.json")),
+                 isEnglishOnly)
     print("JMnedict done")
 
 
 def execute(isEnglishOnly):
-    jmdict_process()
-    jmnedict_process()
+    jmdict_process(isEnglishOnly)
+    jmnedict_process(isEnglishOnly)
 
 def outputFiles():
     return [partiallyProcessedFilesPath.joinpath(JMdictPath, Path("jmdict.json")), 

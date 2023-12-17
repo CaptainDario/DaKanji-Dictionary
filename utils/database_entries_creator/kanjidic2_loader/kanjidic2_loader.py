@@ -131,7 +131,8 @@ def execute(isEnglishOnly):
             entry.readings.append(Reading(r_type=elem.attrib["r_type"], value=elem.text))
         elif elem.tag == "meaning":
             if elem.attrib:
-                entry.meanings.append(Meaning(language=elem.attrib["m_lang"], meaning=elem.text))
+                if not isEnglishOnly:
+                    entry.meanings.append(Meaning(language=elem.attrib["m_lang"], meaning=elem.text))
             else:
                 entry.meanings.append(Meaning(language="en", meaning=elem.text))
         elif elem.tag == "nanori":

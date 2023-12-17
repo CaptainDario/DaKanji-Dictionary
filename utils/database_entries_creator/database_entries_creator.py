@@ -30,8 +30,8 @@ def handleModule(program, module, force, action, isEnglishOnly, isLong=False):
             if module == kvg:
                 module.clearAll()
         case Action.Regenerate:
-            handleModule(program, module, force, Action.Delete, isLong)
-            handleModule(program, module, force, Action.Run, isLong)
+            handleModule(program, module, force, Action.Delete, isEnglishOnly, isLong)
+            handleModule(program, module, force, Action.Run, isEnglishOnly, isLong)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
@@ -54,7 +54,8 @@ if __name__ == "__main__":
     parser.add_argument('--rad', action='store_true')
 
     args = parser.parse_args()
-    # args = parser.parse_args(['-a'])
+    # args = parser.parse_args(['--jm_en_merger', '-r'])
+    # args = parser.parse_args(['--jm_en_merger', '-r', '-e'])
 
     if args.delete:
         actionType = Action.Delete
@@ -70,7 +71,7 @@ if __name__ == "__main__":
         "radicals_preprocessor": actionType if args.rad else Action.Skip
     }
 
-    if args.all: # move if conditional execution for specific modules (eq. data already parsed) implemented
+    if args.all:
         for k, v in run_list.items():
             run_list[k] = actionType
 
