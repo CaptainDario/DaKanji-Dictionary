@@ -82,7 +82,8 @@ class JMDictProcessor:
 
     @staticmethod
     def field_population_help(result_field, iterable):
-        result_field += list(map(lambda e : e.text, iterable))
+        field = list(map(lambda e : e.text, iterable))
+        result_field.append(None if field == [] else field)
 
     def xml_to_dict(self,) -> list():
         result = list()
@@ -133,7 +134,8 @@ class JMDictProcessor:
                 self.field_population_help(result_entry.pos, sense.iter('pos'))
                 self.field_population_help(result_entry.fld, sense.iter('fld'))
 
-                result_entry.lsource += list(map(lambda e : f"{e.attrib.values()[0]}: {e.text}", [x for x in sense.iter('lsource') if x.text is not None]))
+                lsource = list(map(lambda e : f"{e.attrib.values()[0]}: {e.text}", [x for x in sense.iter('lsource') if x.text is not None]))
+                result_entry.lsource.append(None if lsource == [] else lsource)
 
                 self.field_population_help(result_entry.dial, sense.iter('dial'))
                 self.field_population_help(result_entry.s_inf, sense.iter('s_inf'))
