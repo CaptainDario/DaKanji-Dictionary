@@ -82,8 +82,8 @@ Your folder should look like that
   * radkfile-x.x.x.json
   * kradfile-x.x.x.json
 
-Now, you need to make sure that your python environment have 
-all the requirements from `requirments.txt`. You can use 
+Now, you need to make sure that your python environment has 
+all the requirements from `requirments.txt` installed. You can use 
 `python -m pip install -r requirements.txt` if you want 
 to install them on your main environment, or use
 `python -m pip install virtualenv`, followed by `virtualenv venv`.
