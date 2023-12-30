@@ -185,12 +185,11 @@ def dict_process(input, Dict_porcessor, output, isEnglishOnly):
     dict_file = open(input, 'r', encoding="utf-8")
     dict_processor = Dict_porcessor(dict_file, isEnglishOnly)
     processed_dict = dict_processor.xml_to_dict()
-    out_file = open(output, "wb")
-    json_out = orjson.dumps(
-        processed_dict, default=default, option=orjson.OPT_INDENT_2)
-    out_file.write(json_out)
-    out_file.close()
 
+    with open(output, "wb+") as out_file:
+        json_out = orjson.dumps(
+            processed_dict, default=default, option=orjson.OPT_INDENT_2)
+        out_file.write(json_out)
 
 def jmdict_process(isEnglishOnly):
     dict_process(inputFilesPath.joinpath(JMdictPath, Path("JMdict")), 
