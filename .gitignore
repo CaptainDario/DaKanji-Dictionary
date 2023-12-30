@@ -44,6 +44,7 @@ partiallyProcessedFiles/radicals/*
 !partiallyProcessedFiles/JMdict/.gitkeep
 !partiallyProcessedFiles/kanjidic2/.gitkeep
 !partiallyProcessedFiles/kanjiVG/.gitkeep
+!partiallyProcessedFiles/radicals/.gitkeep
 !partiallyProcessedFiles/README.md
 
 outputFiles/**
