@@ -27,17 +27,17 @@ Future<void> addAccentsToDict(Isar dictIsar) async {
     KanaKitConfig(passRomaji: true, passKanji: true, upcaseKatakana: false)
   );
 
-  int i = 0;
+  int i = 0; List<JMdict> updatedJmdicts = [];
   for (var row in accentRows) {
     String kanji = k.toHiragana(((row[1] == "" ? "" : row[0]) as String).toHalfWidth());
     String reading = k.toHiragana(((row[1] == "" ? row[0] : row[1]) as String).toHalfWidth());
     List<JMdict> matches = dictIsar.jmdict.where()
-      .optional(kanji != "", (q) => 
-        q.kanjiIndexesElementEqualTo(kanji)
-      )
-    .filter()
-      .hiraganasElementEqualTo(reading)
-    .findAllSync();
+        .hiraganasElementEqualTo(reading)
+      .filter()
+        .optional(kanji != "", (q) => 
+          q.kanjiIndexesElementEqualTo(kanji)
+        )
+      .findAllSync();
 
     for (var match in matches) {
       match.accents ??= List.generate(match.readings.length, (index) => null);
@@ -47,9 +47,7 @@ Future<void> addAccentsToDict(Isar dictIsar) async {
           attributes: row[2].toString().split(",")
         );
 
-      dictIsar.writeTxnSync(() {
-        dictIsar.jmdict.putSync(match);
-      });
+      updatedJmdicts.add(match);
     }
 
     if(matches.isEmpty){
@@ -59,4 +57,8 @@ Future<void> addAccentsToDict(Isar dictIsar) async {
     i++;
   }
 
+
+  dictIsar.writeTxnSync(() {
+    dictIsar.jmdict.putAllSync(updatedJmdicts);
+  });
 }
