@@ -3,19 +3,19 @@ from commons import *
 import re
 from io import BytesIO, TextIOWrapper
 
-from cairosvg import svg2png
+#from cairosvg import svg2png
 from PIL import Image
 
 class KanjiVGPreprocessor():
     kanjiVGDirectory = inputFilesPath.joinpath(kanjiVGPath)
     kanjiVGOutputDirectory = partiallyProcessedFilesPath.joinpath(kanjiVGPath)
 
-    @staticmethod
-    def show_svg_from_path(path: str):
-        out = BytesIO()
-        svg2png(open(path, 'rb').read(), output_width=1000, output_height=1000, write_to=out)
-        image = Image.open(out)
-        image.show()
+    #@staticmethod
+    #def show_svg_from_path(path: str):
+    #    out = BytesIO()
+    #    svg2png(open(path, 'rb').read(), output_width=1000, output_height=1000, write_to=out)
+    #    image = Image.open(out)
+    #    image.show()
 
     @staticmethod
     def remove_copyright_notice(file: TextIOWrapper):
