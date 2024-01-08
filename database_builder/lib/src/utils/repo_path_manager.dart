@@ -8,14 +8,14 @@ class RepoPathManager {
   static final _outputFilesRegex = RegExp(r'.*(outputFiles)$');
 
   static String getInputFilesPath() {
-    return _getRepoDirectory()
+    return getRepoDirectory()
         .listSync()
         .singleWhere((element) => element.path.contains(_inputFilesRegex))
         .path;
   }
 
   static String getPartiallyProcessedFilesPath() {
-    return _getRepoDirectory()
+    return getRepoDirectory()
         .listSync()
         .singleWhere(
             (element) => element.path.contains(_partiallyProcessedFilesRegex))
@@ -23,13 +23,13 @@ class RepoPathManager {
   }
 
   static String getOutputFilesPath() {
-    return _getRepoDirectory()
+    return getRepoDirectory()
         .listSync()
         .singleWhere((element) => element.path.contains(_outputFilesRegex))
         .path;
   }
 
-  static Directory _getRepoDirectory() {
+  static Directory getRepoDirectory() {
     var dir_path = Directory(Directory.current.path);
     while (!path
         .basename(dir_path.path)
