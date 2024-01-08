@@ -12,7 +12,6 @@ First install the necessary requirements:
 
 * a python environment with all dependiencies in `requirements.txt` installed. We recommend python 3.10.12, as this version is tested to work. 
 Currently (19.11.2023), it seems that not everything works on 3.12.
-  * Assure Cairo is installed and on path for cairocffi
   * Assure this environemnt is set as current environment (python3 defaults to this env.)
 * dart
 * MeCab with ipadic
@@ -20,6 +19,9 @@ Currently (19.11.2023), it seems that not everything works on 3.12.
   * MacOS - homebrew:
     * `brew install mecab`
     * `brew install mecab-ipadic`
+* Optional
+  * Debugging svgs
+    * Assure Cairo is installed and on path for cairocffi ([Installation details](https://cairosvg.org/documentation/#installation))
 
 Additionally, the isar binaries for your platform are requried.
 They can be downloaded [here](https://github.com/isar/isar/releases) (make sure that the isar library version matches your platform and the version in `pubspec.yaml`). After downloading the library, copy it to `database_builder/example/libisar.{dylilb|so|dll}`.
