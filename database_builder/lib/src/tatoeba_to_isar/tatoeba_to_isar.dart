@@ -237,7 +237,7 @@ Future<Map<String, Map<int, String>>> matchSentenceAndTranslationList(
 /// Add PoS and mecab parsing to all Japanese sentences using `python3 parse.py`
 Future<void> runMeCabOnJpnJson(String path) async {
   var proc = await Process.start(runInShell: true, includeParentEnvironment: true,
-    "python3", [p.join("lib", "src", "tatoeba_to_isar", "parse.py"), path],
+    "python3", [p.join(RepoPathManager.getRepoDirectory().path, "database_builder", "lib", "src", "tatoeba_to_isar", "parse.py"), path],
   );
   await stdout.addStream(proc.stdout);
   await stdout.addStream(proc.stderr);
