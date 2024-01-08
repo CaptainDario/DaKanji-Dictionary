@@ -96,7 +96,7 @@ Next, if you use linux, use `source venv/bin/activate` or
 Afterwards, you can either use `execute.sh` or manually run 
 the following commands if the shell script doesn't work:
 
-* `python utils/database_entries_creator/databdatabase_entries_creator -a
+* `python utils/database_entries_creator/database_entries_creator.py -a`
 * ASSURE MeCab is installed in your default python environment
 * `cd database_builder`
 * `dart run build_runner build`
