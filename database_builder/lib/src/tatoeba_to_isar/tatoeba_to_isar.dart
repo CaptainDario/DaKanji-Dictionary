@@ -206,13 +206,15 @@ Future<Map<String, Map<int, String>>> matchSentenceAndTranslationList(
     List<String> lineSplit = line.split("\t");
 
       int originalID = int.parse(lineSplit[0]); Tuple2<String, String> original;
-      if(args.item3.containsKey(originalID))  
+      if(args.item3.containsKey(originalID)){
         original = args.item3[originalID]!;
+      }
       else{continue;}
 
       int translationID = int.parse(lineSplit[1]); Tuple2<String, String> translation;
-      if(args.item3.containsKey(translationID))
+      if(args.item3.containsKey(translationID)){
         translation = args.item3[translationID]!;
+      }
       else{continue;}
 
       // sentence is Japanese
