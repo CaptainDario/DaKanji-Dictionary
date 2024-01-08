@@ -66,6 +66,7 @@ class JMDictEntry(Entry):
     xref:    list[int] = field(default_factory=list)
     ant:     list[int] = field(default_factory=list)
     pos:     list[str] = field(default_factory=list)
+    # this needs to be called fld to nor clash with python's field name
     fld:     list[str] = field(default_factory=list)
     misc:    list[str] = field(default_factory=list)
     lsource: list[str] = field(default_factory=list)
