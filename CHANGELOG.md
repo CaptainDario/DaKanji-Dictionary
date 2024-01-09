@@ -1,5 +1,21 @@
 # DaKanji Dictionary - Changelog
 
+## 3.3.0 - 仮名
+
+- Python pre-processing
+  - Refactored
+  - QoL improvments
+
+## 3.2.0 - 文法
+
+- Update schema
+  - kanjidic
+    - strokeCount is now an index
+  - Krad
+    - has now a strokeCount for each kanji
+  - Radk
+    - renamed strokeCount to radicalStrokeCount
+
 ## 3.1.0 - 辞書開発
 
 - added
