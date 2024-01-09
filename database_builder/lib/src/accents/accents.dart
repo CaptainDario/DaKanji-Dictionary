@@ -27,7 +27,7 @@ Future<void> addAccentsToDict(Isar dictIsar) async {
     KanaKitConfig(passRomaji: true, passKanji: true, upcaseKatakana: false)
   );
 
-  int i = 0; List<JMdict> updatedJmdicts = [];
+  int i = 0;
   for (var row in accentRows) {
     String kanji = k.toHiragana(((row[1] == "" ? "" : row[0]) as String).toHalfWidth());
     String reading = k.toHiragana(((row[1] == "" ? row[0] : row[1]) as String).toHalfWidth());
@@ -47,7 +47,9 @@ Future<void> addAccentsToDict(Isar dictIsar) async {
           attributes: row[2].toString().split(",")
         );
 
-      updatedJmdicts.add(match);
+      dictIsar.writeTxnSync(() {
+        dictIsar.jmdict.putSync(match);
+      });
     }
 
     if(matches.isEmpty){
@@ -56,9 +58,4 @@ Future<void> addAccentsToDict(Isar dictIsar) async {
 
     i++;
   }
-
-
-  dictIsar.writeTxnSync(() {
-    dictIsar.jmdict.putAllSync(updatedJmdicts);
-  });
 }
