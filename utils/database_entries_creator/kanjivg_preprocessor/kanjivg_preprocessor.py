@@ -1,20 +1,21 @@
 import os
+from commons import *
 import re
 from io import BytesIO, TextIOWrapper
 
-from cairosvg import svg2png
+#from cairosvg import svg2png
 from PIL import Image
 
 class KanjiVGPreprocessor():
-    kanjiVGDirectory = 'inputFiles/kanjiVG'
-    kanjiVGOutputDirectory = 'partiallyProcessedFiles/kanjiVG'
+    kanjiVGDirectory = inputFilesPath.joinpath(kanjiVGPath)
+    kanjiVGOutputDirectory = partiallyProcessedFilesPath.joinpath(kanjiVGPath)
 
-    @staticmethod
-    def show_svg_from_path(path: str):
-        out = BytesIO()
-        svg2png(open(path, 'rb').read(), output_width=1000, output_height=1000, write_to=out)
-        image = Image.open(out)
-        image.show()
+    #@staticmethod
+    #def show_svg_from_path(path: str):
+    #    out = BytesIO()
+    #    svg2png(open(path, 'rb').read(), output_width=1000, output_height=1000, write_to=out)
+    #    image = Image.open(out)
+    #    image.show()
 
     @staticmethod
     def remove_copyright_notice(file: TextIOWrapper):
@@ -24,10 +25,8 @@ class KanjiVGPreprocessor():
         ## reattached.
         return re.sub(r'(<!--)(.|\n)*(-->)', '', file.read())
 
-
-
 #note the id and the name is the unicode of the kanji
-if __name__ == "__main__":
+def execute(isEnglishOnly):
     # KanjiVGPreprocessor.showSVGFromPath('inputFiles/0f9a8.svg')
     for svg in os.listdir(KanjiVGPreprocessor.kanjiVGDirectory):
         # skip all not svg files
@@ -44,3 +43,12 @@ if __name__ == "__main__":
             svgOutput.write(svgNoCopyright)
         except Exception:
             print(f"Error while reading {svg}")
+
+def outputFiles():
+    return [partiallyProcessedFilesPath.joinpath(kanjiVGPath, "0f9a8.svg"),
+            partiallyProcessedFilesPath.joinpath(kanjiVGPath, "09786.svg")]
+
+def clearAll():
+    for file in partiallyProcessedFilesPath.joinpath(kanjiVGPath).iterdir():
+        if file.name != '.gitkeep':
+            file.unlink()

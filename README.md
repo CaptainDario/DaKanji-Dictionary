@@ -10,8 +10,8 @@ You can either download the latest release from the [releases page](https://gith
 
 First install the necessary requirements:
 
-* a python environment with all dependiencies in `requirements.txt` installed
-  * Assure Cairo is installed and on path for cairocffi
+* a python environment with all dependiencies in `requirements.txt` installed. We recommend python 3.10.12, as this version is tested to work. 
+Currently (19.11.2023), it seems that not everything works on 3.12.
   * Assure this environemnt is set as current environment (python3 defaults to this env.)
 * dart
 * MeCab with ipadic
@@ -19,6 +19,9 @@ First install the necessary requirements:
   * MacOS - homebrew:
     * `brew install mecab`
     * `brew install mecab-ipadic`
+* Optional
+  * Debugging svgs
+    * Assure Cairo is installed and on path for cairocffi ([Installation details](https://cairosvg.org/documentation/#installation))
 
 Additionally, the isar binaries for your platform are requried.
 They can be downloaded [here](https://github.com/isar/isar/releases) (make sure that the isar library version matches your platform and the version in `pubspec.yaml`). After downloading the library, copy it to `database_builder/example/libisar.{dylilb|so|dll}`.
@@ -81,8 +84,8 @@ Your folder should look like that
   * radkfile-x.x.x.json
   * kradfile-x.x.x.json
 
-Now, you need to make sure that your python environment have 
-all the requirements from `requirments.txt`. You can use 
+Now, you need to make sure that your python environment has 
+all the requirements from `requirments.txt` installed. You can use 
 `python -m pip install -r requirements.txt` if you want 
 to install them on your main environment, or use
 `python -m pip install virtualenv`, followed by `virtualenv venv`.
@@ -93,9 +96,7 @@ Next, if you use linux, use `source venv/bin/activate` or
 Afterwards, you can either use `execute.sh` or manually run 
 the following commands if the shell script doesn't work:
 
-* `python utils/database_entries_creator/dict_entry_details_creator/kanjidic2_loader.py`
-* `python utils/database_entries_creator/kanjivg_preprocessor/main.py`
-* `python utils/database_entries_creator/jmdict_enamdict_merger/main.py`
+* `python utils/database_entries_creator/database_entries_creator.py -a`
 * ASSURE MeCab is installed in your default python environment
 * `cd database_builder`
 * `dart run build_runner build`

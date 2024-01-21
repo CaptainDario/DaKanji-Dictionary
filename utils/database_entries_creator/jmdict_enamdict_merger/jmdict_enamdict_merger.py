@@ -1,11 +1,12 @@
 from __future__ import annotations
-import sys
+from commons import *
 
 from dataclasses import dataclass, field
 # import xml.etree.ElementTree as ET
 import lxml.etree as ET
 import orjson
 import wordfreq
+import collections
 
 
 @dataclass
@@ -65,6 +66,7 @@ class JMDictEntry(Entry):
     xref:    list[int] = field(default_factory=list)
     ant:     list[int] = field(default_factory=list)
     pos:     list[str] = field(default_factory=list)
+    # this needs to be called fld to nor clash with python's field name
     fld:     list[str] = field(default_factory=list)
     misc:    list[str] = field(default_factory=list)
     lsource: list[str] = field(default_factory=list)
@@ -75,8 +77,14 @@ class JMDictEntry(Entry):
     
 
 class JMDictProcessor:
-    def __init__(self, file) -> None:
+    def __init__(self, file, isEnglishOnly) -> None:
         self.file = file
+        self.isEnglishOnly = isEnglishOnly
+
+    @staticmethod
+    def field_population_help(result_field, iterable):
+        field = list(map(lambda e : e.text, iterable))
+        result_field.append(None if field == [] else field)
 
     def xml_to_dict(self,) -> list():
         result = list()
@@ -96,8 +104,7 @@ class JMDictProcessor:
                     wordfreq.zipf_frequency(keb, 'ja')
                 )
 
-                k_inf = list(map(lambda k : k.text, k_ele.iter('ke_inf')))
-                result_entry.k_inf.append(None if k_inf == [] else k_inf)
+                self.field_population_help(result_entry.k_inf, k_ele.iter('ke_inf'))
 
             # reading related elements
             for r_ele in entry.iter('r_ele'):
@@ -105,52 +112,34 @@ class JMDictProcessor:
                 if len(result_entry.kanjis) <= 0:
                     result_entry.frequency = max(
                         result_entry.frequency, wordfreq.zipf_frequency(r_ele.find('reb').text, 'ja'))
-                    
-                re_inf = list(map(lambda r : r.text, r_ele.iter('re_inf')))
-                result_entry.re_inf.append(None if re_inf == [] else re_inf)
-
-                re_restr = list(map(lambda r : r.text, r_ele.iter('re_restr')))
-                result_entry.re_restr.append(None if re_restr == [] else re_restr)
+                
+                self.field_population_help(result_entry.re_inf, r_ele.iter('re_inf'))
+                self.field_population_help(result_entry.re_restr, r_ele.iter('re_restr'))
 
             # senses related elements
-            meanings_map = {}
+            meanings_map = collections.defaultdict(list)
             for sense in entry.iter('sense'):
 
                 glosses_join = []
                 for gloss in sense.iter('gloss'):
                     lang = gloss.get('{http://www.w3.org/XML/1998/namespace}lang')
-                    if(lang not in meanings_map.keys()):
-                        meanings_map[lang] = []
-                    if(gloss.text is not None):
+                    if gloss.text is not None and (self.isEnglishOnly and lang == 'eng' or not self.isEnglishOnly):
                         glosses_join.append(gloss.text)
-                meanings_map[lang].append(glosses_join)
+                if self.isEnglishOnly and lang == 'eng' or not self.isEnglishOnly:
+                    meanings_map[lang].append(glosses_join)
 
-                stagk = list(map(lambda e : e.text, sense.iter('stagk')))
-                result_entry.stagk.append(None if stagk == [] else stagk)
-
-                stagr = list(map(lambda e : e.text, sense.iter('stagr')))
-                result_entry.stagr.append(None if stagr == [] else stagr)
-
-                xref = list(map(lambda e : e.text, sense.iter('xref')))
-                result_entry.xref.append(None if xref == [] else xref)
-
-                ant = list(map(lambda e : e.text, sense.iter('ant')))
-                result_entry.ant.append(None if ant == [] else ant)
-
-                pos = list(map(lambda e : e.text, sense.iter('pos')))
-                result_entry.pos.append(None if pos == [] else pos)
-                
-                fld = list(map(lambda e : e.text, sense.iter('field')))
-                result_entry.fld.append(None if fld == [] else fld)
+                self.field_population_help(result_entry.stagk, sense.iter('stagk'))
+                self.field_population_help(result_entry.stagr, sense.iter('stagr'))
+                self.field_population_help(result_entry.xref, sense.iter('xref'))
+                self.field_population_help(result_entry.ant, sense.iter('ant'))
+                self.field_population_help(result_entry.pos, sense.iter('pos'))
+                self.field_population_help(result_entry.fld, sense.iter('fld'))
 
                 lsource = list(map(lambda e : f"{e.attrib.values()[0]}: {e.text}", [x for x in sense.iter('lsource') if x.text is not None]))
                 result_entry.lsource.append(None if lsource == [] else lsource)
 
-                dial = list(map(lambda e : e.text, sense.iter('dial')))
-                result_entry.dial.append(None if dial == [] else dial) 
-
-                s_inf = list(map(lambda e : e.text, sense.iter('s_inf')))
-                result_entry.s_inf.append(None if s_inf == [] else s_inf)                
+                self.field_population_help(result_entry.dial, sense.iter('dial'))
+                self.field_population_help(result_entry.s_inf, sense.iter('s_inf'))
 
             for lang, meanings in meanings_map.items():
                 meaning = LanguageMeanings(language=lang, meanings=meanings)
@@ -161,7 +150,7 @@ class JMDictProcessor:
 
 
 class JMEdictProcessor:
-    def __init__(self, file) -> None:
+    def __init__(self, file, isEnglishOnly) -> None:
         self.file = file
 
     def xml_to_dict(self,) -> list():
@@ -195,33 +184,36 @@ def default(obj):
     return obj
 
 
-def dict_process(input, Dict_porcessor, output):
+def dict_process(input, Dict_porcessor, output, isEnglishOnly):
     dict_file = open(input, 'r', encoding="utf-8")
-    dict_processor = Dict_porcessor(dict_file)
+    dict_processor = Dict_porcessor(dict_file, isEnglishOnly)
     processed_dict = dict_processor.xml_to_dict()
-    out_file = open(output, "wb")
-    json_out = orjson.dumps(
-        processed_dict, default=default, option=orjson.OPT_INDENT_2)
-    out_file.write(json_out)
-    out_file.close()
 
+    with open(output, "wb+") as out_file:
+        json_out = orjson.dumps(
+            processed_dict, default=default, option=orjson.OPT_INDENT_2)
+        out_file.write(json_out)
 
-def jmdict_process():
-    dict_process('inputFiles/JMdict/JMdict', JMDictProcessor,
-                 "partiallyProcessedFiles/JMdict/jmdict.json")
+def jmdict_process(isEnglishOnly):
+    dict_process(inputFilesPath.joinpath(JMdictPath, Path("JMdict")), 
+                 JMDictProcessor, 
+                 partiallyProcessedFilesPath.joinpath(JMdictPath, Path("jmdict.json")),
+                 isEnglishOnly)
     print("Jmdict done")
 
 
-def jmnedict_process():
-    dict_process('inputFiles/JMdict/JMnedict.xml', JMEdictProcessor,
-                 "partiallyProcessedFiles/JMdict/jmnedict.json")
+def jmnedict_process(isEnglishOnly):
+    dict_process(inputFilesPath.joinpath(JMdictPath, Path("JMnedict.xml")), 
+                 JMDictProcessor, 
+                 partiallyProcessedFilesPath.joinpath(JMdictPath, Path("jmnedict.json")),
+                 isEnglishOnly)
     print("JMnedict done")
 
 
-def execute():
-    jmdict_process()
-    jmnedict_process()
+def execute(isEnglishOnly):
+    jmdict_process(isEnglishOnly)
+    jmnedict_process(isEnglishOnly)
 
-
-if __name__ == "__main__":
-    execute()
+def outputFiles():
+    return [partiallyProcessedFilesPath.joinpath(JMdictPath, Path("jmdict.json")), 
+               partiallyProcessedFilesPath.joinpath(JMdictPath, Path("jmnedict.json"))]

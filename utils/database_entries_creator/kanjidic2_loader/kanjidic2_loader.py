@@ -1,5 +1,5 @@
 from __future__ import annotations
-
+from commons import *
 import json
 import csv
 # import prettyprinter as pp
@@ -80,7 +80,7 @@ def convert_kanken_to_float(kanken : str):
     
     return kanken
 
-def execute():
+def execute(isEnglishOnly):
     kanjidic2 = open('inputFiles/kanjidic2/kanjidic2.xml', 'r', encoding="utf-8")
     with open('inputFiles/klc/database.js', 'r', encoding="utf-8") as f:
         klc = json.loads(f.read().replace("var database = ", "")[:-2])
@@ -131,17 +131,18 @@ def execute():
             entry.readings.append(Reading(r_type=elem.attrib["r_type"], value=elem.text))
         elif elem.tag == "meaning":
             if elem.attrib:
-                entry.meanings.append(Meaning(language=elem.attrib["m_lang"], meaning=elem.text))
+                if not isEnglishOnly:
+                    entry.meanings.append(Meaning(language=elem.attrib["m_lang"], meaning=elem.text))
             else:
                 entry.meanings.append(Meaning(language="en", meaning=elem.text))
         elif elem.tag == "nanori":
             entry.nanoris.append(elem.text)
 
     entries.pop(0)
-    out_file = open("partiallyProcessedFiles/kanjidic2/kanjidic2.json", "wb")
+    out_file = open(partiallyProcessedFilesPath.joinpath(kanjidic2Path, "kanjidic2.json"), "wb")
     out = orjson.dumps(entries, out_file, option=orjson.OPT_INDENT_2)
     out_file.write(out)
     kanjidic2.close()
 
-if __name__ == "__main__":
-    execute()
+def outputFiles():
+    return [partiallyProcessedFilesPath.joinpath(kanjidic2Path, "kanjidic2.json")]

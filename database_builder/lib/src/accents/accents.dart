@@ -57,8 +57,4 @@ Future<void> addAccentsToDict(Isar dictIsar) async {
     i++;
   }
 
-
-  dictIsar.writeTxnSync(() {
-    dictIsar.jmdict.putAllSync(updatedJmdicts);
-  });
 }
