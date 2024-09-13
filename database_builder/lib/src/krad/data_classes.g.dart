@@ -84,7 +84,7 @@ const KradSchema = CollectionSchema(
   getId: _kradGetId,
   getLinks: _kradGetLinks,
   attach: _kradAttach,
-  version: '3.1.0+1',
+  version: '3.1.8',
 );
 
 int _kradEstimateSize(
