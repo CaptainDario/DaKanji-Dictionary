@@ -10,11 +10,12 @@ part 'data_classes.g.dart';
 @collection
 class Radk {
   /// A unique id of this radical's entry in the database
-  Id id = Isar.autoIncrement;
+  @Id()
+  int id;
   /// This entries radical character
   @Index()
   String radical;
-  @Index(type: IndexType.hashElements)
+  @Index(hash: true)//(type: IndexType.hashElements)
   List<String> kanjis = <String>[];
   /// The stroke count of this radical
   @Index()

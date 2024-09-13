@@ -42,16 +42,17 @@ class Meaning {
 @collection
 class Kanjidic2 {
   /// A unique id of this Kanji's entry in the database
-  Id id = Isar.autoIncrement;
+  @Id()
+  int id;
   /// This entries Kanji character
-  @Index(type: IndexType.hash)
+  @Index(hash: true)//(type: IndexType.hash)
   String character;
   /// A list of variants of this character, contains the
   List<JIS> variants = <JIS>[];
   /// The frequency of this Kanji
   int frequency;
   /// How many strokes does this kanji have
-  @Index(type: IndexType.value)
+  @Index()//(type: IndexType.value)
   int strokeCount;
   /// The school grade in which this kanji is thought
   int grade;

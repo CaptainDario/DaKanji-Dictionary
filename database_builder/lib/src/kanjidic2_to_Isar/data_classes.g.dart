@@ -3,862 +3,895 @@
 part of 'data_classes.dart';
 
 // **************************************************************************
-// IsarCollectionGenerator
+// _IsarCollectionGenerator
 // **************************************************************************
 
 // coverage:ignore-file
-// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
+// ignore_for_file: duplicate_ignore, invalid_use_of_protected_member, lines_longer_than_80_chars, constant_identifier_names, avoid_js_rounded_ints, no_leading_underscores_for_local_identifiers, require_trailing_commas, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_in_if_null_operators, library_private_types_in_public_api, prefer_const_constructors
+// ignore_for_file: type=lint
 
 extension GetKanjidic2Collection on Isar {
-  IsarCollection<Kanjidic2> get kanjidic2s => this.collection();
+  IsarCollection<int, Kanjidic2> get kanjidic2s => this.collection();
 }
 
-const Kanjidic2Schema = CollectionSchema(
-  name: r'Kanjidic2',
-  id: -5066426234032528852,
-  properties: {
-    r'antonyms': PropertySchema(
-      id: 0,
-      name: r'antonyms',
-      type: IsarType.stringList,
-    ),
-    r'character': PropertySchema(
-      id: 1,
-      name: r'character',
-      type: IsarType.string,
-    ),
-    r'frequency': PropertySchema(
-      id: 2,
-      name: r'frequency',
-      type: IsarType.long,
-    ),
-    r'grade': PropertySchema(
-      id: 3,
-      name: r'grade',
-      type: IsarType.long,
-    ),
-    r'jlptNew': PropertySchema(
-      id: 4,
-      name: r'jlptNew',
-      type: IsarType.long,
-    ),
-    r'jlptOld': PropertySchema(
-      id: 5,
-      name: r'jlptOld',
-      type: IsarType.long,
-    ),
-    r'kanken': PropertySchema(
-      id: 6,
-      name: r'kanken',
-      type: IsarType.double,
-    ),
-    r'klc': PropertySchema(
-      id: 7,
-      name: r'klc',
-      type: IsarType.long,
-    ),
-    r'lookalikes': PropertySchema(
-      id: 8,
-      name: r'lookalikes',
-      type: IsarType.stringList,
-    ),
-    r'meanings': PropertySchema(
-      id: 9,
-      name: r'meanings',
-      type: IsarType.objectList,
-      target: r'Meaning',
-    ),
-    r'nanoris': PropertySchema(
-      id: 10,
-      name: r'nanoris',
-      type: IsarType.stringList,
-    ),
-    r'readings': PropertySchema(
-      id: 11,
-      name: r'readings',
-      type: IsarType.objectList,
-      target: r'Reading',
-    ),
-    r'rtkNew': PropertySchema(
-      id: 12,
-      name: r'rtkNew',
-      type: IsarType.long,
-    ),
-    r'rtkOld': PropertySchema(
-      id: 13,
-      name: r'rtkOld',
-      type: IsarType.long,
-    ),
-    r'strokeCount': PropertySchema(
-      id: 14,
-      name: r'strokeCount',
-      type: IsarType.long,
-    ),
-    r'synonyms': PropertySchema(
-      id: 15,
-      name: r'synonyms',
-      type: IsarType.stringList,
-    ),
-    r'variants': PropertySchema(
-      id: 16,
-      name: r'variants',
-      type: IsarType.objectList,
-      target: r'JIS',
-    ),
-    r'wanikani': PropertySchema(
-      id: 17,
-      name: r'wanikani',
-      type: IsarType.long,
-    )
-  },
-  estimateSize: _kanjidic2EstimateSize,
-  serialize: _kanjidic2Serialize,
-  deserialize: _kanjidic2Deserialize,
-  deserializeProp: _kanjidic2DeserializeProp,
-  idName: r'id',
-  indexes: {
-    r'character': IndexSchema(
-      id: 1564562395447198696,
-      name: r'character',
-      unique: false,
-      replace: false,
-      properties: [
-        IndexPropertySchema(
-          name: r'character',
-          type: IndexType.hash,
-          caseSensitive: true,
-        )
-      ],
-    ),
-    r'strokeCount': IndexSchema(
-      id: -4801866139363888128,
-      name: r'strokeCount',
-      unique: false,
-      replace: false,
-      properties: [
-        IndexPropertySchema(
-          name: r'strokeCount',
-          type: IndexType.value,
-          caseSensitive: false,
-        )
-      ],
-    )
-  },
-  links: {},
-  embeddedSchemas: {
-    r'JIS': JISSchema,
-    r'Meaning': MeaningSchema,
-    r'Reading': ReadingSchema
-  },
-  getId: _kanjidic2GetId,
-  getLinks: _kanjidic2GetLinks,
-  attach: _kanjidic2Attach,
-  version: '3.1.0+1',
+const Kanjidic2Schema = IsarGeneratedSchema(
+  schema: IsarSchema(
+    name: 'Kanjidic2',
+    idName: 'id',
+    embedded: false,
+    properties: [
+      IsarPropertySchema(
+        name: 'character',
+        type: IsarType.string,
+      ),
+      IsarPropertySchema(
+        name: 'variants',
+        type: IsarType.objectList,
+        target: 'JIS',
+      ),
+      IsarPropertySchema(
+        name: 'frequency',
+        type: IsarType.long,
+      ),
+      IsarPropertySchema(
+        name: 'strokeCount',
+        type: IsarType.long,
+      ),
+      IsarPropertySchema(
+        name: 'grade',
+        type: IsarType.long,
+      ),
+      IsarPropertySchema(
+        name: 'jlptOld',
+        type: IsarType.long,
+      ),
+      IsarPropertySchema(
+        name: 'jlptNew',
+        type: IsarType.long,
+      ),
+      IsarPropertySchema(
+        name: 'klc',
+        type: IsarType.long,
+      ),
+      IsarPropertySchema(
+        name: 'wanikani',
+        type: IsarType.long,
+      ),
+      IsarPropertySchema(
+        name: 'rtkOld',
+        type: IsarType.long,
+      ),
+      IsarPropertySchema(
+        name: 'rtkNew',
+        type: IsarType.long,
+      ),
+      IsarPropertySchema(
+        name: 'kanken',
+        type: IsarType.double,
+      ),
+      IsarPropertySchema(
+        name: 'meanings',
+        type: IsarType.objectList,
+        target: 'Meaning',
+      ),
+      IsarPropertySchema(
+        name: 'readings',
+        type: IsarType.objectList,
+        target: 'Reading',
+      ),
+      IsarPropertySchema(
+        name: 'antonyms',
+        type: IsarType.stringList,
+      ),
+      IsarPropertySchema(
+        name: 'synonyms',
+        type: IsarType.stringList,
+      ),
+      IsarPropertySchema(
+        name: 'lookalikes',
+        type: IsarType.stringList,
+      ),
+      IsarPropertySchema(
+        name: 'nanoris',
+        type: IsarType.stringList,
+      ),
+    ],
+    indexes: [
+      IsarIndexSchema(
+        name: 'character',
+        properties: [
+          "character",
+        ],
+        unique: false,
+        hash: true,
+      ),
+      IsarIndexSchema(
+        name: 'strokeCount',
+        properties: [
+          "strokeCount",
+        ],
+        unique: false,
+        hash: false,
+      ),
+    ],
+  ),
+  converter: IsarObjectConverter<int, Kanjidic2>(
+    serialize: serializeKanjidic2,
+    deserialize: deserializeKanjidic2,
+    deserializeProperty: deserializeKanjidic2Prop,
+  ),
+  embeddedSchemas: [JISSchema, MeaningSchema, ReadingSchema],
 );
 
-int _kanjidic2EstimateSize(
-  Kanjidic2 object,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
-) {
-  var bytesCount = offsets.last;
+@isarProtected
+int serializeKanjidic2(IsarWriter writer, Kanjidic2 object) {
+  IsarCore.writeString(writer, 1, object.character);
+  {
+    final list = object.variants;
+    final listWriter = IsarCore.beginList(writer, 2, list.length);
+    for (var i = 0; i < list.length; i++) {
+      {
+        final value = list[i];
+        final objectWriter = IsarCore.beginObject(listWriter, i);
+        serializeJIS(objectWriter, value);
+        IsarCore.endObject(listWriter, objectWriter);
+      }
+    }
+    IsarCore.endList(writer, listWriter);
+  }
+  IsarCore.writeLong(writer, 3, object.frequency);
+  IsarCore.writeLong(writer, 4, object.strokeCount);
+  IsarCore.writeLong(writer, 5, object.grade);
+  IsarCore.writeLong(writer, 6, object.jlptOld);
+  IsarCore.writeLong(writer, 7, object.jlptNew);
+  IsarCore.writeLong(writer, 8, object.klc);
+  IsarCore.writeLong(writer, 9, object.wanikani);
+  IsarCore.writeLong(writer, 10, object.rtkOld);
+  IsarCore.writeLong(writer, 11, object.rtkNew);
+  IsarCore.writeDouble(writer, 12, object.kanken);
+  {
+    final list = object.meanings;
+    final listWriter = IsarCore.beginList(writer, 13, list.length);
+    for (var i = 0; i < list.length; i++) {
+      {
+        final value = list[i];
+        final objectWriter = IsarCore.beginObject(listWriter, i);
+        serializeMeaning(objectWriter, value);
+        IsarCore.endObject(listWriter, objectWriter);
+      }
+    }
+    IsarCore.endList(writer, listWriter);
+  }
+  {
+    final list = object.readings;
+    final listWriter = IsarCore.beginList(writer, 14, list.length);
+    for (var i = 0; i < list.length; i++) {
+      {
+        final value = list[i];
+        final objectWriter = IsarCore.beginObject(listWriter, i);
+        serializeReading(objectWriter, value);
+        IsarCore.endObject(listWriter, objectWriter);
+      }
+    }
+    IsarCore.endList(writer, listWriter);
+  }
   {
     final list = object.antonyms;
-    if (list != null) {
-      bytesCount += 3 + list.length * 3;
-      {
-        for (var i = 0; i < list.length; i++) {
-          final value = list[i];
-          bytesCount += value.length * 3;
-        }
+    if (list == null) {
+      IsarCore.writeNull(writer, 15);
+    } else {
+      final listWriter = IsarCore.beginList(writer, 15, list.length);
+      for (var i = 0; i < list.length; i++) {
+        IsarCore.writeString(listWriter, i, list[i]);
       }
-    }
-  }
-  bytesCount += 3 + object.character.length * 3;
-  {
-    final list = object.lookalikes;
-    if (list != null) {
-      bytesCount += 3 + list.length * 3;
-      {
-        for (var i = 0; i < list.length; i++) {
-          final value = list[i];
-          bytesCount += value.length * 3;
-        }
-      }
-    }
-  }
-  bytesCount += 3 + object.meanings.length * 3;
-  {
-    final offsets = allOffsets[Meaning]!;
-    for (var i = 0; i < object.meanings.length; i++) {
-      final value = object.meanings[i];
-      bytesCount += MeaningSchema.estimateSize(value, offsets, allOffsets);
-    }
-  }
-  bytesCount += 3 + object.nanoris.length * 3;
-  {
-    for (var i = 0; i < object.nanoris.length; i++) {
-      final value = object.nanoris[i];
-      bytesCount += value.length * 3;
-    }
-  }
-  bytesCount += 3 + object.readings.length * 3;
-  {
-    final offsets = allOffsets[Reading]!;
-    for (var i = 0; i < object.readings.length; i++) {
-      final value = object.readings[i];
-      bytesCount += ReadingSchema.estimateSize(value, offsets, allOffsets);
+      IsarCore.endList(writer, listWriter);
     }
   }
   {
     final list = object.synonyms;
-    if (list != null) {
-      bytesCount += 3 + list.length * 3;
-      {
-        for (var i = 0; i < list.length; i++) {
-          final value = list[i];
-          bytesCount += value.length * 3;
-        }
+    if (list == null) {
+      IsarCore.writeNull(writer, 16);
+    } else {
+      final listWriter = IsarCore.beginList(writer, 16, list.length);
+      for (var i = 0; i < list.length; i++) {
+        IsarCore.writeString(listWriter, i, list[i]);
       }
+      IsarCore.endList(writer, listWriter);
     }
   }
-  bytesCount += 3 + object.variants.length * 3;
   {
-    final offsets = allOffsets[JIS]!;
-    for (var i = 0; i < object.variants.length; i++) {
-      final value = object.variants[i];
-      bytesCount += JISSchema.estimateSize(value, offsets, allOffsets);
+    final list = object.lookalikes;
+    if (list == null) {
+      IsarCore.writeNull(writer, 17);
+    } else {
+      final listWriter = IsarCore.beginList(writer, 17, list.length);
+      for (var i = 0; i < list.length; i++) {
+        IsarCore.writeString(listWriter, i, list[i]);
+      }
+      IsarCore.endList(writer, listWriter);
     }
   }
-  return bytesCount;
-}
-
-void _kanjidic2Serialize(
-  Kanjidic2 object,
-  IsarWriter writer,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
-) {
-  writer.writeStringList(offsets[0], object.antonyms);
-  writer.writeString(offsets[1], object.character);
-  writer.writeLong(offsets[2], object.frequency);
-  writer.writeLong(offsets[3], object.grade);
-  writer.writeLong(offsets[4], object.jlptNew);
-  writer.writeLong(offsets[5], object.jlptOld);
-  writer.writeDouble(offsets[6], object.kanken);
-  writer.writeLong(offsets[7], object.klc);
-  writer.writeStringList(offsets[8], object.lookalikes);
-  writer.writeObjectList<Meaning>(
-    offsets[9],
-    allOffsets,
-    MeaningSchema.serialize,
-    object.meanings,
-  );
-  writer.writeStringList(offsets[10], object.nanoris);
-  writer.writeObjectList<Reading>(
-    offsets[11],
-    allOffsets,
-    ReadingSchema.serialize,
-    object.readings,
-  );
-  writer.writeLong(offsets[12], object.rtkNew);
-  writer.writeLong(offsets[13], object.rtkOld);
-  writer.writeLong(offsets[14], object.strokeCount);
-  writer.writeStringList(offsets[15], object.synonyms);
-  writer.writeObjectList<JIS>(
-    offsets[16],
-    allOffsets,
-    JISSchema.serialize,
-    object.variants,
-  );
-  writer.writeLong(offsets[17], object.wanikani);
-}
-
-Kanjidic2 _kanjidic2Deserialize(
-  Id id,
-  IsarReader reader,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
-) {
-  final object = Kanjidic2(
-    antonyms: reader.readStringList(offsets[0]),
-    character: reader.readString(offsets[1]),
-    frequency: reader.readLong(offsets[2]),
-    grade: reader.readLong(offsets[3]),
-    jlptNew: reader.readLong(offsets[4]),
-    jlptOld: reader.readLong(offsets[5]),
-    kanken: reader.readDouble(offsets[6]),
-    klc: reader.readLong(offsets[7]),
-    lookalikes: reader.readStringList(offsets[8]),
-    nanoris: reader.readStringList(offsets[10]) ?? [],
-    rtkNew: reader.readLong(offsets[12]),
-    rtkOld: reader.readLong(offsets[13]),
-    strokeCount: reader.readLong(offsets[14]),
-    synonyms: reader.readStringList(offsets[15]),
-    wanikani: reader.readLong(offsets[17]),
-  );
-  object.id = id;
-  object.meanings = reader.readObjectList<Meaning>(
-        offsets[9],
-        MeaningSchema.deserialize,
-        allOffsets,
-        Meaning(),
-      ) ??
-      [];
-  object.readings = reader.readObjectList<Reading>(
-        offsets[11],
-        ReadingSchema.deserialize,
-        allOffsets,
-        Reading(),
-      ) ??
-      [];
-  object.variants = reader.readObjectList<JIS>(
-        offsets[16],
-        JISSchema.deserialize,
-        allOffsets,
-        JIS(),
-      ) ??
-      [];
-  return object;
-}
-
-P _kanjidic2DeserializeProp<P>(
-  IsarReader reader,
-  int propertyId,
-  int offset,
-  Map<Type, List<int>> allOffsets,
-) {
-  switch (propertyId) {
-    case 0:
-      return (reader.readStringList(offset)) as P;
-    case 1:
-      return (reader.readString(offset)) as P;
-    case 2:
-      return (reader.readLong(offset)) as P;
-    case 3:
-      return (reader.readLong(offset)) as P;
-    case 4:
-      return (reader.readLong(offset)) as P;
-    case 5:
-      return (reader.readLong(offset)) as P;
-    case 6:
-      return (reader.readDouble(offset)) as P;
-    case 7:
-      return (reader.readLong(offset)) as P;
-    case 8:
-      return (reader.readStringList(offset)) as P;
-    case 9:
-      return (reader.readObjectList<Meaning>(
-            offset,
-            MeaningSchema.deserialize,
-            allOffsets,
-            Meaning(),
-          ) ??
-          []) as P;
-    case 10:
-      return (reader.readStringList(offset) ?? []) as P;
-    case 11:
-      return (reader.readObjectList<Reading>(
-            offset,
-            ReadingSchema.deserialize,
-            allOffsets,
-            Reading(),
-          ) ??
-          []) as P;
-    case 12:
-      return (reader.readLong(offset)) as P;
-    case 13:
-      return (reader.readLong(offset)) as P;
-    case 14:
-      return (reader.readLong(offset)) as P;
-    case 15:
-      return (reader.readStringList(offset)) as P;
-    case 16:
-      return (reader.readObjectList<JIS>(
-            offset,
-            JISSchema.deserialize,
-            allOffsets,
-            JIS(),
-          ) ??
-          []) as P;
-    case 17:
-      return (reader.readLong(offset)) as P;
-    default:
-      throw IsarError('Unknown property with id $propertyId');
+  {
+    final list = object.nanoris;
+    final listWriter = IsarCore.beginList(writer, 18, list.length);
+    for (var i = 0; i < list.length; i++) {
+      IsarCore.writeString(listWriter, i, list[i]);
+    }
+    IsarCore.endList(writer, listWriter);
   }
-}
-
-Id _kanjidic2GetId(Kanjidic2 object) {
   return object.id;
 }
 
-List<IsarLinkBase<dynamic>> _kanjidic2GetLinks(Kanjidic2 object) {
-  return [];
+@isarProtected
+Kanjidic2 deserializeKanjidic2(IsarReader reader) {
+  final String _character;
+  _character = IsarCore.readString(reader, 1) ?? '';
+  final int _frequency;
+  _frequency = IsarCore.readLong(reader, 3);
+  final int _strokeCount;
+  _strokeCount = IsarCore.readLong(reader, 4);
+  final int _grade;
+  _grade = IsarCore.readLong(reader, 5);
+  final int _jlptOld;
+  _jlptOld = IsarCore.readLong(reader, 6);
+  final int _jlptNew;
+  _jlptNew = IsarCore.readLong(reader, 7);
+  final int _klc;
+  _klc = IsarCore.readLong(reader, 8);
+  final int _wanikani;
+  _wanikani = IsarCore.readLong(reader, 9);
+  final int _rtkOld;
+  _rtkOld = IsarCore.readLong(reader, 10);
+  final int _rtkNew;
+  _rtkNew = IsarCore.readLong(reader, 11);
+  final double _kanken;
+  _kanken = IsarCore.readDouble(reader, 12);
+  final List<String>? _antonyms;
+  {
+    final length = IsarCore.readList(reader, 15, IsarCore.readerPtrPtr);
+    {
+      final reader = IsarCore.readerPtr;
+      if (reader.isNull) {
+        _antonyms = null;
+      } else {
+        final list = List<String>.filled(length, '', growable: true);
+        for (var i = 0; i < length; i++) {
+          list[i] = IsarCore.readString(reader, i) ?? '';
+        }
+        IsarCore.freeReader(reader);
+        _antonyms = list;
+      }
+    }
+  }
+  final List<String>? _synonyms;
+  {
+    final length = IsarCore.readList(reader, 16, IsarCore.readerPtrPtr);
+    {
+      final reader = IsarCore.readerPtr;
+      if (reader.isNull) {
+        _synonyms = null;
+      } else {
+        final list = List<String>.filled(length, '', growable: true);
+        for (var i = 0; i < length; i++) {
+          list[i] = IsarCore.readString(reader, i) ?? '';
+        }
+        IsarCore.freeReader(reader);
+        _synonyms = list;
+      }
+    }
+  }
+  final List<String>? _lookalikes;
+  {
+    final length = IsarCore.readList(reader, 17, IsarCore.readerPtrPtr);
+    {
+      final reader = IsarCore.readerPtr;
+      if (reader.isNull) {
+        _lookalikes = null;
+      } else {
+        final list = List<String>.filled(length, '', growable: true);
+        for (var i = 0; i < length; i++) {
+          list[i] = IsarCore.readString(reader, i) ?? '';
+        }
+        IsarCore.freeReader(reader);
+        _lookalikes = list;
+      }
+    }
+  }
+  final List<String> _nanoris;
+  {
+    final length = IsarCore.readList(reader, 18, IsarCore.readerPtrPtr);
+    {
+      final reader = IsarCore.readerPtr;
+      if (reader.isNull) {
+        _nanoris = const <String>[];
+      } else {
+        final list = List<String>.filled(length, '', growable: true);
+        for (var i = 0; i < length; i++) {
+          list[i] = IsarCore.readString(reader, i) ?? '';
+        }
+        IsarCore.freeReader(reader);
+        _nanoris = list;
+      }
+    }
+  }
+  final object = Kanjidic2(
+    character: _character,
+    frequency: _frequency,
+    strokeCount: _strokeCount,
+    grade: _grade,
+    jlptOld: _jlptOld,
+    jlptNew: _jlptNew,
+    klc: _klc,
+    wanikani: _wanikani,
+    rtkOld: _rtkOld,
+    rtkNew: _rtkNew,
+    kanken: _kanken,
+    antonyms: _antonyms,
+    synonyms: _synonyms,
+    lookalikes: _lookalikes,
+    nanoris: _nanoris,
+  );
+  object.id = IsarCore.readId(reader);
+  {
+    final length = IsarCore.readList(reader, 2, IsarCore.readerPtrPtr);
+    {
+      final reader = IsarCore.readerPtr;
+      if (reader.isNull) {
+        object.variants = const <JIS>[];
+      } else {
+        final list = List<JIS>.filled(length, JIS(), growable: true);
+        for (var i = 0; i < length; i++) {
+          {
+            final objectReader = IsarCore.readObject(reader, i);
+            if (objectReader.isNull) {
+              list[i] = JIS();
+            } else {
+              final embedded = deserializeJIS(objectReader);
+              IsarCore.freeReader(objectReader);
+              list[i] = embedded;
+            }
+          }
+        }
+        IsarCore.freeReader(reader);
+        object.variants = list;
+      }
+    }
+  }
+  {
+    final length = IsarCore.readList(reader, 13, IsarCore.readerPtrPtr);
+    {
+      final reader = IsarCore.readerPtr;
+      if (reader.isNull) {
+        object.meanings = const <Meaning>[];
+      } else {
+        final list = List<Meaning>.filled(length, Meaning(), growable: true);
+        for (var i = 0; i < length; i++) {
+          {
+            final objectReader = IsarCore.readObject(reader, i);
+            if (objectReader.isNull) {
+              list[i] = Meaning();
+            } else {
+              final embedded = deserializeMeaning(objectReader);
+              IsarCore.freeReader(objectReader);
+              list[i] = embedded;
+            }
+          }
+        }
+        IsarCore.freeReader(reader);
+        object.meanings = list;
+      }
+    }
+  }
+  {
+    final length = IsarCore.readList(reader, 14, IsarCore.readerPtrPtr);
+    {
+      final reader = IsarCore.readerPtr;
+      if (reader.isNull) {
+        object.readings = const <Reading>[];
+      } else {
+        final list = List<Reading>.filled(length, Reading(), growable: true);
+        for (var i = 0; i < length; i++) {
+          {
+            final objectReader = IsarCore.readObject(reader, i);
+            if (objectReader.isNull) {
+              list[i] = Reading();
+            } else {
+              final embedded = deserializeReading(objectReader);
+              IsarCore.freeReader(objectReader);
+              list[i] = embedded;
+            }
+          }
+        }
+        IsarCore.freeReader(reader);
+        object.readings = list;
+      }
+    }
+  }
+  return object;
 }
 
-void _kanjidic2Attach(IsarCollection<dynamic> col, Id id, Kanjidic2 object) {
-  object.id = id;
+@isarProtected
+dynamic deserializeKanjidic2Prop(IsarReader reader, int property) {
+  switch (property) {
+    case 0:
+      return IsarCore.readId(reader);
+    case 1:
+      return IsarCore.readString(reader, 1) ?? '';
+    case 2:
+      {
+        final length = IsarCore.readList(reader, 2, IsarCore.readerPtrPtr);
+        {
+          final reader = IsarCore.readerPtr;
+          if (reader.isNull) {
+            return const <JIS>[];
+          } else {
+            final list = List<JIS>.filled(length, JIS(), growable: true);
+            for (var i = 0; i < length; i++) {
+              {
+                final objectReader = IsarCore.readObject(reader, i);
+                if (objectReader.isNull) {
+                  list[i] = JIS();
+                } else {
+                  final embedded = deserializeJIS(objectReader);
+                  IsarCore.freeReader(objectReader);
+                  list[i] = embedded;
+                }
+              }
+            }
+            IsarCore.freeReader(reader);
+            return list;
+          }
+        }
+      }
+    case 3:
+      return IsarCore.readLong(reader, 3);
+    case 4:
+      return IsarCore.readLong(reader, 4);
+    case 5:
+      return IsarCore.readLong(reader, 5);
+    case 6:
+      return IsarCore.readLong(reader, 6);
+    case 7:
+      return IsarCore.readLong(reader, 7);
+    case 8:
+      return IsarCore.readLong(reader, 8);
+    case 9:
+      return IsarCore.readLong(reader, 9);
+    case 10:
+      return IsarCore.readLong(reader, 10);
+    case 11:
+      return IsarCore.readLong(reader, 11);
+    case 12:
+      return IsarCore.readDouble(reader, 12);
+    case 13:
+      {
+        final length = IsarCore.readList(reader, 13, IsarCore.readerPtrPtr);
+        {
+          final reader = IsarCore.readerPtr;
+          if (reader.isNull) {
+            return const <Meaning>[];
+          } else {
+            final list =
+                List<Meaning>.filled(length, Meaning(), growable: true);
+            for (var i = 0; i < length; i++) {
+              {
+                final objectReader = IsarCore.readObject(reader, i);
+                if (objectReader.isNull) {
+                  list[i] = Meaning();
+                } else {
+                  final embedded = deserializeMeaning(objectReader);
+                  IsarCore.freeReader(objectReader);
+                  list[i] = embedded;
+                }
+              }
+            }
+            IsarCore.freeReader(reader);
+            return list;
+          }
+        }
+      }
+    case 14:
+      {
+        final length = IsarCore.readList(reader, 14, IsarCore.readerPtrPtr);
+        {
+          final reader = IsarCore.readerPtr;
+          if (reader.isNull) {
+            return const <Reading>[];
+          } else {
+            final list =
+                List<Reading>.filled(length, Reading(), growable: true);
+            for (var i = 0; i < length; i++) {
+              {
+                final objectReader = IsarCore.readObject(reader, i);
+                if (objectReader.isNull) {
+                  list[i] = Reading();
+                } else {
+                  final embedded = deserializeReading(objectReader);
+                  IsarCore.freeReader(objectReader);
+                  list[i] = embedded;
+                }
+              }
+            }
+            IsarCore.freeReader(reader);
+            return list;
+          }
+        }
+      }
+    case 15:
+      {
+        final length = IsarCore.readList(reader, 15, IsarCore.readerPtrPtr);
+        {
+          final reader = IsarCore.readerPtr;
+          if (reader.isNull) {
+            return null;
+          } else {
+            final list = List<String>.filled(length, '', growable: true);
+            for (var i = 0; i < length; i++) {
+              list[i] = IsarCore.readString(reader, i) ?? '';
+            }
+            IsarCore.freeReader(reader);
+            return list;
+          }
+        }
+      }
+    case 16:
+      {
+        final length = IsarCore.readList(reader, 16, IsarCore.readerPtrPtr);
+        {
+          final reader = IsarCore.readerPtr;
+          if (reader.isNull) {
+            return null;
+          } else {
+            final list = List<String>.filled(length, '', growable: true);
+            for (var i = 0; i < length; i++) {
+              list[i] = IsarCore.readString(reader, i) ?? '';
+            }
+            IsarCore.freeReader(reader);
+            return list;
+          }
+        }
+      }
+    case 17:
+      {
+        final length = IsarCore.readList(reader, 17, IsarCore.readerPtrPtr);
+        {
+          final reader = IsarCore.readerPtr;
+          if (reader.isNull) {
+            return null;
+          } else {
+            final list = List<String>.filled(length, '', growable: true);
+            for (var i = 0; i < length; i++) {
+              list[i] = IsarCore.readString(reader, i) ?? '';
+            }
+            IsarCore.freeReader(reader);
+            return list;
+          }
+        }
+      }
+    case 18:
+      {
+        final length = IsarCore.readList(reader, 18, IsarCore.readerPtrPtr);
+        {
+          final reader = IsarCore.readerPtr;
+          if (reader.isNull) {
+            return const <String>[];
+          } else {
+            final list = List<String>.filled(length, '', growable: true);
+            for (var i = 0; i < length; i++) {
+              list[i] = IsarCore.readString(reader, i) ?? '';
+            }
+            IsarCore.freeReader(reader);
+            return list;
+          }
+        }
+      }
+    default:
+      throw ArgumentError('Unknown property: $property');
+  }
 }
 
-extension Kanjidic2QueryWhereSort
-    on QueryBuilder<Kanjidic2, Kanjidic2, QWhere> {
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterWhere> anyId() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(const IdWhereClause.any());
-    });
-  }
+sealed class _Kanjidic2Update {
+  bool call({
+    required int id,
+    String? character,
+    int? frequency,
+    int? strokeCount,
+    int? grade,
+    int? jlptOld,
+    int? jlptNew,
+    int? klc,
+    int? wanikani,
+    int? rtkOld,
+    int? rtkNew,
+    double? kanken,
+  });
+}
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterWhere> anyStrokeCount() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        const IndexWhereClause.any(indexName: r'strokeCount'),
-      );
+class _Kanjidic2UpdateImpl implements _Kanjidic2Update {
+  const _Kanjidic2UpdateImpl(this.collection);
+
+  final IsarCollection<int, Kanjidic2> collection;
+
+  @override
+  bool call({
+    required int id,
+    Object? character = ignore,
+    Object? frequency = ignore,
+    Object? strokeCount = ignore,
+    Object? grade = ignore,
+    Object? jlptOld = ignore,
+    Object? jlptNew = ignore,
+    Object? klc = ignore,
+    Object? wanikani = ignore,
+    Object? rtkOld = ignore,
+    Object? rtkNew = ignore,
+    Object? kanken = ignore,
+  }) {
+    return collection.updateProperties([
+          id
+        ], {
+          if (character != ignore) 1: character as String?,
+          if (frequency != ignore) 3: frequency as int?,
+          if (strokeCount != ignore) 4: strokeCount as int?,
+          if (grade != ignore) 5: grade as int?,
+          if (jlptOld != ignore) 6: jlptOld as int?,
+          if (jlptNew != ignore) 7: jlptNew as int?,
+          if (klc != ignore) 8: klc as int?,
+          if (wanikani != ignore) 9: wanikani as int?,
+          if (rtkOld != ignore) 10: rtkOld as int?,
+          if (rtkNew != ignore) 11: rtkNew as int?,
+          if (kanken != ignore) 12: kanken as double?,
+        }) >
+        0;
+  }
+}
+
+sealed class _Kanjidic2UpdateAll {
+  int call({
+    required List<int> id,
+    String? character,
+    int? frequency,
+    int? strokeCount,
+    int? grade,
+    int? jlptOld,
+    int? jlptNew,
+    int? klc,
+    int? wanikani,
+    int? rtkOld,
+    int? rtkNew,
+    double? kanken,
+  });
+}
+
+class _Kanjidic2UpdateAllImpl implements _Kanjidic2UpdateAll {
+  const _Kanjidic2UpdateAllImpl(this.collection);
+
+  final IsarCollection<int, Kanjidic2> collection;
+
+  @override
+  int call({
+    required List<int> id,
+    Object? character = ignore,
+    Object? frequency = ignore,
+    Object? strokeCount = ignore,
+    Object? grade = ignore,
+    Object? jlptOld = ignore,
+    Object? jlptNew = ignore,
+    Object? klc = ignore,
+    Object? wanikani = ignore,
+    Object? rtkOld = ignore,
+    Object? rtkNew = ignore,
+    Object? kanken = ignore,
+  }) {
+    return collection.updateProperties(id, {
+      if (character != ignore) 1: character as String?,
+      if (frequency != ignore) 3: frequency as int?,
+      if (strokeCount != ignore) 4: strokeCount as int?,
+      if (grade != ignore) 5: grade as int?,
+      if (jlptOld != ignore) 6: jlptOld as int?,
+      if (jlptNew != ignore) 7: jlptNew as int?,
+      if (klc != ignore) 8: klc as int?,
+      if (wanikani != ignore) 9: wanikani as int?,
+      if (rtkOld != ignore) 10: rtkOld as int?,
+      if (rtkNew != ignore) 11: rtkNew as int?,
+      if (kanken != ignore) 12: kanken as double?,
     });
   }
 }
 
-extension Kanjidic2QueryWhere
-    on QueryBuilder<Kanjidic2, Kanjidic2, QWhereClause> {
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterWhereClause> idEqualTo(Id id) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IdWhereClause.between(
-        lower: id,
-        upper: id,
-      ));
-    });
-  }
+extension Kanjidic2Update on IsarCollection<int, Kanjidic2> {
+  _Kanjidic2Update get update => _Kanjidic2UpdateImpl(this);
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterWhereClause> idNotEqualTo(Id id) {
-    return QueryBuilder.apply(this, (query) {
-      if (query.whereSort == Sort.asc) {
-        return query
-            .addWhereClause(
-              IdWhereClause.lessThan(upper: id, includeUpper: false),
-            )
-            .addWhereClause(
-              IdWhereClause.greaterThan(lower: id, includeLower: false),
-            );
-      } else {
-        return query
-            .addWhereClause(
-              IdWhereClause.greaterThan(lower: id, includeLower: false),
-            )
-            .addWhereClause(
-              IdWhereClause.lessThan(upper: id, includeUpper: false),
-            );
-      }
-    });
-  }
+  _Kanjidic2UpdateAll get updateAll => _Kanjidic2UpdateAllImpl(this);
+}
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterWhereClause> idGreaterThan(Id id,
-      {bool include = false}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        IdWhereClause.greaterThan(lower: id, includeLower: include),
-      );
-    });
-  }
+sealed class _Kanjidic2QueryUpdate {
+  int call({
+    String? character,
+    int? frequency,
+    int? strokeCount,
+    int? grade,
+    int? jlptOld,
+    int? jlptNew,
+    int? klc,
+    int? wanikani,
+    int? rtkOld,
+    int? rtkNew,
+    double? kanken,
+  });
+}
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterWhereClause> idLessThan(Id id,
-      {bool include = false}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        IdWhereClause.lessThan(upper: id, includeUpper: include),
-      );
-    });
-  }
+class _Kanjidic2QueryUpdateImpl implements _Kanjidic2QueryUpdate {
+  const _Kanjidic2QueryUpdateImpl(this.query, {this.limit});
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterWhereClause> idBetween(
-    Id lowerId,
-    Id upperId, {
-    bool includeLower = true,
-    bool includeUpper = true,
+  final IsarQuery<Kanjidic2> query;
+  final int? limit;
+
+  @override
+  int call({
+    Object? character = ignore,
+    Object? frequency = ignore,
+    Object? strokeCount = ignore,
+    Object? grade = ignore,
+    Object? jlptOld = ignore,
+    Object? jlptNew = ignore,
+    Object? klc = ignore,
+    Object? wanikani = ignore,
+    Object? rtkOld = ignore,
+    Object? rtkNew = ignore,
+    Object? kanken = ignore,
   }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IdWhereClause.between(
-        lower: lowerId,
-        includeLower: includeLower,
-        upper: upperId,
-        includeUpper: includeUpper,
-      ));
+    return query.updateProperties(limit: limit, {
+      if (character != ignore) 1: character as String?,
+      if (frequency != ignore) 3: frequency as int?,
+      if (strokeCount != ignore) 4: strokeCount as int?,
+      if (grade != ignore) 5: grade as int?,
+      if (jlptOld != ignore) 6: jlptOld as int?,
+      if (jlptNew != ignore) 7: jlptNew as int?,
+      if (klc != ignore) 8: klc as int?,
+      if (wanikani != ignore) 9: wanikani as int?,
+      if (rtkOld != ignore) 10: rtkOld as int?,
+      if (rtkNew != ignore) 11: rtkNew as int?,
+      if (kanken != ignore) 12: kanken as double?,
     });
   }
+}
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterWhereClause> characterEqualTo(
-      String character) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'character',
-        value: [character],
-      ));
-    });
-  }
+extension Kanjidic2QueryUpdate on IsarQuery<Kanjidic2> {
+  _Kanjidic2QueryUpdate get updateFirst =>
+      _Kanjidic2QueryUpdateImpl(this, limit: 1);
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterWhereClause> characterNotEqualTo(
-      String character) {
-    return QueryBuilder.apply(this, (query) {
-      if (query.whereSort == Sort.asc) {
-        return query
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'character',
-              lower: [],
-              upper: [character],
-              includeUpper: false,
-            ))
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'character',
-              lower: [character],
-              includeLower: false,
-              upper: [],
-            ));
-      } else {
-        return query
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'character',
-              lower: [character],
-              includeLower: false,
-              upper: [],
-            ))
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'character',
-              lower: [],
-              upper: [character],
-              includeUpper: false,
-            ));
-      }
-    });
-  }
+  _Kanjidic2QueryUpdate get updateAll => _Kanjidic2QueryUpdateImpl(this);
+}
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterWhereClause> strokeCountEqualTo(
-      int strokeCount) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'strokeCount',
-        value: [strokeCount],
-      ));
-    });
-  }
+class _Kanjidic2QueryBuilderUpdateImpl implements _Kanjidic2QueryUpdate {
+  const _Kanjidic2QueryBuilderUpdateImpl(this.query, {this.limit});
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterWhereClause> strokeCountNotEqualTo(
-      int strokeCount) {
-    return QueryBuilder.apply(this, (query) {
-      if (query.whereSort == Sort.asc) {
-        return query
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'strokeCount',
-              lower: [],
-              upper: [strokeCount],
-              includeUpper: false,
-            ))
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'strokeCount',
-              lower: [strokeCount],
-              includeLower: false,
-              upper: [],
-            ));
-      } else {
-        return query
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'strokeCount',
-              lower: [strokeCount],
-              includeLower: false,
-              upper: [],
-            ))
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'strokeCount',
-              lower: [],
-              upper: [strokeCount],
-              includeUpper: false,
-            ));
-      }
-    });
-  }
+  final QueryBuilder<Kanjidic2, Kanjidic2, QOperations> query;
+  final int? limit;
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterWhereClause> strokeCountGreaterThan(
-    int strokeCount, {
-    bool include = false,
+  @override
+  int call({
+    Object? character = ignore,
+    Object? frequency = ignore,
+    Object? strokeCount = ignore,
+    Object? grade = ignore,
+    Object? jlptOld = ignore,
+    Object? jlptNew = ignore,
+    Object? klc = ignore,
+    Object? wanikani = ignore,
+    Object? rtkOld = ignore,
+    Object? rtkNew = ignore,
+    Object? kanken = ignore,
   }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'strokeCount',
-        lower: [strokeCount],
-        includeLower: include,
-        upper: [],
-      ));
-    });
+    final q = query.build();
+    try {
+      return q.updateProperties(limit: limit, {
+        if (character != ignore) 1: character as String?,
+        if (frequency != ignore) 3: frequency as int?,
+        if (strokeCount != ignore) 4: strokeCount as int?,
+        if (grade != ignore) 5: grade as int?,
+        if (jlptOld != ignore) 6: jlptOld as int?,
+        if (jlptNew != ignore) 7: jlptNew as int?,
+        if (klc != ignore) 8: klc as int?,
+        if (wanikani != ignore) 9: wanikani as int?,
+        if (rtkOld != ignore) 10: rtkOld as int?,
+        if (rtkNew != ignore) 11: rtkNew as int?,
+        if (kanken != ignore) 12: kanken as double?,
+      });
+    } finally {
+      q.close();
+    }
   }
+}
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterWhereClause> strokeCountLessThan(
-    int strokeCount, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'strokeCount',
-        lower: [],
-        upper: [strokeCount],
-        includeUpper: include,
-      ));
-    });
-  }
+extension Kanjidic2QueryBuilderUpdate
+    on QueryBuilder<Kanjidic2, Kanjidic2, QOperations> {
+  _Kanjidic2QueryUpdate get updateFirst =>
+      _Kanjidic2QueryBuilderUpdateImpl(this, limit: 1);
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterWhereClause> strokeCountBetween(
-    int lowerStrokeCount,
-    int upperStrokeCount, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'strokeCount',
-        lower: [lowerStrokeCount],
-        includeLower: includeLower,
-        upper: [upperStrokeCount],
-        includeUpper: includeUpper,
-      ));
-    });
-  }
+  _Kanjidic2QueryUpdate get updateAll => _Kanjidic2QueryBuilderUpdateImpl(this);
 }
 
 extension Kanjidic2QueryFilter
     on QueryBuilder<Kanjidic2, Kanjidic2, QFilterCondition> {
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> antonymsIsNull() {
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> idEqualTo(
+    int value,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'antonyms',
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      antonymsIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'antonyms',
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      antonymsElementEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'antonyms',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      antonymsElementGreaterThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'antonyms',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      antonymsElementLessThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'antonyms',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      antonymsElementBetween(
-    String lower,
-    String upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'antonyms',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      antonymsElementStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'antonyms',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      antonymsElementEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'antonyms',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      antonymsElementContains(String value, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'antonyms',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      antonymsElementMatches(String pattern, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'antonyms',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      antonymsElementIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'antonyms',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      antonymsElementIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'antonyms',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      antonymsLengthEqualTo(int length) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'antonyms',
-        length,
-        true,
-        length,
-        true,
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 0,
+          value: value,
+        ),
       );
     });
   }
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> antonymsIsEmpty() {
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> idGreaterThan(
+    int value,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'antonyms',
-        0,
-        true,
-        0,
-        true,
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 0,
+          value: value,
+        ),
       );
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      antonymsIsNotEmpty() {
+      idGreaterThanOrEqualTo(
+    int value,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'antonyms',
-        0,
-        false,
-        999999,
-        true,
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 0,
+          value: value,
+        ),
       );
     });
   }
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      antonymsLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> idLessThan(
+    int value,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'antonyms',
-        0,
-        true,
-        length,
-        include,
+      return query.addFilterCondition(
+        LessCondition(
+          property: 0,
+          value: value,
+        ),
       );
     });
   }
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      antonymsLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> idLessThanOrEqualTo(
+    int value,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'antonyms',
-        length,
-        include,
-        999999,
-        true,
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 0,
+          value: value,
+        ),
       );
     });
   }
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      antonymsLengthBetween(
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> idBetween(
     int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
+    int upper,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'antonyms',
-        lower,
-        includeLower,
-        upper,
-        includeUpper,
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 0,
+          lower: lower,
+          upper: upper,
+        ),
       );
     });
   }
@@ -868,61 +901,93 @@ extension Kanjidic2QueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'character',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
       characterGreaterThan(
     String value, {
-    bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'character',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      characterGreaterThanOrEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> characterLessThan(
     String value, {
-    bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'character',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        LessCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      characterLessThanOrEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> characterBetween(
     String lower,
     String upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'character',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 1,
+          lower: lower,
+          upper: upper,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -931,11 +996,13 @@ extension Kanjidic2QueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'character',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        StartsWithCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -944,11 +1011,13 @@ extension Kanjidic2QueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'character',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        EndsWithCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -956,11 +1025,13 @@ extension Kanjidic2QueryFilter
       String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'character',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        ContainsCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -968,428 +1039,1338 @@ extension Kanjidic2QueryFilter
       String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'character',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        MatchesCondition(
+          property: 1,
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> characterIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'character',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        const EqualCondition(
+          property: 1,
+          value: '',
+        ),
+      );
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
       characterIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'character',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        const GreaterCondition(
+          property: 1,
+          value: '',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> variantsIsEmpty() {
+    return not().variantsIsNotEmpty();
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      variantsIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const GreaterOrEqualCondition(property: 2, value: null),
+      );
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> frequencyEqualTo(
-      int value) {
+    int value,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'frequency',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 3,
+          value: value,
+        ),
+      );
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
       frequencyGreaterThan(
-    int value, {
-    bool include = false,
-  }) {
+    int value,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'frequency',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 3,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      frequencyGreaterThanOrEqualTo(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 3,
+          value: value,
+        ),
+      );
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> frequencyLessThan(
-    int value, {
-    bool include = false,
-  }) {
+    int value,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'frequency',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        LessCondition(
+          property: 3,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      frequencyLessThanOrEqualTo(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 3,
+          value: value,
+        ),
+      );
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> frequencyBetween(
     int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
+    int upper,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'frequency',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 3,
+          lower: lower,
+          upper: upper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> strokeCountEqualTo(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 4,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      strokeCountGreaterThan(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 4,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      strokeCountGreaterThanOrEqualTo(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 4,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> strokeCountLessThan(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessCondition(
+          property: 4,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      strokeCountLessThanOrEqualTo(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 4,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> strokeCountBetween(
+    int lower,
+    int upper,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 4,
+          lower: lower,
+          upper: upper,
+        ),
+      );
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> gradeEqualTo(
-      int value) {
+    int value,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'grade',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 5,
+          value: value,
+        ),
+      );
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> gradeGreaterThan(
-    int value, {
-    bool include = false,
-  }) {
+    int value,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'grade',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 5,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      gradeGreaterThanOrEqualTo(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 5,
+          value: value,
+        ),
+      );
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> gradeLessThan(
-    int value, {
-    bool include = false,
-  }) {
+    int value,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'grade',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        LessCondition(
+          property: 5,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      gradeLessThanOrEqualTo(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 5,
+          value: value,
+        ),
+      );
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> gradeBetween(
     int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
+    int upper,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'grade',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> idEqualTo(
-      Id value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'id',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> idGreaterThan(
-    Id value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'id',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> idLessThan(
-    Id value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'id',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> idBetween(
-    Id lower,
-    Id upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'id',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> jlptNewEqualTo(
-      int value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'jlptNew',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> jlptNewGreaterThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'jlptNew',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> jlptNewLessThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'jlptNew',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> jlptNewBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'jlptNew',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 5,
+          lower: lower,
+          upper: upper,
+        ),
+      );
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> jlptOldEqualTo(
-      int value) {
+    int value,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'jlptOld',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 6,
+          value: value,
+        ),
+      );
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> jlptOldGreaterThan(
-    int value, {
-    bool include = false,
-  }) {
+    int value,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'jlptOld',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 6,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      jlptOldGreaterThanOrEqualTo(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 6,
+          value: value,
+        ),
+      );
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> jlptOldLessThan(
-    int value, {
-    bool include = false,
-  }) {
+    int value,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'jlptOld',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        LessCondition(
+          property: 6,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      jlptOldLessThanOrEqualTo(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 6,
+          value: value,
+        ),
+      );
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> jlptOldBetween(
     int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
+    int upper,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'jlptOld',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 6,
+          lower: lower,
+          upper: upper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> jlptNewEqualTo(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 7,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> jlptNewGreaterThan(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 7,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      jlptNewGreaterThanOrEqualTo(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 7,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> jlptNewLessThan(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessCondition(
+          property: 7,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      jlptNewLessThanOrEqualTo(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 7,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> jlptNewBetween(
+    int lower,
+    int upper,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 7,
+          lower: lower,
+          upper: upper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> klcEqualTo(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 8,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> klcGreaterThan(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 8,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      klcGreaterThanOrEqualTo(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 8,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> klcLessThan(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessCondition(
+          property: 8,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      klcLessThanOrEqualTo(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 8,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> klcBetween(
+    int lower,
+    int upper,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 8,
+          lower: lower,
+          upper: upper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> wanikaniEqualTo(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 9,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> wanikaniGreaterThan(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 9,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      wanikaniGreaterThanOrEqualTo(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 9,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> wanikaniLessThan(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessCondition(
+          property: 9,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      wanikaniLessThanOrEqualTo(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 9,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> wanikaniBetween(
+    int lower,
+    int upper,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 9,
+          lower: lower,
+          upper: upper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> rtkOldEqualTo(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 10,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> rtkOldGreaterThan(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 10,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      rtkOldGreaterThanOrEqualTo(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 10,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> rtkOldLessThan(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessCondition(
+          property: 10,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      rtkOldLessThanOrEqualTo(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 10,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> rtkOldBetween(
+    int lower,
+    int upper,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 10,
+          lower: lower,
+          upper: upper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> rtkNewEqualTo(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 11,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> rtkNewGreaterThan(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 11,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      rtkNewGreaterThanOrEqualTo(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 11,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> rtkNewLessThan(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessCondition(
+          property: 11,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      rtkNewLessThanOrEqualTo(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 11,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> rtkNewBetween(
+    int lower,
+    int upper,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 11,
+          lower: lower,
+          upper: upper,
+        ),
+      );
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> kankenEqualTo(
     double value, {
-    double epsilon = Query.epsilon,
+    double epsilon = Filter.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'kanken',
-        value: value,
-        epsilon: epsilon,
-      ));
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 12,
+          value: value,
+          epsilon: epsilon,
+        ),
+      );
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> kankenGreaterThan(
     double value, {
-    bool include = false,
-    double epsilon = Query.epsilon,
+    double epsilon = Filter.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'kanken',
-        value: value,
-        epsilon: epsilon,
-      ));
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 12,
+          value: value,
+          epsilon: epsilon,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      kankenGreaterThanOrEqualTo(
+    double value, {
+    double epsilon = Filter.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 12,
+          value: value,
+          epsilon: epsilon,
+        ),
+      );
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> kankenLessThan(
     double value, {
-    bool include = false,
-    double epsilon = Query.epsilon,
+    double epsilon = Filter.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'kanken',
-        value: value,
-        epsilon: epsilon,
-      ));
+      return query.addFilterCondition(
+        LessCondition(
+          property: 12,
+          value: value,
+          epsilon: epsilon,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      kankenLessThanOrEqualTo(
+    double value, {
+    double epsilon = Filter.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 12,
+          value: value,
+          epsilon: epsilon,
+        ),
+      );
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> kankenBetween(
     double lower,
     double upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    double epsilon = Query.epsilon,
+    double epsilon = Filter.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'kanken',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        epsilon: epsilon,
-      ));
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 12,
+          lower: lower,
+          upper: upper,
+          epsilon: epsilon,
+        ),
+      );
     });
   }
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> klcEqualTo(
-      int value) {
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> meaningsIsEmpty() {
+    return not().meaningsIsNotEmpty();
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      meaningsIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'klc',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        const GreaterOrEqualCondition(property: 13, value: null),
+      );
     });
   }
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> klcGreaterThan(
-    int value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> readingsIsEmpty() {
+    return not().readingsIsNotEmpty();
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      readingsIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'klc',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        const GreaterOrEqualCondition(property: 14, value: null),
+      );
     });
   }
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> klcLessThan(
-    int value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> antonymsIsNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'klc',
-        value: value,
-      ));
+      return query.addFilterCondition(const IsNullCondition(property: 15));
     });
   }
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> klcBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      antonymsIsNotNull() {
+    return QueryBuilder.apply(not(), (query) {
+      return query.addFilterCondition(const IsNullCondition(property: 15));
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      antonymsElementEqualTo(
+    String value, {
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'klc',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 15,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      antonymsElementGreaterThan(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 15,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      antonymsElementGreaterThanOrEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 15,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      antonymsElementLessThan(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessCondition(
+          property: 15,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      antonymsElementLessThanOrEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 15,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      antonymsElementBetween(
+    String lower,
+    String upper, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 15,
+          lower: lower,
+          upper: upper,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      antonymsElementStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        StartsWithCondition(
+          property: 15,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      antonymsElementEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        EndsWithCondition(
+          property: 15,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      antonymsElementContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        ContainsCondition(
+          property: 15,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      antonymsElementMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        MatchesCondition(
+          property: 15,
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      antonymsElementIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const EqualCondition(
+          property: 15,
+          value: '',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      antonymsElementIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const GreaterCondition(
+          property: 15,
+          value: '',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> antonymsIsEmpty() {
+    return not().group(
+      (q) => q.antonymsIsNull().or().antonymsIsNotEmpty(),
+    );
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      antonymsIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const GreaterOrEqualCondition(property: 15, value: null),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> synonymsIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const IsNullCondition(property: 16));
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      synonymsIsNotNull() {
+    return QueryBuilder.apply(not(), (query) {
+      return query.addFilterCondition(const IsNullCondition(property: 16));
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      synonymsElementEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 16,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      synonymsElementGreaterThan(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 16,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      synonymsElementGreaterThanOrEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 16,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      synonymsElementLessThan(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessCondition(
+          property: 16,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      synonymsElementLessThanOrEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 16,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      synonymsElementBetween(
+    String lower,
+    String upper, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 16,
+          lower: lower,
+          upper: upper,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      synonymsElementStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        StartsWithCondition(
+          property: 16,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      synonymsElementEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        EndsWithCondition(
+          property: 16,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      synonymsElementContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        ContainsCondition(
+          property: 16,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      synonymsElementMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        MatchesCondition(
+          property: 16,
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      synonymsElementIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const EqualCondition(
+          property: 16,
+          value: '',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      synonymsElementIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const GreaterCondition(
+          property: 16,
+          value: '',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> synonymsIsEmpty() {
+    return not().group(
+      (q) => q.synonymsIsNull().or().synonymsIsNotEmpty(),
+    );
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      synonymsIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const GreaterOrEqualCondition(property: 16, value: null),
+      );
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> lookalikesIsNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'lookalikes',
-      ));
+      return query.addFilterCondition(const IsNullCondition(property: 17));
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
       lookalikesIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'lookalikes',
-      ));
+    return QueryBuilder.apply(not(), (query) {
+      return query.addFilterCondition(const IsNullCondition(property: 17));
     });
   }
 
@@ -1399,43 +2380,77 @@ extension Kanjidic2QueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'lookalikes',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 17,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
       lookalikesElementGreaterThan(
     String value, {
-    bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'lookalikes',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 17,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      lookalikesElementGreaterThanOrEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 17,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
       lookalikesElementLessThan(
     String value, {
-    bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'lookalikes',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        LessCondition(
+          property: 17,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      lookalikesElementLessThanOrEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 17,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1443,19 +2458,17 @@ extension Kanjidic2QueryFilter
       lookalikesElementBetween(
     String lower,
     String upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'lookalikes',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 17,
+          lower: lower,
+          upper: upper,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1465,11 +2478,13 @@ extension Kanjidic2QueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'lookalikes',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        StartsWithCondition(
+          property: 17,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1479,229 +2494,78 @@ extension Kanjidic2QueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'lookalikes',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        EndsWithCondition(
+          property: 17,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
       lookalikesElementContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'lookalikes',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        ContainsCondition(
+          property: 17,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
       lookalikesElementMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'lookalikes',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        MatchesCondition(
+          property: 17,
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
       lookalikesElementIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'lookalikes',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        const EqualCondition(
+          property: 17,
+          value: '',
+        ),
+      );
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
       lookalikesElementIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'lookalikes',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      lookalikesLengthEqualTo(int length) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'lookalikes',
-        length,
-        true,
-        length,
-        true,
+      return query.addFilterCondition(
+        const GreaterCondition(
+          property: 17,
+          value: '',
+        ),
       );
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
       lookalikesIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'lookalikes',
-        0,
-        true,
-        0,
-        true,
-      );
-    });
+    return not().group(
+      (q) => q.lookalikesIsNull().or().lookalikesIsNotEmpty(),
+    );
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
       lookalikesIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'lookalikes',
-        0,
-        false,
-        999999,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      lookalikesLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'lookalikes',
-        0,
-        true,
-        length,
-        include,
-      );
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      lookalikesLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'lookalikes',
-        length,
-        include,
-        999999,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      lookalikesLengthBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'lookalikes',
-        lower,
-        includeLower,
-        upper,
-        includeUpper,
-      );
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      meaningsLengthEqualTo(int length) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'meanings',
-        length,
-        true,
-        length,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> meaningsIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'meanings',
-        0,
-        true,
-        0,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      meaningsIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'meanings',
-        0,
-        false,
-        999999,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      meaningsLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'meanings',
-        0,
-        true,
-        length,
-        include,
-      );
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      meaningsLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'meanings',
-        length,
-        include,
-        999999,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      meaningsLengthBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'meanings',
-        lower,
-        includeLower,
-        upper,
-        includeUpper,
+      return query.addFilterCondition(
+        const GreaterOrEqualCondition(property: 17, value: null),
       );
     });
   }
@@ -1712,43 +2576,77 @@ extension Kanjidic2QueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'nanoris',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 18,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
       nanorisElementGreaterThan(
     String value, {
-    bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'nanoris',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 18,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      nanorisElementGreaterThanOrEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 18,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
       nanorisElementLessThan(
     String value, {
-    bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'nanoris',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        LessCondition(
+          property: 18,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
+      nanorisElementLessThanOrEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 18,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1756,19 +2654,17 @@ extension Kanjidic2QueryFilter
       nanorisElementBetween(
     String lower,
     String upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'nanoris',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 18,
+          lower: lower,
+          upper: upper,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1778,11 +2674,13 @@ extension Kanjidic2QueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'nanoris',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        StartsWithCondition(
+          property: 18,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1792,1397 +2690,917 @@ extension Kanjidic2QueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'nanoris',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        EndsWithCondition(
+          property: 18,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
       nanorisElementContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'nanoris',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        ContainsCondition(
+          property: 18,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
       nanorisElementMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'nanoris',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        MatchesCondition(
+          property: 18,
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
       nanorisElementIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'nanoris',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        const EqualCondition(
+          property: 18,
+          value: '',
+        ),
+      );
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
       nanorisElementIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'nanoris',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      nanorisLengthEqualTo(int length) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'nanoris',
-        length,
-        true,
-        length,
-        true,
+      return query.addFilterCondition(
+        const GreaterCondition(
+          property: 18,
+          value: '',
+        ),
       );
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> nanorisIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'nanoris',
-        0,
-        true,
-        0,
-        true,
-      );
-    });
+    return not().nanorisIsNotEmpty();
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
       nanorisIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'nanoris',
-        0,
-        false,
-        999999,
-        true,
+      return query.addFilterCondition(
+        const GreaterOrEqualCondition(property: 18, value: null),
       );
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      nanorisLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'nanoris',
-        0,
-        true,
-        length,
-        include,
-      );
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      nanorisLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'nanoris',
-        length,
-        include,
-        999999,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      nanorisLengthBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'nanoris',
-        lower,
-        includeLower,
-        upper,
-        includeUpper,
-      );
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      readingsLengthEqualTo(int length) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'readings',
-        length,
-        true,
-        length,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> readingsIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'readings',
-        0,
-        true,
-        0,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      readingsIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'readings',
-        0,
-        false,
-        999999,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      readingsLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'readings',
-        0,
-        true,
-        length,
-        include,
-      );
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      readingsLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'readings',
-        length,
-        include,
-        999999,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      readingsLengthBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'readings',
-        lower,
-        includeLower,
-        upper,
-        includeUpper,
-      );
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> rtkNewEqualTo(
-      int value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'rtkNew',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> rtkNewGreaterThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'rtkNew',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> rtkNewLessThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'rtkNew',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> rtkNewBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'rtkNew',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> rtkOldEqualTo(
-      int value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'rtkOld',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> rtkOldGreaterThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'rtkOld',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> rtkOldLessThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'rtkOld',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> rtkOldBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'rtkOld',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> strokeCountEqualTo(
-      int value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'strokeCount',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      strokeCountGreaterThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'strokeCount',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> strokeCountLessThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'strokeCount',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> strokeCountBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'strokeCount',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> synonymsIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'synonyms',
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      synonymsIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'synonyms',
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      synonymsElementEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'synonyms',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      synonymsElementGreaterThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'synonyms',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      synonymsElementLessThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'synonyms',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      synonymsElementBetween(
-    String lower,
-    String upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'synonyms',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      synonymsElementStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'synonyms',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      synonymsElementEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'synonyms',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      synonymsElementContains(String value, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'synonyms',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      synonymsElementMatches(String pattern, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'synonyms',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      synonymsElementIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'synonyms',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      synonymsElementIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'synonyms',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      synonymsLengthEqualTo(int length) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'synonyms',
-        length,
-        true,
-        length,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> synonymsIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'synonyms',
-        0,
-        true,
-        0,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      synonymsIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'synonyms',
-        0,
-        false,
-        999999,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      synonymsLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'synonyms',
-        0,
-        true,
-        length,
-        include,
-      );
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      synonymsLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'synonyms',
-        length,
-        include,
-        999999,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      synonymsLengthBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'synonyms',
-        lower,
-        includeLower,
-        upper,
-        includeUpper,
-      );
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      variantsLengthEqualTo(int length) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'variants',
-        length,
-        true,
-        length,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> variantsIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'variants',
-        0,
-        true,
-        0,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      variantsIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'variants',
-        0,
-        false,
-        999999,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      variantsLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'variants',
-        0,
-        true,
-        length,
-        include,
-      );
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      variantsLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'variants',
-        length,
-        include,
-        999999,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition>
-      variantsLengthBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'variants',
-        lower,
-        includeLower,
-        upper,
-        includeUpper,
-      );
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> wanikaniEqualTo(
-      int value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'wanikani',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> wanikaniGreaterThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'wanikani',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> wanikaniLessThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'wanikani',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> wanikaniBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'wanikani',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
     });
   }
 }
 
 extension Kanjidic2QueryObject
-    on QueryBuilder<Kanjidic2, Kanjidic2, QFilterCondition> {
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> meaningsElement(
-      FilterQuery<Meaning> q) {
-    return QueryBuilder.apply(this, (query) {
-      return query.object(q, r'meanings');
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> readingsElement(
-      FilterQuery<Reading> q) {
-    return QueryBuilder.apply(this, (query) {
-      return query.object(q, r'readings');
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterFilterCondition> variantsElement(
-      FilterQuery<JIS> q) {
-    return QueryBuilder.apply(this, (query) {
-      return query.object(q, r'variants');
-    });
-  }
-}
-
-extension Kanjidic2QueryLinks
     on QueryBuilder<Kanjidic2, Kanjidic2, QFilterCondition> {}
 
 extension Kanjidic2QuerySortBy on QueryBuilder<Kanjidic2, Kanjidic2, QSortBy> {
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByCharacter() {
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortById() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'character', Sort.asc);
+      return query.addSortBy(0);
     });
   }
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByCharacterDesc() {
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByIdDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'character', Sort.desc);
+      return query.addSortBy(0, sort: Sort.desc);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByCharacter(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(
+        1,
+        caseSensitive: caseSensitive,
+      );
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByCharacterDesc(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(
+        1,
+        sort: Sort.desc,
+        caseSensitive: caseSensitive,
+      );
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByFrequency() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'frequency', Sort.asc);
+      return query.addSortBy(3);
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByFrequencyDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'frequency', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByGrade() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'grade', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByGradeDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'grade', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByJlptNew() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'jlptNew', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByJlptNewDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'jlptNew', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByJlptOld() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'jlptOld', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByJlptOldDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'jlptOld', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByKanken() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'kanken', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByKankenDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'kanken', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByKlc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'klc', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByKlcDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'klc', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByRtkNew() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'rtkNew', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByRtkNewDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'rtkNew', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByRtkOld() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'rtkOld', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByRtkOldDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'rtkOld', Sort.desc);
+      return query.addSortBy(3, sort: Sort.desc);
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByStrokeCount() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'strokeCount', Sort.asc);
+      return query.addSortBy(4);
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByStrokeCountDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'strokeCount', Sort.desc);
+      return query.addSortBy(4, sort: Sort.desc);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByGrade() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(5);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByGradeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(5, sort: Sort.desc);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByJlptOld() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(6);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByJlptOldDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(6, sort: Sort.desc);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByJlptNew() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(7);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByJlptNewDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(7, sort: Sort.desc);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByKlc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(8);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByKlcDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(8, sort: Sort.desc);
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByWanikani() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'wanikani', Sort.asc);
+      return query.addSortBy(9);
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByWanikaniDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'wanikani', Sort.desc);
+      return query.addSortBy(9, sort: Sort.desc);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByRtkOld() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(10);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByRtkOldDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(10, sort: Sort.desc);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByRtkNew() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(11);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByRtkNewDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(11, sort: Sort.desc);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByKanken() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(12);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> sortByKankenDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(12, sort: Sort.desc);
     });
   }
 }
 
 extension Kanjidic2QuerySortThenBy
     on QueryBuilder<Kanjidic2, Kanjidic2, QSortThenBy> {
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByCharacter() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'character', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByCharacterDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'character', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByFrequency() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'frequency', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByFrequencyDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'frequency', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByGrade() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'grade', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByGradeDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'grade', Sort.desc);
-    });
-  }
-
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'id', Sort.asc);
+      return query.addSortBy(0);
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'id', Sort.desc);
+      return query.addSortBy(0, sort: Sort.desc);
     });
   }
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByJlptNew() {
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByCharacter(
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'jlptNew', Sort.asc);
+      return query.addSortBy(1, caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByJlptNewDesc() {
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByCharacterDesc(
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'jlptNew', Sort.desc);
+      return query.addSortBy(1, sort: Sort.desc, caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByJlptOld() {
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByFrequency() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'jlptOld', Sort.asc);
+      return query.addSortBy(3);
     });
   }
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByJlptOldDesc() {
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByFrequencyDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'jlptOld', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByKanken() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'kanken', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByKankenDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'kanken', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByKlc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'klc', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByKlcDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'klc', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByRtkNew() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'rtkNew', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByRtkNewDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'rtkNew', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByRtkOld() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'rtkOld', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByRtkOldDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'rtkOld', Sort.desc);
+      return query.addSortBy(3, sort: Sort.desc);
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByStrokeCount() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'strokeCount', Sort.asc);
+      return query.addSortBy(4);
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByStrokeCountDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'strokeCount', Sort.desc);
+      return query.addSortBy(4, sort: Sort.desc);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByGrade() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(5);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByGradeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(5, sort: Sort.desc);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByJlptOld() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(6);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByJlptOldDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(6, sort: Sort.desc);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByJlptNew() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(7);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByJlptNewDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(7, sort: Sort.desc);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByKlc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(8);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByKlcDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(8, sort: Sort.desc);
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByWanikani() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'wanikani', Sort.asc);
+      return query.addSortBy(9);
     });
   }
 
   QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByWanikaniDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'wanikani', Sort.desc);
+      return query.addSortBy(9, sort: Sort.desc);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByRtkOld() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(10);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByRtkOldDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(10, sort: Sort.desc);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByRtkNew() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(11);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByRtkNewDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(11, sort: Sort.desc);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByKanken() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(12);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterSortBy> thenByKankenDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(12, sort: Sort.desc);
     });
   }
 }
 
 extension Kanjidic2QueryWhereDistinct
     on QueryBuilder<Kanjidic2, Kanjidic2, QDistinct> {
-  QueryBuilder<Kanjidic2, Kanjidic2, QDistinct> distinctByAntonyms() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'antonyms');
-    });
-  }
-
-  QueryBuilder<Kanjidic2, Kanjidic2, QDistinct> distinctByCharacter(
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterDistinct> distinctByCharacter(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'character', caseSensitive: caseSensitive);
+      return query.addDistinctBy(1, caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QDistinct> distinctByFrequency() {
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterDistinct> distinctByFrequency() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'frequency');
+      return query.addDistinctBy(3);
     });
   }
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QDistinct> distinctByGrade() {
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterDistinct> distinctByStrokeCount() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'grade');
+      return query.addDistinctBy(4);
     });
   }
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QDistinct> distinctByJlptNew() {
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterDistinct> distinctByGrade() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'jlptNew');
+      return query.addDistinctBy(5);
     });
   }
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QDistinct> distinctByJlptOld() {
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterDistinct> distinctByJlptOld() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'jlptOld');
+      return query.addDistinctBy(6);
     });
   }
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QDistinct> distinctByKanken() {
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterDistinct> distinctByJlptNew() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'kanken');
+      return query.addDistinctBy(7);
     });
   }
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QDistinct> distinctByKlc() {
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterDistinct> distinctByKlc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'klc');
+      return query.addDistinctBy(8);
     });
   }
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QDistinct> distinctByLookalikes() {
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterDistinct> distinctByWanikani() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'lookalikes');
+      return query.addDistinctBy(9);
     });
   }
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QDistinct> distinctByNanoris() {
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterDistinct> distinctByRtkOld() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'nanoris');
+      return query.addDistinctBy(10);
     });
   }
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QDistinct> distinctByRtkNew() {
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterDistinct> distinctByRtkNew() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'rtkNew');
+      return query.addDistinctBy(11);
     });
   }
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QDistinct> distinctByRtkOld() {
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterDistinct> distinctByKanken() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'rtkOld');
+      return query.addDistinctBy(12);
     });
   }
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QDistinct> distinctByStrokeCount() {
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterDistinct> distinctByAntonyms() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'strokeCount');
+      return query.addDistinctBy(15);
     });
   }
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QDistinct> distinctBySynonyms() {
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterDistinct> distinctBySynonyms() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'synonyms');
+      return query.addDistinctBy(16);
     });
   }
 
-  QueryBuilder<Kanjidic2, Kanjidic2, QDistinct> distinctByWanikani() {
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterDistinct> distinctByLookalikes() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'wanikani');
+      return query.addDistinctBy(17);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, Kanjidic2, QAfterDistinct> distinctByNanoris() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(18);
     });
   }
 }
 
-extension Kanjidic2QueryProperty
-    on QueryBuilder<Kanjidic2, Kanjidic2, QQueryProperty> {
-  QueryBuilder<Kanjidic2, int, QQueryOperations> idProperty() {
+extension Kanjidic2QueryProperty1
+    on QueryBuilder<Kanjidic2, Kanjidic2, QProperty> {
+  QueryBuilder<Kanjidic2, int, QAfterProperty> idProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'id');
+      return query.addProperty(0);
     });
   }
 
-  QueryBuilder<Kanjidic2, List<String>?, QQueryOperations> antonymsProperty() {
+  QueryBuilder<Kanjidic2, String, QAfterProperty> characterProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'antonyms');
+      return query.addProperty(1);
     });
   }
 
-  QueryBuilder<Kanjidic2, String, QQueryOperations> characterProperty() {
+  QueryBuilder<Kanjidic2, List<JIS>, QAfterProperty> variantsProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'character');
+      return query.addProperty(2);
     });
   }
 
-  QueryBuilder<Kanjidic2, int, QQueryOperations> frequencyProperty() {
+  QueryBuilder<Kanjidic2, int, QAfterProperty> frequencyProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'frequency');
+      return query.addProperty(3);
     });
   }
 
-  QueryBuilder<Kanjidic2, int, QQueryOperations> gradeProperty() {
+  QueryBuilder<Kanjidic2, int, QAfterProperty> strokeCountProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'grade');
+      return query.addProperty(4);
     });
   }
 
-  QueryBuilder<Kanjidic2, int, QQueryOperations> jlptNewProperty() {
+  QueryBuilder<Kanjidic2, int, QAfterProperty> gradeProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'jlptNew');
+      return query.addProperty(5);
     });
   }
 
-  QueryBuilder<Kanjidic2, int, QQueryOperations> jlptOldProperty() {
+  QueryBuilder<Kanjidic2, int, QAfterProperty> jlptOldProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'jlptOld');
+      return query.addProperty(6);
     });
   }
 
-  QueryBuilder<Kanjidic2, double, QQueryOperations> kankenProperty() {
+  QueryBuilder<Kanjidic2, int, QAfterProperty> jlptNewProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'kanken');
+      return query.addProperty(7);
     });
   }
 
-  QueryBuilder<Kanjidic2, int, QQueryOperations> klcProperty() {
+  QueryBuilder<Kanjidic2, int, QAfterProperty> klcProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'klc');
+      return query.addProperty(8);
     });
   }
 
-  QueryBuilder<Kanjidic2, List<String>?, QQueryOperations>
+  QueryBuilder<Kanjidic2, int, QAfterProperty> wanikaniProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(9);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, int, QAfterProperty> rtkOldProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(10);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, int, QAfterProperty> rtkNewProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(11);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, double, QAfterProperty> kankenProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(12);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, List<Meaning>, QAfterProperty> meaningsProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(13);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, List<Reading>, QAfterProperty> readingsProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(14);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, List<String>?, QAfterProperty> antonymsProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(15);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, List<String>?, QAfterProperty> synonymsProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(16);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, List<String>?, QAfterProperty> lookalikesProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(17);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, List<String>, QAfterProperty> nanorisProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(18);
+    });
+  }
+}
+
+extension Kanjidic2QueryProperty2<R>
+    on QueryBuilder<Kanjidic2, R, QAfterProperty> {
+  QueryBuilder<Kanjidic2, (R, int), QAfterProperty> idProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(0);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, (R, String), QAfterProperty> characterProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(1);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, (R, List<JIS>), QAfterProperty> variantsProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(2);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, (R, int), QAfterProperty> frequencyProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(3);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, (R, int), QAfterProperty> strokeCountProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(4);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, (R, int), QAfterProperty> gradeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(5);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, (R, int), QAfterProperty> jlptOldProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(6);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, (R, int), QAfterProperty> jlptNewProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(7);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, (R, int), QAfterProperty> klcProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(8);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, (R, int), QAfterProperty> wanikaniProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(9);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, (R, int), QAfterProperty> rtkOldProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(10);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, (R, int), QAfterProperty> rtkNewProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(11);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, (R, double), QAfterProperty> kankenProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(12);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, (R, List<Meaning>), QAfterProperty>
+      meaningsProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(13);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, (R, List<Reading>), QAfterProperty>
+      readingsProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(14);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, (R, List<String>?), QAfterProperty>
+      antonymsProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(15);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, (R, List<String>?), QAfterProperty>
+      synonymsProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(16);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, (R, List<String>?), QAfterProperty>
       lookalikesProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'lookalikes');
+      return query.addProperty(17);
     });
   }
 
-  QueryBuilder<Kanjidic2, List<Meaning>, QQueryOperations> meaningsProperty() {
+  QueryBuilder<Kanjidic2, (R, List<String>), QAfterProperty> nanorisProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'meanings');
+      return query.addProperty(18);
+    });
+  }
+}
+
+extension Kanjidic2QueryProperty3<R1, R2>
+    on QueryBuilder<Kanjidic2, (R1, R2), QAfterProperty> {
+  QueryBuilder<Kanjidic2, (R1, R2, int), QOperations> idProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(0);
     });
   }
 
-  QueryBuilder<Kanjidic2, List<String>, QQueryOperations> nanorisProperty() {
+  QueryBuilder<Kanjidic2, (R1, R2, String), QOperations> characterProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'nanoris');
+      return query.addProperty(1);
     });
   }
 
-  QueryBuilder<Kanjidic2, List<Reading>, QQueryOperations> readingsProperty() {
+  QueryBuilder<Kanjidic2, (R1, R2, List<JIS>), QOperations> variantsProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'readings');
+      return query.addProperty(2);
     });
   }
 
-  QueryBuilder<Kanjidic2, int, QQueryOperations> rtkNewProperty() {
+  QueryBuilder<Kanjidic2, (R1, R2, int), QOperations> frequencyProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'rtkNew');
+      return query.addProperty(3);
     });
   }
 
-  QueryBuilder<Kanjidic2, int, QQueryOperations> rtkOldProperty() {
+  QueryBuilder<Kanjidic2, (R1, R2, int), QOperations> strokeCountProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'rtkOld');
+      return query.addProperty(4);
     });
   }
 
-  QueryBuilder<Kanjidic2, int, QQueryOperations> strokeCountProperty() {
+  QueryBuilder<Kanjidic2, (R1, R2, int), QOperations> gradeProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'strokeCount');
+      return query.addProperty(5);
     });
   }
 
-  QueryBuilder<Kanjidic2, List<String>?, QQueryOperations> synonymsProperty() {
+  QueryBuilder<Kanjidic2, (R1, R2, int), QOperations> jlptOldProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'synonyms');
+      return query.addProperty(6);
     });
   }
 
-  QueryBuilder<Kanjidic2, List<JIS>, QQueryOperations> variantsProperty() {
+  QueryBuilder<Kanjidic2, (R1, R2, int), QOperations> jlptNewProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'variants');
+      return query.addProperty(7);
     });
   }
 
-  QueryBuilder<Kanjidic2, int, QQueryOperations> wanikaniProperty() {
+  QueryBuilder<Kanjidic2, (R1, R2, int), QOperations> klcProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'wanikani');
+      return query.addProperty(8);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, (R1, R2, int), QOperations> wanikaniProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(9);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, (R1, R2, int), QOperations> rtkOldProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(10);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, (R1, R2, int), QOperations> rtkNewProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(11);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, (R1, R2, double), QOperations> kankenProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(12);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, (R1, R2, List<Meaning>), QOperations>
+      meaningsProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(13);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, (R1, R2, List<Reading>), QOperations>
+      readingsProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(14);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, (R1, R2, List<String>?), QOperations>
+      antonymsProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(15);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, (R1, R2, List<String>?), QOperations>
+      synonymsProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(16);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, (R1, R2, List<String>?), QOperations>
+      lookalikesProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(17);
+    });
+  }
+
+  QueryBuilder<Kanjidic2, (R1, R2, List<String>), QOperations>
+      nanorisProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(18);
     });
   }
 }
 
 // **************************************************************************
-// IsarEmbeddedGenerator
+// _IsarEmbeddedGenerator
 // **************************************************************************
 
 // coverage:ignore-file
-// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
+// ignore_for_file: duplicate_ignore, invalid_use_of_protected_member, lines_longer_than_80_chars, constant_identifier_names, avoid_js_rounded_ints, no_leading_underscores_for_local_identifiers, require_trailing_commas, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_in_if_null_operators, library_private_types_in_public_api, prefer_const_constructors
+// ignore_for_file: type=lint
 
-const JISSchema = Schema(
-  name: r'JIS',
-  id: 6041805603616425936,
-  properties: {
-    r'encoding': PropertySchema(
-      id: 0,
-      name: r'encoding',
-      type: IsarType.string,
-    ),
-    r'value': PropertySchema(
-      id: 1,
-      name: r'value',
-      type: IsarType.string,
-    )
-  },
-  estimateSize: _jISEstimateSize,
-  serialize: _jISSerialize,
-  deserialize: _jISDeserialize,
-  deserializeProp: _jISDeserializeProp,
+const JISSchema = IsarGeneratedSchema(
+  schema: IsarSchema(
+    name: 'JIS',
+    embedded: true,
+    properties: [
+      IsarPropertySchema(
+        name: 'encoding',
+        type: IsarType.string,
+      ),
+      IsarPropertySchema(
+        name: 'value',
+        type: IsarType.string,
+      ),
+    ],
+    indexes: [],
+  ),
+  converter: IsarObjectConverter<void, JIS>(
+    serialize: serializeJIS,
+    deserialize: deserializeJIS,
+  ),
 );
 
-int _jISEstimateSize(
-  JIS object,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
-) {
-  var bytesCount = offsets.last;
+@isarProtected
+int serializeJIS(IsarWriter writer, JIS object) {
   {
     final value = object.encoding;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
+    if (value == null) {
+      IsarCore.writeNull(writer, 1);
+    } else {
+      IsarCore.writeString(writer, 1, value);
     }
   }
   {
     final value = object.value;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
+    if (value == null) {
+      IsarCore.writeNull(writer, 2);
+    } else {
+      IsarCore.writeString(writer, 2, value);
     }
   }
-  return bytesCount;
+  return 0;
 }
 
-void _jISSerialize(
-  JIS object,
-  IsarWriter writer,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
-) {
-  writer.writeString(offsets[0], object.encoding);
-  writer.writeString(offsets[1], object.value);
-}
-
-JIS _jISDeserialize(
-  Id id,
-  IsarReader reader,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
-) {
+@isarProtected
+JIS deserializeJIS(IsarReader reader) {
+  final String? _encoding;
+  _encoding = IsarCore.readString(reader, 1);
+  final String? _value;
+  _value = IsarCore.readString(reader, 2);
   final object = JIS(
-    encoding: reader.readStringOrNull(offsets[0]),
-    value: reader.readStringOrNull(offsets[1]),
+    encoding: _encoding,
+    value: _value,
   );
   return object;
-}
-
-P _jISDeserializeProp<P>(
-  IsarReader reader,
-  int propertyId,
-  int offset,
-  Map<Type, List<int>> allOffsets,
-) {
-  switch (propertyId) {
-    case 0:
-      return (reader.readStringOrNull(offset)) as P;
-    case 1:
-      return (reader.readStringOrNull(offset)) as P;
-    default:
-      throw IsarError('Unknown property with id $propertyId');
-  }
 }
 
 extension JISQueryFilter on QueryBuilder<JIS, JIS, QFilterCondition> {
   QueryBuilder<JIS, JIS, QAfterFilterCondition> encodingIsNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'encoding',
-      ));
+      return query.addFilterCondition(const IsNullCondition(property: 1));
     });
   }
 
   QueryBuilder<JIS, JIS, QAfterFilterCondition> encodingIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'encoding',
-      ));
+    return QueryBuilder.apply(not(), (query) {
+      return query.addFilterCondition(const IsNullCondition(property: 1));
     });
   }
 
@@ -3191,60 +3609,90 @@ extension JISQueryFilter on QueryBuilder<JIS, JIS, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'encoding',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<JIS, JIS, QAfterFilterCondition> encodingGreaterThan(
     String? value, {
-    bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'encoding',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<JIS, JIS, QAfterFilterCondition> encodingGreaterThanOrEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<JIS, JIS, QAfterFilterCondition> encodingLessThan(
     String? value, {
-    bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'encoding',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        LessCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<JIS, JIS, QAfterFilterCondition> encodingLessThanOrEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<JIS, JIS, QAfterFilterCondition> encodingBetween(
     String? lower,
     String? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'encoding',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 1,
+          lower: lower,
+          upper: upper,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -3253,11 +3701,13 @@ extension JISQueryFilter on QueryBuilder<JIS, JIS, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'encoding',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        StartsWithCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -3266,67 +3716,73 @@ extension JISQueryFilter on QueryBuilder<JIS, JIS, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'encoding',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        EndsWithCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<JIS, JIS, QAfterFilterCondition> encodingContains(String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'encoding',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        ContainsCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<JIS, JIS, QAfterFilterCondition> encodingMatches(String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'encoding',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        MatchesCondition(
+          property: 1,
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<JIS, JIS, QAfterFilterCondition> encodingIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'encoding',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        const EqualCondition(
+          property: 1,
+          value: '',
+        ),
+      );
     });
   }
 
   QueryBuilder<JIS, JIS, QAfterFilterCondition> encodingIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'encoding',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        const GreaterCondition(
+          property: 1,
+          value: '',
+        ),
+      );
     });
   }
 
   QueryBuilder<JIS, JIS, QAfterFilterCondition> valueIsNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'value',
-      ));
+      return query.addFilterCondition(const IsNullCondition(property: 2));
     });
   }
 
   QueryBuilder<JIS, JIS, QAfterFilterCondition> valueIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'value',
-      ));
+    return QueryBuilder.apply(not(), (query) {
+      return query.addFilterCondition(const IsNullCondition(property: 2));
     });
   }
 
@@ -3335,60 +3791,90 @@ extension JISQueryFilter on QueryBuilder<JIS, JIS, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'value',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<JIS, JIS, QAfterFilterCondition> valueGreaterThan(
     String? value, {
-    bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'value',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<JIS, JIS, QAfterFilterCondition> valueGreaterThanOrEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<JIS, JIS, QAfterFilterCondition> valueLessThan(
     String? value, {
-    bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'value',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        LessCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<JIS, JIS, QAfterFilterCondition> valueLessThanOrEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<JIS, JIS, QAfterFilterCondition> valueBetween(
     String? lower,
     String? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'value',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 2,
+          lower: lower,
+          upper: upper,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -3397,11 +3883,13 @@ extension JISQueryFilter on QueryBuilder<JIS, JIS, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'value',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        StartsWithCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -3410,51 +3898,61 @@ extension JISQueryFilter on QueryBuilder<JIS, JIS, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'value',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        EndsWithCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<JIS, JIS, QAfterFilterCondition> valueContains(String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'value',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        ContainsCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<JIS, JIS, QAfterFilterCondition> valueMatches(String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'value',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        MatchesCondition(
+          property: 2,
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<JIS, JIS, QAfterFilterCondition> valueIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'value',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        const EqualCondition(
+          property: 2,
+          value: '',
+        ),
+      );
     });
   }
 
   QueryBuilder<JIS, JIS, QAfterFilterCondition> valueIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'value',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        const GreaterCondition(
+          property: 2,
+          value: '',
+        ),
+      );
     });
   }
 }
@@ -3462,104 +3960,76 @@ extension JISQueryFilter on QueryBuilder<JIS, JIS, QFilterCondition> {
 extension JISQueryObject on QueryBuilder<JIS, JIS, QFilterCondition> {}
 
 // coverage:ignore-file
-// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
+// ignore_for_file: duplicate_ignore, invalid_use_of_protected_member, lines_longer_than_80_chars, constant_identifier_names, avoid_js_rounded_ints, no_leading_underscores_for_local_identifiers, require_trailing_commas, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_in_if_null_operators, library_private_types_in_public_api, prefer_const_constructors
+// ignore_for_file: type=lint
 
-const ReadingSchema = Schema(
-  name: r'Reading',
-  id: -3353310682807968152,
-  properties: {
-    r'rType': PropertySchema(
-      id: 0,
-      name: r'rType',
-      type: IsarType.string,
-    ),
-    r'value': PropertySchema(
-      id: 1,
-      name: r'value',
-      type: IsarType.string,
-    )
-  },
-  estimateSize: _readingEstimateSize,
-  serialize: _readingSerialize,
-  deserialize: _readingDeserialize,
-  deserializeProp: _readingDeserializeProp,
+const ReadingSchema = IsarGeneratedSchema(
+  schema: IsarSchema(
+    name: 'Reading',
+    embedded: true,
+    properties: [
+      IsarPropertySchema(
+        name: 'rType',
+        type: IsarType.string,
+      ),
+      IsarPropertySchema(
+        name: 'value',
+        type: IsarType.string,
+      ),
+    ],
+    indexes: [],
+  ),
+  converter: IsarObjectConverter<void, Reading>(
+    serialize: serializeReading,
+    deserialize: deserializeReading,
+  ),
 );
 
-int _readingEstimateSize(
-  Reading object,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
-) {
-  var bytesCount = offsets.last;
+@isarProtected
+int serializeReading(IsarWriter writer, Reading object) {
   {
     final value = object.rType;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
+    if (value == null) {
+      IsarCore.writeNull(writer, 1);
+    } else {
+      IsarCore.writeString(writer, 1, value);
     }
   }
   {
     final value = object.value;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
+    if (value == null) {
+      IsarCore.writeNull(writer, 2);
+    } else {
+      IsarCore.writeString(writer, 2, value);
     }
   }
-  return bytesCount;
+  return 0;
 }
 
-void _readingSerialize(
-  Reading object,
-  IsarWriter writer,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
-) {
-  writer.writeString(offsets[0], object.rType);
-  writer.writeString(offsets[1], object.value);
-}
-
-Reading _readingDeserialize(
-  Id id,
-  IsarReader reader,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
-) {
+@isarProtected
+Reading deserializeReading(IsarReader reader) {
+  final String? _rType;
+  _rType = IsarCore.readString(reader, 1);
+  final String? _value;
+  _value = IsarCore.readString(reader, 2);
   final object = Reading(
-    rType: reader.readStringOrNull(offsets[0]),
-    value: reader.readStringOrNull(offsets[1]),
+    rType: _rType,
+    value: _value,
   );
   return object;
-}
-
-P _readingDeserializeProp<P>(
-  IsarReader reader,
-  int propertyId,
-  int offset,
-  Map<Type, List<int>> allOffsets,
-) {
-  switch (propertyId) {
-    case 0:
-      return (reader.readStringOrNull(offset)) as P;
-    case 1:
-      return (reader.readStringOrNull(offset)) as P;
-    default:
-      throw IsarError('Unknown property with id $propertyId');
-  }
 }
 
 extension ReadingQueryFilter
     on QueryBuilder<Reading, Reading, QFilterCondition> {
   QueryBuilder<Reading, Reading, QAfterFilterCondition> rTypeIsNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'rType',
-      ));
+      return query.addFilterCondition(const IsNullCondition(property: 1));
     });
   }
 
   QueryBuilder<Reading, Reading, QAfterFilterCondition> rTypeIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'rType',
-      ));
+    return QueryBuilder.apply(not(), (query) {
+      return query.addFilterCondition(const IsNullCondition(property: 1));
     });
   }
 
@@ -3568,60 +4038,91 @@ extension ReadingQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'rType',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Reading, Reading, QAfterFilterCondition> rTypeGreaterThan(
     String? value, {
-    bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'rType',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Reading, Reading, QAfterFilterCondition>
+      rTypeGreaterThanOrEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Reading, Reading, QAfterFilterCondition> rTypeLessThan(
     String? value, {
-    bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'rType',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        LessCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Reading, Reading, QAfterFilterCondition> rTypeLessThanOrEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Reading, Reading, QAfterFilterCondition> rTypeBetween(
     String? lower,
     String? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'rType',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 1,
+          lower: lower,
+          upper: upper,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -3630,11 +4131,13 @@ extension ReadingQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'rType',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        StartsWithCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -3643,11 +4146,13 @@ extension ReadingQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'rType',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        EndsWithCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -3655,11 +4160,13 @@ extension ReadingQueryFilter
       String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'rType',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        ContainsCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -3667,45 +4174,47 @@ extension ReadingQueryFilter
       String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'rType',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        MatchesCondition(
+          property: 1,
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Reading, Reading, QAfterFilterCondition> rTypeIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'rType',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        const EqualCondition(
+          property: 1,
+          value: '',
+        ),
+      );
     });
   }
 
   QueryBuilder<Reading, Reading, QAfterFilterCondition> rTypeIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'rType',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        const GreaterCondition(
+          property: 1,
+          value: '',
+        ),
+      );
     });
   }
 
   QueryBuilder<Reading, Reading, QAfterFilterCondition> valueIsNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'value',
-      ));
+      return query.addFilterCondition(const IsNullCondition(property: 2));
     });
   }
 
   QueryBuilder<Reading, Reading, QAfterFilterCondition> valueIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'value',
-      ));
+    return QueryBuilder.apply(not(), (query) {
+      return query.addFilterCondition(const IsNullCondition(property: 2));
     });
   }
 
@@ -3714,60 +4223,91 @@ extension ReadingQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'value',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Reading, Reading, QAfterFilterCondition> valueGreaterThan(
     String? value, {
-    bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'value',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Reading, Reading, QAfterFilterCondition>
+      valueGreaterThanOrEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Reading, Reading, QAfterFilterCondition> valueLessThan(
     String? value, {
-    bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'value',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        LessCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Reading, Reading, QAfterFilterCondition> valueLessThanOrEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Reading, Reading, QAfterFilterCondition> valueBetween(
     String? lower,
     String? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'value',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 2,
+          lower: lower,
+          upper: upper,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -3776,11 +4316,13 @@ extension ReadingQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'value',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        StartsWithCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -3789,11 +4331,13 @@ extension ReadingQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'value',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        EndsWithCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -3801,11 +4345,13 @@ extension ReadingQueryFilter
       String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'value',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        ContainsCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -3813,29 +4359,35 @@ extension ReadingQueryFilter
       String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'value',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        MatchesCondition(
+          property: 2,
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Reading, Reading, QAfterFilterCondition> valueIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'value',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        const EqualCondition(
+          property: 2,
+          value: '',
+        ),
+      );
     });
   }
 
   QueryBuilder<Reading, Reading, QAfterFilterCondition> valueIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'value',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        const GreaterCondition(
+          property: 2,
+          value: '',
+        ),
+      );
     });
   }
 }
@@ -3844,104 +4396,76 @@ extension ReadingQueryObject
     on QueryBuilder<Reading, Reading, QFilterCondition> {}
 
 // coverage:ignore-file
-// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
+// ignore_for_file: duplicate_ignore, invalid_use_of_protected_member, lines_longer_than_80_chars, constant_identifier_names, avoid_js_rounded_ints, no_leading_underscores_for_local_identifiers, require_trailing_commas, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_in_if_null_operators, library_private_types_in_public_api, prefer_const_constructors
+// ignore_for_file: type=lint
 
-const MeaningSchema = Schema(
-  name: r'Meaning',
-  id: 1431589455991204997,
-  properties: {
-    r'language': PropertySchema(
-      id: 0,
-      name: r'language',
-      type: IsarType.string,
-    ),
-    r'meaning': PropertySchema(
-      id: 1,
-      name: r'meaning',
-      type: IsarType.string,
-    )
-  },
-  estimateSize: _meaningEstimateSize,
-  serialize: _meaningSerialize,
-  deserialize: _meaningDeserialize,
-  deserializeProp: _meaningDeserializeProp,
+const MeaningSchema = IsarGeneratedSchema(
+  schema: IsarSchema(
+    name: 'Meaning',
+    embedded: true,
+    properties: [
+      IsarPropertySchema(
+        name: 'language',
+        type: IsarType.string,
+      ),
+      IsarPropertySchema(
+        name: 'meaning',
+        type: IsarType.string,
+      ),
+    ],
+    indexes: [],
+  ),
+  converter: IsarObjectConverter<void, Meaning>(
+    serialize: serializeMeaning,
+    deserialize: deserializeMeaning,
+  ),
 );
 
-int _meaningEstimateSize(
-  Meaning object,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
-) {
-  var bytesCount = offsets.last;
+@isarProtected
+int serializeMeaning(IsarWriter writer, Meaning object) {
   {
     final value = object.language;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
+    if (value == null) {
+      IsarCore.writeNull(writer, 1);
+    } else {
+      IsarCore.writeString(writer, 1, value);
     }
   }
   {
     final value = object.meaning;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
+    if (value == null) {
+      IsarCore.writeNull(writer, 2);
+    } else {
+      IsarCore.writeString(writer, 2, value);
     }
   }
-  return bytesCount;
+  return 0;
 }
 
-void _meaningSerialize(
-  Meaning object,
-  IsarWriter writer,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
-) {
-  writer.writeString(offsets[0], object.language);
-  writer.writeString(offsets[1], object.meaning);
-}
-
-Meaning _meaningDeserialize(
-  Id id,
-  IsarReader reader,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
-) {
+@isarProtected
+Meaning deserializeMeaning(IsarReader reader) {
+  final String? _language;
+  _language = IsarCore.readString(reader, 1);
+  final String? _meaning;
+  _meaning = IsarCore.readString(reader, 2);
   final object = Meaning(
-    language: reader.readStringOrNull(offsets[0]),
-    meaning: reader.readStringOrNull(offsets[1]),
+    language: _language,
+    meaning: _meaning,
   );
   return object;
-}
-
-P _meaningDeserializeProp<P>(
-  IsarReader reader,
-  int propertyId,
-  int offset,
-  Map<Type, List<int>> allOffsets,
-) {
-  switch (propertyId) {
-    case 0:
-      return (reader.readStringOrNull(offset)) as P;
-    case 1:
-      return (reader.readStringOrNull(offset)) as P;
-    default:
-      throw IsarError('Unknown property with id $propertyId');
-  }
 }
 
 extension MeaningQueryFilter
     on QueryBuilder<Meaning, Meaning, QFilterCondition> {
   QueryBuilder<Meaning, Meaning, QAfterFilterCondition> languageIsNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'language',
-      ));
+      return query.addFilterCondition(const IsNullCondition(property: 1));
     });
   }
 
   QueryBuilder<Meaning, Meaning, QAfterFilterCondition> languageIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'language',
-      ));
+    return QueryBuilder.apply(not(), (query) {
+      return query.addFilterCondition(const IsNullCondition(property: 1));
     });
   }
 
@@ -3950,60 +4474,92 @@ extension MeaningQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'language',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Meaning, Meaning, QAfterFilterCondition> languageGreaterThan(
     String? value, {
-    bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'language',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Meaning, Meaning, QAfterFilterCondition>
+      languageGreaterThanOrEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Meaning, Meaning, QAfterFilterCondition> languageLessThan(
     String? value, {
-    bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'language',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        LessCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Meaning, Meaning, QAfterFilterCondition>
+      languageLessThanOrEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Meaning, Meaning, QAfterFilterCondition> languageBetween(
     String? lower,
     String? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'language',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 1,
+          lower: lower,
+          upper: upper,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -4012,11 +4568,13 @@ extension MeaningQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'language',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        StartsWithCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -4025,11 +4583,13 @@ extension MeaningQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'language',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        EndsWithCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -4037,11 +4597,13 @@ extension MeaningQueryFilter
       String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'language',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        ContainsCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -4049,45 +4611,47 @@ extension MeaningQueryFilter
       String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'language',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        MatchesCondition(
+          property: 1,
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Meaning, Meaning, QAfterFilterCondition> languageIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'language',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        const EqualCondition(
+          property: 1,
+          value: '',
+        ),
+      );
     });
   }
 
   QueryBuilder<Meaning, Meaning, QAfterFilterCondition> languageIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'language',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        const GreaterCondition(
+          property: 1,
+          value: '',
+        ),
+      );
     });
   }
 
   QueryBuilder<Meaning, Meaning, QAfterFilterCondition> meaningIsNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'meaning',
-      ));
+      return query.addFilterCondition(const IsNullCondition(property: 2));
     });
   }
 
   QueryBuilder<Meaning, Meaning, QAfterFilterCondition> meaningIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'meaning',
-      ));
+    return QueryBuilder.apply(not(), (query) {
+      return query.addFilterCondition(const IsNullCondition(property: 2));
     });
   }
 
@@ -4096,60 +4660,92 @@ extension MeaningQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'meaning',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Meaning, Meaning, QAfterFilterCondition> meaningGreaterThan(
     String? value, {
-    bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'meaning',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Meaning, Meaning, QAfterFilterCondition>
+      meaningGreaterThanOrEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Meaning, Meaning, QAfterFilterCondition> meaningLessThan(
     String? value, {
-    bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'meaning',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        LessCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Meaning, Meaning, QAfterFilterCondition>
+      meaningLessThanOrEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Meaning, Meaning, QAfterFilterCondition> meaningBetween(
     String? lower,
     String? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'meaning',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 2,
+          lower: lower,
+          upper: upper,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -4158,11 +4754,13 @@ extension MeaningQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'meaning',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        StartsWithCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -4171,11 +4769,13 @@ extension MeaningQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'meaning',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        EndsWithCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -4183,11 +4783,13 @@ extension MeaningQueryFilter
       String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'meaning',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        ContainsCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -4195,29 +4797,35 @@ extension MeaningQueryFilter
       String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'meaning',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        MatchesCondition(
+          property: 2,
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Meaning, Meaning, QAfterFilterCondition> meaningIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'meaning',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        const EqualCondition(
+          property: 2,
+          value: '',
+        ),
+      );
     });
   }
 
   QueryBuilder<Meaning, Meaning, QAfterFilterCondition> meaningIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'meaning',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        const GreaterCondition(
+          property: 2,
+          value: '',
+        ),
+      );
     });
   }
 }

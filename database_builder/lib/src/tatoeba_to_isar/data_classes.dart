@@ -34,7 +34,8 @@ class Translation {
 @collection
 class ExampleSentence {
   /// A unique id of this Kanji's entry in the database
-  Id id;
+  @Id()
+  int id;
   /// The japanese sentence
   String sentence;
   /// A list containing all the baseforms that MeCab outputs for this sentence

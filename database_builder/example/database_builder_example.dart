@@ -29,7 +29,7 @@ void main() async {
 Future<void> createDictionaryIsar(List<String> iso639_2ToInclude) async {
 
   final isarDict = await Isar.open(
-    [JMdictSchema, Kanjidic2Schema, KanjiSVGSchema], //JMNEdictSchema],
+    schemas: [JMdictSchema, Kanjidic2Schema, KanjiSVGSchema], //JMNEdictSchema],
     name: "dictionary",
     directory: RepoPathManager.getOutputFilesPath()
   );

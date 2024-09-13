@@ -11,16 +11,18 @@ part 'data_classes.g.dart';
 @collection
 class KanjiSVG {
   /// A unique id of this Kanji's entry in the database
-  Id id = Isar.autoIncrement;
+  @Id()
+  @Id()
+  int id;
   /// Name of this KanjiVG entry
   String kanjiVGId;
   /// This entries Kanji character
-  @Index(type: IndexType.hash)
+  @Index(hash: true)//(type: IndexType.hash)
   String character;
   /// The SVG data to of this Kanji
   String svg;
   /// Number of strokes of this Kanji
-  @Index(type: IndexType.value)
+  @Index()//(type: IndexType.value)
   short strokes;
   /// All radicals used in this Kanji
   List<String> radicals;

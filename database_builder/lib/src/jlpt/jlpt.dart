@@ -1,6 +1,5 @@
-import 'dart:convert';
+
 import 'dart:io';
-import 'package:kana_kit/kana_kit.dart';
 import 'package:path/path.dart' as p;
 
 import 'package:csv/csv.dart';
@@ -12,7 +11,6 @@ import 'package:isar/isar.dart';
 /// Adds pitch accents to the given dictionary Isar
 Future<void> addJLPTToDict(Isar dictIsar) async {
 
-  List<List> jlptData = [];
 
   for (int i = 1; i < 6; i++){
     String jlptFile = File(

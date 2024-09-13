@@ -108,12 +108,13 @@ class LanguageMeanings {
 @Collection(accessor: "jmnedict")
 class JMNEdict {
   /// A unique ID identifying this JMDict entry
-  Id id;
+  @Id()
+  int id;
   /// A list containing different versions how to write this entry using Kanji
-  @Index(type: IndexType.value)
+  @Index()//(type: IndexType.value)
   List<String> kanjis;
   /// A list containing different versions how to read this entry
-  @Index(type: IndexType.value)
+  @Index()//(type: IndexType.value)
   List<String> readings;
   /// The part of speech elements of this entry
   List<String> partOfSpeech;
@@ -145,7 +146,8 @@ class JMNEdict {
 @Collection(accessor: "jmdict")
 class JMdict {
   /// A unique ID identifying this JMDict entry
-  Id id;
+  @Id()
+  int id;
 
   /// The frequency of this entry (follows a zipf distribution)
   float frequency;
@@ -158,13 +160,13 @@ class JMdict {
   /// A list containing different versions how to write this entry using Kanji
   List<String> kanjis = <String>[];
   /// List of indexes to find this entry
-  @Index(type: IndexType.value, caseSensitive: false)
+  @Index()//(type: IndexType.value, caseSensitive: false)
   List<String> kanjiIndexes = <String>[];
   /// Indicates unusual aspects of the kanji used in the entry
   /// 
   /// Notes: matches `kanjis` in length, if not null
   List<JMDictAttribute?>? kanjiInfo;
-  @Index(type: IndexType.value, caseSensitive: false)
+  @Index()//(type: IndexType.value, caseSensitive: false)
   /// A list containing different versions how to read this entry
   /// 
   /// Note: meach `kanjis` in length
@@ -178,7 +180,7 @@ class JMdict {
   /// Note: matches `readings` in length, if not null
   List<JMDictAttribute?>? readingRestriction;
   /// Contains different versions how to read this entry using ONLY Hiragana
-  @Index(type: IndexType.value, caseSensitive: false)
+  @Index()//(type: IndexType.value, caseSensitive: false)
   List<String> hiraganas;
   /// Indicates the pitch accent of the `readings` element at the same index
   /// 
@@ -189,7 +191,7 @@ class JMdict {
   /// List of meanings indexes that are used to find this entry
   /// 
   /// example: "to eat" → ["to", "eat"]
-  @Index(type: IndexType.value, caseSensitive: false)
+  @Index()//(type: IndexType.value, caseSensitive: false)
   List<String> get meaningsIndexes => meanings.map(
       (e) => e.meanings.map((e) => e.attributes)
     ).flattened.flattened.whereNotNull()
