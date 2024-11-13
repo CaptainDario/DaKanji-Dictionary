@@ -12,9 +12,7 @@ isar_version: &isar_version 3.1.8
 dependencies:
   xml: ^6.0.0
   path: ^1.8.2
-  kana_kit:
-    git:
-      url: https://github.com/CaptainDario/kana_kit
+  kana_kit: 2.1.1
   isar:
     version: *isar_version
     hosted: https://pub.isar-community.dev/
