@@ -45,7 +45,7 @@ Future<void> addJLPTToDict(Isar dictIsar) async {
           .group((q) => 
             q.hiraganasElementEqualTo(row[2])
               .or()
-            .readingsElementEqualTo(row[2])
+            .readingsElementEqualTo(row[2], caseSensitive: false)
           )
         .findAllSync();
       }

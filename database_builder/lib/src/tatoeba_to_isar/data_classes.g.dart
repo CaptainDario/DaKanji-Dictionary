@@ -64,7 +64,7 @@ const ExampleSentenceSchema = CollectionSchema(
   getId: _exampleSentenceGetId,
   getLinks: _exampleSentenceGetLinks,
   attach: _exampleSentenceAttach,
-  version: '3.1.0+1',
+  version: '3.1.8',
 );
 
 int _exampleSentenceEstimateSize(
