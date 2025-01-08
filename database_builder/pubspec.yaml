@@ -23,7 +23,7 @@ dependencies:
   tuple: ^2.0.1
   async: ^2.10.0
   compute: ^1.0.2
-  archive: ^3.3.2
+  archive: ^4.0.1
   csv: ^5.0.2
   json_serializable: ^6.6.1
   json_annotation: ^4.8.0
