@@ -142,6 +142,7 @@ class JMNEdict {
 /// This class is used to store the data in the Isar database.
 /// Rebuild isar auto generated code with
 /// `dart run build_runner build --delete-conflicting-outputs`
+@JsonSerializable()
 @Collection(accessor: "jmdict")
 class JMdict {
   /// A unique ID identifying this JMDict entry
@@ -226,4 +227,8 @@ class JMdict {
   String toString() {
     return '$kanjis: $readings';
   }
+
+  factory JMdict.fromJson(Map<String, dynamic> json) => _$JMdictFromJson(json);
+
+  Map<String, dynamic> toJson() => _$JMdictToJson(this);
 }

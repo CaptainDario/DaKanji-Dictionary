@@ -7195,3 +7195,59 @@ Map<String, dynamic> _$LanguageMeaningsToJson(LanguageMeanings instance) =>
       'dialect': instance.dialect,
       'senseInfo': instance.senseInfo,
     };
+
+JMdict _$JMdictFromJson(Map<String, dynamic> json) => JMdict(
+      id: (json['id'] as num).toInt(),
+      frequency: (json['frequency'] as num).toDouble(),
+      jlptLevel: (json['jlptLevel'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+      kanjis:
+          (json['kanjis'] as List<dynamic>).map((e) => e as String).toList(),
+      kanjiIndexes: (json['kanjiIndexes'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
+      kanjiInfo: (json['kanjiInfo'] as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : JMDictAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      readings:
+          (json['readings'] as List<dynamic>).map((e) => e as String).toList(),
+      readingInfo: (json['readingInfo'] as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : JMDictAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      readingRestriction: (json['readingRestriction'] as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : JMDictAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      hiraganas:
+          (json['hiraganas'] as List<dynamic>).map((e) => e as String).toList(),
+      accents: (json['accents'] as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : JMDictAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      meanings: (json['meanings'] as List<dynamic>)
+          .map((e) => LanguageMeanings.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    )..audio = (json['audio'] as num?)?.toInt();
+
+Map<String, dynamic> _$JMdictToJson(JMdict instance) => <String, dynamic>{
+      'id': instance.id,
+      'frequency': instance.frequency,
+      'jlptLevel': instance.jlptLevel,
+      'audio': instance.audio,
+      'kanjis': instance.kanjis,
+      'kanjiIndexes': instance.kanjiIndexes,
+      'kanjiInfo': instance.kanjiInfo,
+      'readings': instance.readings,
+      'readingInfo': instance.readingInfo,
+      'readingRestriction': instance.readingRestriction,
+      'hiraganas': instance.hiraganas,
+      'accents': instance.accents,
+      'meanings': instance.meanings,
+    };
