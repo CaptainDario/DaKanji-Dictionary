@@ -5,7 +5,7 @@ import 'package:compute/compute.dart';
 
 import 'package:tuple/tuple.dart';
 import 'package:async/async.dart';
-import 'package:isar/isar.dart';
+import 'package:isar_community/isar.dart';
 
 import 'package:database_builder/database_builder.dart';
 

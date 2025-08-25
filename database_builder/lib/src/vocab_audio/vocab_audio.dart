@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:isar/isar.dart';
+import 'package:isar_community/isar.dart';
 import 'package:kana_kit/kana_kit.dart';
 import 'package:path/path.dart' as p;
 

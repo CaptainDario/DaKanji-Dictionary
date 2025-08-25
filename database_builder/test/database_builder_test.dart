@@ -1,6 +1,6 @@
 import 'package:database_builder/database_builder.dart';
 import 'package:test/test.dart';
-import 'package:isar/isar.dart';
+import 'package:isar_community/isar.dart';
 
 void main() {
   group('Repo path manager', () {

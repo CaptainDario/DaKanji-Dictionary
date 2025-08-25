@@ -1,5 +1,5 @@
 import 'data_classes.dart';
-import 'package:isar/isar.dart';
+import 'package:isar_community/isar.dart';
 
 void jsonToIsar(List data, Isar isar) {
   List<Kanjidic2> entries = <Kanjidic2>[];

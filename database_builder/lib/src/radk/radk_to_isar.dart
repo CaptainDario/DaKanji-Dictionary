@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:path/path.dart' as p;
 import 'package:database_builder/database_builder.dart';
-import 'package:isar/isar.dart';
+import 'package:isar_community/isar.dart';
 
 
 

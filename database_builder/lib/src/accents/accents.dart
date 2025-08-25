@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:kana_kit/kana_kit.dart';
 import 'package:path/path.dart' as p;
 
-import 'package:isar/isar.dart';
+import 'package:isar_community/isar.dart';
 import 'package:csv/csv.dart';
 
 import 'package:database_builder/database_builder.dart';

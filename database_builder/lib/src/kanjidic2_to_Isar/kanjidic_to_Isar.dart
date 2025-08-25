@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:database_builder/database_builder.dart';
 import 'json_to_Isar.dart';
-import 'package:isar/isar.dart';
+import 'package:isar_community/isar.dart';
 import 'package:path/path.dart' as p;
 
 // Future<bool> main() async {

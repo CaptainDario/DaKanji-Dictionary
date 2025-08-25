@@ -22,17 +22,14 @@ const RadkSchema = CollectionSchema(
       name: r'kanjis',
       type: IsarType.stringList,
     ),
-    r'radical': PropertySchema(
-      id: 1,
-      name: r'radical',
-      type: IsarType.string,
-    ),
+    r'radical': PropertySchema(id: 1, name: r'radical', type: IsarType.string),
     r'radicalStrokeCount': PropertySchema(
       id: 2,
       name: r'radicalStrokeCount',
       type: IsarType.long,
-    )
+    ),
   },
+
   estimateSize: _radkEstimateSize,
   serialize: _radkSerialize,
   deserialize: _radkDeserialize,
@@ -49,7 +46,7 @@ const RadkSchema = CollectionSchema(
           name: r'radical',
           type: IndexType.hash,
           caseSensitive: true,
-        )
+        ),
       ],
     ),
     r'kanjis': IndexSchema(
@@ -62,7 +59,7 @@ const RadkSchema = CollectionSchema(
           name: r'kanjis',
           type: IndexType.hashElements,
           caseSensitive: true,
-        )
+        ),
       ],
     ),
     r'radicalStrokeCount': IndexSchema(
@@ -75,16 +72,17 @@ const RadkSchema = CollectionSchema(
           name: r'radicalStrokeCount',
           type: IndexType.value,
           caseSensitive: false,
-        )
+        ),
       ],
-    )
+    ),
   },
   links: {},
   embeddedSchemas: {},
+
   getId: _radkGetId,
   getLinks: _radkGetLinks,
   attach: _radkAttach,
-  version: '3.1.8',
+  version: '3.2.0-dev.2',
 );
 
 int _radkEstimateSize(
@@ -179,10 +177,7 @@ extension RadkQueryWhereSort on QueryBuilder<Radk, Radk, QWhere> {
 extension RadkQueryWhere on QueryBuilder<Radk, Radk, QWhereClause> {
   QueryBuilder<Radk, Radk, QAfterWhereClause> idEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IdWhereClause.between(
-        lower: id,
-        upper: id,
-      ));
+      return query.addWhereClause(IdWhereClause.between(lower: id, upper: id));
     });
   }
 
@@ -208,8 +203,10 @@ extension RadkQueryWhere on QueryBuilder<Radk, Radk, QWhereClause> {
     });
   }
 
-  QueryBuilder<Radk, Radk, QAfterWhereClause> idGreaterThan(Id id,
-      {bool include = false}) {
+  QueryBuilder<Radk, Radk, QAfterWhereClause> idGreaterThan(
+    Id id, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.greaterThan(lower: id, includeLower: include),
@@ -217,8 +214,10 @@ extension RadkQueryWhere on QueryBuilder<Radk, Radk, QWhereClause> {
     });
   }
 
-  QueryBuilder<Radk, Radk, QAfterWhereClause> idLessThan(Id id,
-      {bool include = false}) {
+  QueryBuilder<Radk, Radk, QAfterWhereClause> idLessThan(
+    Id id, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.lessThan(upper: id, includeUpper: include),
@@ -233,145 +232,176 @@ extension RadkQueryWhere on QueryBuilder<Radk, Radk, QWhereClause> {
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IdWhereClause.between(
-        lower: lowerId,
-        includeLower: includeLower,
-        upper: upperId,
-        includeUpper: includeUpper,
-      ));
+      return query.addWhereClause(
+        IdWhereClause.between(
+          lower: lowerId,
+          includeLower: includeLower,
+          upper: upperId,
+          includeUpper: includeUpper,
+        ),
+      );
     });
   }
 
   QueryBuilder<Radk, Radk, QAfterWhereClause> radicalEqualTo(String radical) {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'radical',
-        value: [radical],
-      ));
+      return query.addWhereClause(
+        IndexWhereClause.equalTo(indexName: r'radical', value: [radical]),
+      );
     });
   }
 
   QueryBuilder<Radk, Radk, QAfterWhereClause> radicalNotEqualTo(
-      String radical) {
+    String radical,
+  ) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'radical',
-              lower: [],
-              upper: [radical],
-              includeUpper: false,
-            ))
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'radical',
-              lower: [radical],
-              includeLower: false,
-              upper: [],
-            ));
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'radical',
+                lower: [],
+                upper: [radical],
+                includeUpper: false,
+              ),
+            )
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'radical',
+                lower: [radical],
+                includeLower: false,
+                upper: [],
+              ),
+            );
       } else {
         return query
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'radical',
-              lower: [radical],
-              includeLower: false,
-              upper: [],
-            ))
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'radical',
-              lower: [],
-              upper: [radical],
-              includeUpper: false,
-            ));
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'radical',
+                lower: [radical],
+                includeLower: false,
+                upper: [],
+              ),
+            )
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'radical',
+                lower: [],
+                upper: [radical],
+                includeUpper: false,
+              ),
+            );
       }
     });
   }
 
   QueryBuilder<Radk, Radk, QAfterWhereClause> kanjisElementEqualTo(
-      String kanjisElement) {
+    String kanjisElement,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'kanjis',
-        value: [kanjisElement],
-      ));
+      return query.addWhereClause(
+        IndexWhereClause.equalTo(indexName: r'kanjis', value: [kanjisElement]),
+      );
     });
   }
 
   QueryBuilder<Radk, Radk, QAfterWhereClause> kanjisElementNotEqualTo(
-      String kanjisElement) {
+    String kanjisElement,
+  ) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'kanjis',
-              lower: [],
-              upper: [kanjisElement],
-              includeUpper: false,
-            ))
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'kanjis',
-              lower: [kanjisElement],
-              includeLower: false,
-              upper: [],
-            ));
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'kanjis',
+                lower: [],
+                upper: [kanjisElement],
+                includeUpper: false,
+              ),
+            )
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'kanjis',
+                lower: [kanjisElement],
+                includeLower: false,
+                upper: [],
+              ),
+            );
       } else {
         return query
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'kanjis',
-              lower: [kanjisElement],
-              includeLower: false,
-              upper: [],
-            ))
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'kanjis',
-              lower: [],
-              upper: [kanjisElement],
-              includeUpper: false,
-            ));
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'kanjis',
+                lower: [kanjisElement],
+                includeLower: false,
+                upper: [],
+              ),
+            )
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'kanjis',
+                lower: [],
+                upper: [kanjisElement],
+                includeUpper: false,
+              ),
+            );
       }
     });
   }
 
   QueryBuilder<Radk, Radk, QAfterWhereClause> radicalStrokeCountEqualTo(
-      int radicalStrokeCount) {
+    int radicalStrokeCount,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'radicalStrokeCount',
-        value: [radicalStrokeCount],
-      ));
+      return query.addWhereClause(
+        IndexWhereClause.equalTo(
+          indexName: r'radicalStrokeCount',
+          value: [radicalStrokeCount],
+        ),
+      );
     });
   }
 
   QueryBuilder<Radk, Radk, QAfterWhereClause> radicalStrokeCountNotEqualTo(
-      int radicalStrokeCount) {
+    int radicalStrokeCount,
+  ) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'radicalStrokeCount',
-              lower: [],
-              upper: [radicalStrokeCount],
-              includeUpper: false,
-            ))
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'radicalStrokeCount',
-              lower: [radicalStrokeCount],
-              includeLower: false,
-              upper: [],
-            ));
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'radicalStrokeCount',
+                lower: [],
+                upper: [radicalStrokeCount],
+                includeUpper: false,
+              ),
+            )
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'radicalStrokeCount',
+                lower: [radicalStrokeCount],
+                includeLower: false,
+                upper: [],
+              ),
+            );
       } else {
         return query
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'radicalStrokeCount',
-              lower: [radicalStrokeCount],
-              includeLower: false,
-              upper: [],
-            ))
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'radicalStrokeCount',
-              lower: [],
-              upper: [radicalStrokeCount],
-              includeUpper: false,
-            ));
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'radicalStrokeCount',
+                lower: [radicalStrokeCount],
+                includeLower: false,
+                upper: [],
+              ),
+            )
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'radicalStrokeCount',
+                lower: [],
+                upper: [radicalStrokeCount],
+                includeUpper: false,
+              ),
+            );
       }
     });
   }
@@ -381,12 +411,14 @@ extension RadkQueryWhere on QueryBuilder<Radk, Radk, QWhereClause> {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'radicalStrokeCount',
-        lower: [radicalStrokeCount],
-        includeLower: include,
-        upper: [],
-      ));
+      return query.addWhereClause(
+        IndexWhereClause.between(
+          indexName: r'radicalStrokeCount',
+          lower: [radicalStrokeCount],
+          includeLower: include,
+          upper: [],
+        ),
+      );
     });
   }
 
@@ -395,12 +427,14 @@ extension RadkQueryWhere on QueryBuilder<Radk, Radk, QWhereClause> {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'radicalStrokeCount',
-        lower: [],
-        upper: [radicalStrokeCount],
-        includeUpper: include,
-      ));
+      return query.addWhereClause(
+        IndexWhereClause.between(
+          indexName: r'radicalStrokeCount',
+          lower: [],
+          upper: [radicalStrokeCount],
+          includeUpper: include,
+        ),
+      );
     });
   }
 
@@ -411,13 +445,15 @@ extension RadkQueryWhere on QueryBuilder<Radk, Radk, QWhereClause> {
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'radicalStrokeCount',
-        lower: [lowerRadicalStrokeCount],
-        includeLower: includeLower,
-        upper: [upperRadicalStrokeCount],
-        includeUpper: includeUpper,
-      ));
+      return query.addWhereClause(
+        IndexWhereClause.between(
+          indexName: r'radicalStrokeCount',
+          lower: [lowerRadicalStrokeCount],
+          includeLower: includeLower,
+          upper: [upperRadicalStrokeCount],
+          includeUpper: includeUpper,
+        ),
+      );
     });
   }
 }
@@ -425,10 +461,9 @@ extension RadkQueryWhere on QueryBuilder<Radk, Radk, QWhereClause> {
 extension RadkQueryFilter on QueryBuilder<Radk, Radk, QFilterCondition> {
   QueryBuilder<Radk, Radk, QAfterFilterCondition> idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'id',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'id', value: value),
+      );
     });
   }
 
@@ -437,11 +472,13 @@ extension RadkQueryFilter on QueryBuilder<Radk, Radk, QFilterCondition> {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'id',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'id',
+          value: value,
+        ),
+      );
     });
   }
 
@@ -450,11 +487,13 @@ extension RadkQueryFilter on QueryBuilder<Radk, Radk, QFilterCondition> {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'id',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'id',
+          value: value,
+        ),
+      );
     });
   }
 
@@ -465,13 +504,15 @@ extension RadkQueryFilter on QueryBuilder<Radk, Radk, QFilterCondition> {
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'id',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'id',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
     });
   }
 
@@ -480,11 +521,13 @@ extension RadkQueryFilter on QueryBuilder<Radk, Radk, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'kanjis',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'kanjis',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -494,12 +537,14 @@ extension RadkQueryFilter on QueryBuilder<Radk, Radk, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'kanjis',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'kanjis',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -509,12 +554,14 @@ extension RadkQueryFilter on QueryBuilder<Radk, Radk, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'kanjis',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'kanjis',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -526,14 +573,16 @@ extension RadkQueryFilter on QueryBuilder<Radk, Radk, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'kanjis',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'kanjis',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -542,11 +591,13 @@ extension RadkQueryFilter on QueryBuilder<Radk, Radk, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'kanjis',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'kanjis',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -555,90 +606,79 @@ extension RadkQueryFilter on QueryBuilder<Radk, Radk, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'kanjis',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'kanjis',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Radk, Radk, QAfterFilterCondition> kanjisElementContains(
-      String value,
-      {bool caseSensitive = true}) {
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'kanjis',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'kanjis',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Radk, Radk, QAfterFilterCondition> kanjisElementMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'kanjis',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'kanjis',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Radk, Radk, QAfterFilterCondition> kanjisElementIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'kanjis',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'kanjis', value: ''),
+      );
     });
   }
 
   QueryBuilder<Radk, Radk, QAfterFilterCondition> kanjisElementIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'kanjis',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'kanjis', value: ''),
+      );
     });
   }
 
   QueryBuilder<Radk, Radk, QAfterFilterCondition> kanjisLengthEqualTo(
-      int length) {
+    int length,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'kanjis',
-        length,
-        true,
-        length,
-        true,
-      );
+      return query.listLength(r'kanjis', length, true, length, true);
     });
   }
 
   QueryBuilder<Radk, Radk, QAfterFilterCondition> kanjisIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'kanjis',
-        0,
-        true,
-        0,
-        true,
-      );
+      return query.listLength(r'kanjis', 0, true, 0, true);
     });
   }
 
   QueryBuilder<Radk, Radk, QAfterFilterCondition> kanjisIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'kanjis',
-        0,
-        false,
-        999999,
-        true,
-      );
+      return query.listLength(r'kanjis', 0, false, 999999, true);
     });
   }
 
@@ -647,13 +687,7 @@ extension RadkQueryFilter on QueryBuilder<Radk, Radk, QFilterCondition> {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'kanjis',
-        0,
-        true,
-        length,
-        include,
-      );
+      return query.listLength(r'kanjis', 0, true, length, include);
     });
   }
 
@@ -662,13 +696,7 @@ extension RadkQueryFilter on QueryBuilder<Radk, Radk, QFilterCondition> {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'kanjis',
-        length,
-        include,
-        999999,
-        true,
-      );
+      return query.listLength(r'kanjis', length, include, 999999, true);
     });
   }
 
@@ -694,11 +722,13 @@ extension RadkQueryFilter on QueryBuilder<Radk, Radk, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'radical',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'radical',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -708,12 +738,14 @@ extension RadkQueryFilter on QueryBuilder<Radk, Radk, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'radical',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'radical',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -723,12 +755,14 @@ extension RadkQueryFilter on QueryBuilder<Radk, Radk, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'radical',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'radical',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -740,14 +774,16 @@ extension RadkQueryFilter on QueryBuilder<Radk, Radk, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'radical',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'radical',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -756,11 +792,13 @@ extension RadkQueryFilter on QueryBuilder<Radk, Radk, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'radical',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'radical',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -769,61 +807,69 @@ extension RadkQueryFilter on QueryBuilder<Radk, Radk, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'radical',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'radical',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
-  QueryBuilder<Radk, Radk, QAfterFilterCondition> radicalContains(String value,
-      {bool caseSensitive = true}) {
+  QueryBuilder<Radk, Radk, QAfterFilterCondition> radicalContains(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'radical',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'radical',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
-  QueryBuilder<Radk, Radk, QAfterFilterCondition> radicalMatches(String pattern,
-      {bool caseSensitive = true}) {
+  QueryBuilder<Radk, Radk, QAfterFilterCondition> radicalMatches(
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'radical',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'radical',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Radk, Radk, QAfterFilterCondition> radicalIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'radical',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'radical', value: ''),
+      );
     });
   }
 
   QueryBuilder<Radk, Radk, QAfterFilterCondition> radicalIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'radical',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'radical', value: ''),
+      );
     });
   }
 
   QueryBuilder<Radk, Radk, QAfterFilterCondition> radicalStrokeCountEqualTo(
-      int value) {
+    int value,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'radicalStrokeCount',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'radicalStrokeCount', value: value),
+      );
     });
   }
 
@@ -832,11 +878,13 @@ extension RadkQueryFilter on QueryBuilder<Radk, Radk, QFilterCondition> {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'radicalStrokeCount',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'radicalStrokeCount',
+          value: value,
+        ),
+      );
     });
   }
 
@@ -845,11 +893,13 @@ extension RadkQueryFilter on QueryBuilder<Radk, Radk, QFilterCondition> {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'radicalStrokeCount',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'radicalStrokeCount',
+          value: value,
+        ),
+      );
     });
   }
 
@@ -860,13 +910,15 @@ extension RadkQueryFilter on QueryBuilder<Radk, Radk, QFilterCondition> {
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'radicalStrokeCount',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'radicalStrokeCount',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
     });
   }
 }
@@ -946,8 +998,9 @@ extension RadkQueryWhereDistinct on QueryBuilder<Radk, Radk, QDistinct> {
     });
   }
 
-  QueryBuilder<Radk, Radk, QDistinct> distinctByRadical(
-      {bool caseSensitive = true}) {
+  QueryBuilder<Radk, Radk, QDistinct> distinctByRadical({
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'radical', caseSensitive: caseSensitive);
     });

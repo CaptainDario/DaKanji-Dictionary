@@ -5,34 +5,29 @@ publish_to: none
 # homepage: https://www.example.com
 
 environment:
-  sdk: '>=2.17.0 <3.0.0'
-
-isar_version: &isar_version 3.1.8
+  sdk: ">=3.9.0"
 
 dependencies:
   xml: ^6.0.0
   path: ^1.8.2
   kana_kit: 2.1.1
-  isar:
-    version: *isar_version
-    hosted: https://pub.isar-community.dev/
-  isar_flutter_libs:
-    version: *isar_version
-    hosted: https://pub.isar-community.dev/
+  isar_community: 3.2.0-dev.2
   console_bars: ^1.1.0
   tuple: ^2.0.1
   async: ^2.10.0
   compute: ^1.0.2
   archive: ^4.0.1
-  csv: ^5.0.2
+  csv: ^6.0.0
   json_serializable: ^6.6.1
   json_annotation: ^4.9.0
   collection: ^1.17.0
 
 dev_dependencies:
-  lints: ^1.0.0
+  lints: ^6.0.0
   test: ^1.16.0
   build_runner: any
-  isar_generator:
-    version: *isar_version
-    hosted: https://pub.isar-community.dev/
+  isar_community_generator:
+    git:
+      url: https://github.com/callumw-k/isar-community
+      ref: migrating-to-source_gen-3
+      path: packages/isar_community_generator/

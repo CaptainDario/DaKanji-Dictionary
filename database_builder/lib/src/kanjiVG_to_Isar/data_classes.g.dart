@@ -32,17 +32,10 @@ const KanjiSVGSchema = CollectionSchema(
       name: r'radicals',
       type: IsarType.stringList,
     ),
-    r'strokes': PropertySchema(
-      id: 3,
-      name: r'strokes',
-      type: IsarType.int,
-    ),
-    r'svg': PropertySchema(
-      id: 4,
-      name: r'svg',
-      type: IsarType.string,
-    )
+    r'strokes': PropertySchema(id: 3, name: r'strokes', type: IsarType.int),
+    r'svg': PropertySchema(id: 4, name: r'svg', type: IsarType.string),
   },
+
   estimateSize: _kanjiSVGEstimateSize,
   serialize: _kanjiSVGSerialize,
   deserialize: _kanjiSVGDeserialize,
@@ -59,7 +52,7 @@ const KanjiSVGSchema = CollectionSchema(
           name: r'character',
           type: IndexType.hash,
           caseSensitive: true,
-        )
+        ),
       ],
     ),
     r'strokes': IndexSchema(
@@ -72,16 +65,17 @@ const KanjiSVGSchema = CollectionSchema(
           name: r'strokes',
           type: IndexType.value,
           caseSensitive: false,
-        )
+        ),
       ],
-    )
+    ),
   },
   links: {},
   embeddedSchemas: {},
+
   getId: _kanjiSVGGetId,
   getLinks: _kanjiSVGGetLinks,
   attach: _kanjiSVGAttach,
-  version: '3.1.8',
+  version: '3.2.0-dev.2',
 );
 
 int _kanjiSVGEstimateSize(
@@ -186,10 +180,7 @@ extension KanjiSVGQueryWhereSort on QueryBuilder<KanjiSVG, KanjiSVG, QWhere> {
 extension KanjiSVGQueryWhere on QueryBuilder<KanjiSVG, KanjiSVG, QWhereClause> {
   QueryBuilder<KanjiSVG, KanjiSVG, QAfterWhereClause> idEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IdWhereClause.between(
-        lower: id,
-        upper: id,
-      ));
+      return query.addWhereClause(IdWhereClause.between(lower: id, upper: id));
     });
   }
 
@@ -215,8 +206,10 @@ extension KanjiSVGQueryWhere on QueryBuilder<KanjiSVG, KanjiSVG, QWhereClause> {
     });
   }
 
-  QueryBuilder<KanjiSVG, KanjiSVG, QAfterWhereClause> idGreaterThan(Id id,
-      {bool include = false}) {
+  QueryBuilder<KanjiSVG, KanjiSVG, QAfterWhereClause> idGreaterThan(
+    Id id, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.greaterThan(lower: id, includeLower: include),
@@ -224,8 +217,10 @@ extension KanjiSVGQueryWhere on QueryBuilder<KanjiSVG, KanjiSVG, QWhereClause> {
     });
   }
 
-  QueryBuilder<KanjiSVG, KanjiSVG, QAfterWhereClause> idLessThan(Id id,
-      {bool include = false}) {
+  QueryBuilder<KanjiSVG, KanjiSVG, QAfterWhereClause> idLessThan(
+    Id id, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.lessThan(upper: id, includeUpper: include),
@@ -240,101 +235,121 @@ extension KanjiSVGQueryWhere on QueryBuilder<KanjiSVG, KanjiSVG, QWhereClause> {
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IdWhereClause.between(
-        lower: lowerId,
-        includeLower: includeLower,
-        upper: upperId,
-        includeUpper: includeUpper,
-      ));
+      return query.addWhereClause(
+        IdWhereClause.between(
+          lower: lowerId,
+          includeLower: includeLower,
+          upper: upperId,
+          includeUpper: includeUpper,
+        ),
+      );
     });
   }
 
   QueryBuilder<KanjiSVG, KanjiSVG, QAfterWhereClause> characterEqualTo(
-      String character) {
+    String character,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'character',
-        value: [character],
-      ));
+      return query.addWhereClause(
+        IndexWhereClause.equalTo(indexName: r'character', value: [character]),
+      );
     });
   }
 
   QueryBuilder<KanjiSVG, KanjiSVG, QAfterWhereClause> characterNotEqualTo(
-      String character) {
+    String character,
+  ) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'character',
-              lower: [],
-              upper: [character],
-              includeUpper: false,
-            ))
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'character',
-              lower: [character],
-              includeLower: false,
-              upper: [],
-            ));
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'character',
+                lower: [],
+                upper: [character],
+                includeUpper: false,
+              ),
+            )
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'character',
+                lower: [character],
+                includeLower: false,
+                upper: [],
+              ),
+            );
       } else {
         return query
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'character',
-              lower: [character],
-              includeLower: false,
-              upper: [],
-            ))
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'character',
-              lower: [],
-              upper: [character],
-              includeUpper: false,
-            ));
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'character',
+                lower: [character],
+                includeLower: false,
+                upper: [],
+              ),
+            )
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'character',
+                lower: [],
+                upper: [character],
+                includeUpper: false,
+              ),
+            );
       }
     });
   }
 
   QueryBuilder<KanjiSVG, KanjiSVG, QAfterWhereClause> strokesEqualTo(
-      int strokes) {
+    int strokes,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'strokes',
-        value: [strokes],
-      ));
+      return query.addWhereClause(
+        IndexWhereClause.equalTo(indexName: r'strokes', value: [strokes]),
+      );
     });
   }
 
   QueryBuilder<KanjiSVG, KanjiSVG, QAfterWhereClause> strokesNotEqualTo(
-      int strokes) {
+    int strokes,
+  ) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'strokes',
-              lower: [],
-              upper: [strokes],
-              includeUpper: false,
-            ))
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'strokes',
-              lower: [strokes],
-              includeLower: false,
-              upper: [],
-            ));
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'strokes',
+                lower: [],
+                upper: [strokes],
+                includeUpper: false,
+              ),
+            )
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'strokes',
+                lower: [strokes],
+                includeLower: false,
+                upper: [],
+              ),
+            );
       } else {
         return query
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'strokes',
-              lower: [strokes],
-              includeLower: false,
-              upper: [],
-            ))
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'strokes',
-              lower: [],
-              upper: [strokes],
-              includeUpper: false,
-            ));
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'strokes',
+                lower: [strokes],
+                includeLower: false,
+                upper: [],
+              ),
+            )
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'strokes',
+                lower: [],
+                upper: [strokes],
+                includeUpper: false,
+              ),
+            );
       }
     });
   }
@@ -344,12 +359,14 @@ extension KanjiSVGQueryWhere on QueryBuilder<KanjiSVG, KanjiSVG, QWhereClause> {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'strokes',
-        lower: [strokes],
-        includeLower: include,
-        upper: [],
-      ));
+      return query.addWhereClause(
+        IndexWhereClause.between(
+          indexName: r'strokes',
+          lower: [strokes],
+          includeLower: include,
+          upper: [],
+        ),
+      );
     });
   }
 
@@ -358,12 +375,14 @@ extension KanjiSVGQueryWhere on QueryBuilder<KanjiSVG, KanjiSVG, QWhereClause> {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'strokes',
-        lower: [],
-        upper: [strokes],
-        includeUpper: include,
-      ));
+      return query.addWhereClause(
+        IndexWhereClause.between(
+          indexName: r'strokes',
+          lower: [],
+          upper: [strokes],
+          includeUpper: include,
+        ),
+      );
     });
   }
 
@@ -374,13 +393,15 @@ extension KanjiSVGQueryWhere on QueryBuilder<KanjiSVG, KanjiSVG, QWhereClause> {
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'strokes',
-        lower: [lowerStrokes],
-        includeLower: includeLower,
-        upper: [upperStrokes],
-        includeUpper: includeUpper,
-      ));
+      return query.addWhereClause(
+        IndexWhereClause.between(
+          indexName: r'strokes',
+          lower: [lowerStrokes],
+          includeLower: includeLower,
+          upper: [upperStrokes],
+          includeUpper: includeUpper,
+        ),
+      );
     });
   }
 }
@@ -392,11 +413,13 @@ extension KanjiSVGQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'character',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'character',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -406,12 +429,14 @@ extension KanjiSVGQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'character',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'character',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -421,12 +446,14 @@ extension KanjiSVGQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'character',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'character',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -438,14 +465,16 @@ extension KanjiSVGQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'character',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'character',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -454,11 +483,13 @@ extension KanjiSVGQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'character',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'character',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -467,63 +498,68 @@ extension KanjiSVGQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'character',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'character',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<KanjiSVG, KanjiSVG, QAfterFilterCondition> characterContains(
-      String value,
-      {bool caseSensitive = true}) {
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'character',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'character',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<KanjiSVG, KanjiSVG, QAfterFilterCondition> characterMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'character',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'character',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<KanjiSVG, KanjiSVG, QAfterFilterCondition> characterIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'character',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'character', value: ''),
+      );
     });
   }
 
   QueryBuilder<KanjiSVG, KanjiSVG, QAfterFilterCondition>
-      characterIsNotEmpty() {
+  characterIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'character',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'character', value: ''),
+      );
     });
   }
 
   QueryBuilder<KanjiSVG, KanjiSVG, QAfterFilterCondition> idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'id',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'id', value: value),
+      );
     });
   }
 
@@ -532,11 +568,13 @@ extension KanjiSVGQueryFilter
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'id',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'id',
+          value: value,
+        ),
+      );
     });
   }
 
@@ -545,11 +583,13 @@ extension KanjiSVGQueryFilter
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'id',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'id',
+          value: value,
+        ),
+      );
     });
   }
 
@@ -560,13 +600,15 @@ extension KanjiSVGQueryFilter
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'id',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'id',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
     });
   }
 
@@ -575,11 +617,13 @@ extension KanjiSVGQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'kanjiVGId',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'kanjiVGId',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -589,12 +633,14 @@ extension KanjiSVGQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'kanjiVGId',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'kanjiVGId',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -604,12 +650,14 @@ extension KanjiSVGQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'kanjiVGId',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'kanjiVGId',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -621,14 +669,16 @@ extension KanjiSVGQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'kanjiVGId',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'kanjiVGId',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -637,11 +687,13 @@ extension KanjiSVGQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'kanjiVGId',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'kanjiVGId',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -650,105 +702,114 @@ extension KanjiSVGQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'kanjiVGId',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'kanjiVGId',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<KanjiSVG, KanjiSVG, QAfterFilterCondition> kanjiVGIdContains(
-      String value,
-      {bool caseSensitive = true}) {
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'kanjiVGId',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'kanjiVGId',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<KanjiSVG, KanjiSVG, QAfterFilterCondition> kanjiVGIdMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'kanjiVGId',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'kanjiVGId',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<KanjiSVG, KanjiSVG, QAfterFilterCondition> kanjiVGIdIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'kanjiVGId',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'kanjiVGId', value: ''),
+      );
     });
   }
 
   QueryBuilder<KanjiSVG, KanjiSVG, QAfterFilterCondition>
-      kanjiVGIdIsNotEmpty() {
+  kanjiVGIdIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'kanjiVGId',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'kanjiVGId', value: ''),
+      );
     });
   }
 
   QueryBuilder<KanjiSVG, KanjiSVG, QAfterFilterCondition>
-      radicalsElementEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  radicalsElementEqualTo(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'radicals',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'radicals',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<KanjiSVG, KanjiSVG, QAfterFilterCondition>
-      radicalsElementGreaterThan(
+  radicalsElementGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'radicals',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'radicals',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<KanjiSVG, KanjiSVG, QAfterFilterCondition>
-      radicalsElementLessThan(
+  radicalsElementLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'radicals',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'radicals',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<KanjiSVG, KanjiSVG, QAfterFilterCondition>
-      radicalsElementBetween(
+  radicalsElementBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -756,153 +817,120 @@ extension KanjiSVGQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'radicals',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'radicals',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<KanjiSVG, KanjiSVG, QAfterFilterCondition>
-      radicalsElementStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  radicalsElementStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'radicals',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'radicals',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<KanjiSVG, KanjiSVG, QAfterFilterCondition>
-      radicalsElementEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  radicalsElementEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'radicals',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'radicals',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<KanjiSVG, KanjiSVG, QAfterFilterCondition>
-      radicalsElementContains(String value, {bool caseSensitive = true}) {
+  radicalsElementContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'radicals',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'radicals',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<KanjiSVG, KanjiSVG, QAfterFilterCondition>
-      radicalsElementMatches(String pattern, {bool caseSensitive = true}) {
+  radicalsElementMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'radicals',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'radicals',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<KanjiSVG, KanjiSVG, QAfterFilterCondition>
-      radicalsElementIsEmpty() {
+  radicalsElementIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'radicals',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'radicals', value: ''),
+      );
     });
   }
 
   QueryBuilder<KanjiSVG, KanjiSVG, QAfterFilterCondition>
-      radicalsElementIsNotEmpty() {
+  radicalsElementIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'radicals',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'radicals', value: ''),
+      );
     });
   }
 
   QueryBuilder<KanjiSVG, KanjiSVG, QAfterFilterCondition> radicalsLengthEqualTo(
-      int length) {
+    int length,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'radicals',
-        length,
-        true,
-        length,
-        true,
-      );
+      return query.listLength(r'radicals', length, true, length, true);
     });
   }
 
   QueryBuilder<KanjiSVG, KanjiSVG, QAfterFilterCondition> radicalsIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'radicals',
-        0,
-        true,
-        0,
-        true,
-      );
+      return query.listLength(r'radicals', 0, true, 0, true);
     });
   }
 
   QueryBuilder<KanjiSVG, KanjiSVG, QAfterFilterCondition> radicalsIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'radicals',
-        0,
-        false,
-        999999,
-        true,
-      );
+      return query.listLength(r'radicals', 0, false, 999999, true);
     });
   }
 
   QueryBuilder<KanjiSVG, KanjiSVG, QAfterFilterCondition>
-      radicalsLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
+  radicalsLengthLessThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'radicals',
-        0,
-        true,
-        length,
-        include,
-      );
+      return query.listLength(r'radicals', 0, true, length, include);
     });
   }
 
   QueryBuilder<KanjiSVG, KanjiSVG, QAfterFilterCondition>
-      radicalsLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
+  radicalsLengthGreaterThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'radicals',
-        length,
-        include,
-        999999,
-        true,
-      );
+      return query.listLength(r'radicals', length, include, 999999, true);
     });
   }
 
@@ -924,12 +952,12 @@ extension KanjiSVGQueryFilter
   }
 
   QueryBuilder<KanjiSVG, KanjiSVG, QAfterFilterCondition> strokesEqualTo(
-      int value) {
+    int value,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'strokes',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'strokes', value: value),
+      );
     });
   }
 
@@ -938,11 +966,13 @@ extension KanjiSVGQueryFilter
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'strokes',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'strokes',
+          value: value,
+        ),
+      );
     });
   }
 
@@ -951,11 +981,13 @@ extension KanjiSVGQueryFilter
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'strokes',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'strokes',
+          value: value,
+        ),
+      );
     });
   }
 
@@ -966,13 +998,15 @@ extension KanjiSVGQueryFilter
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'strokes',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'strokes',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
     });
   }
 
@@ -981,11 +1015,13 @@ extension KanjiSVGQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'svg',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'svg',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -995,12 +1031,14 @@ extension KanjiSVGQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'svg',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'svg',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1010,12 +1048,14 @@ extension KanjiSVGQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'svg',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'svg',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1027,14 +1067,16 @@ extension KanjiSVGQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'svg',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'svg',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1043,11 +1085,13 @@ extension KanjiSVGQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'svg',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'svg',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -1056,53 +1100,59 @@ extension KanjiSVGQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'svg',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'svg',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<KanjiSVG, KanjiSVG, QAfterFilterCondition> svgContains(
-      String value,
-      {bool caseSensitive = true}) {
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'svg',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'svg',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<KanjiSVG, KanjiSVG, QAfterFilterCondition> svgMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'svg',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'svg',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<KanjiSVG, KanjiSVG, QAfterFilterCondition> svgIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'svg',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'svg', value: ''),
+      );
     });
   }
 
   QueryBuilder<KanjiSVG, KanjiSVG, QAfterFilterCondition> svgIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'svg',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'svg', value: ''),
+      );
     });
   }
 }
@@ -1228,15 +1278,17 @@ extension KanjiSVGQuerySortThenBy
 
 extension KanjiSVGQueryWhereDistinct
     on QueryBuilder<KanjiSVG, KanjiSVG, QDistinct> {
-  QueryBuilder<KanjiSVG, KanjiSVG, QDistinct> distinctByCharacter(
-      {bool caseSensitive = true}) {
+  QueryBuilder<KanjiSVG, KanjiSVG, QDistinct> distinctByCharacter({
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'character', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<KanjiSVG, KanjiSVG, QDistinct> distinctByKanjiVGId(
-      {bool caseSensitive = true}) {
+  QueryBuilder<KanjiSVG, KanjiSVG, QDistinct> distinctByKanjiVGId({
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'kanjiVGId', caseSensitive: caseSensitive);
     });
@@ -1254,8 +1306,9 @@ extension KanjiSVGQueryWhereDistinct
     });
   }
 
-  QueryBuilder<KanjiSVG, KanjiSVG, QDistinct> distinctBySvg(
-      {bool caseSensitive = true}) {
+  QueryBuilder<KanjiSVG, KanjiSVG, QDistinct> distinctBySvg({
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'svg', caseSensitive: caseSensitive);
     });

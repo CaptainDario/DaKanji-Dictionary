@@ -1,5 +1,5 @@
 import 'package:collection/collection.dart';
-import 'package:isar/isar.dart';
+import 'package:isar_community/isar.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'data_classes.g.dart';
