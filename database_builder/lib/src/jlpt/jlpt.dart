@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'dart:io';
-import 'package:kana_kit/kana_kit.dart';
 import 'package:path/path.dart' as p;
 
 import 'package:csv/csv.dart';
@@ -20,8 +18,7 @@ Future<void> addJLPTToDict(Isar dictIsar) async {
     ).readAsStringSync();
 
     // 
-    List<dynamic> jlptRows =
-      const CsvToListConverter(
+    List<dynamic> jlptRows = CsvToListConverter(
         fieldDelimiter: "\t",
         eol: "\n",
       ).convert(jlptFile);

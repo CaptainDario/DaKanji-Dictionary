@@ -91,7 +91,7 @@ class LanguageMeanings {
 
   @override
   String toString() {
-    String representation = "Language: " + language! + "\n";
+    String representation = "Language: $language!\n";
     for (var meaning in meanings) {
       representation += meaning.attributes.join(", ");
     }
@@ -193,7 +193,7 @@ class JMdict {
   @Index(type: IndexType.value, caseSensitive: false)
   List<String> get meaningsIndexes => meanings.map(
       (e) => e.meanings.map((e) => e.attributes)
-    ).flattened.flattened.whereNotNull()
+    ).flattened.flattened.nonNulls
     //.map((e) => Isar.splitWords(e)).flattened
     .toSet().toList();
 

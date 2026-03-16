@@ -82,7 +82,7 @@ const RadkSchema = CollectionSchema(
   getId: _radkGetId,
   getLinks: _radkGetLinks,
   attach: _radkAttach,
-  version: '3.2.0-dev.2',
+  version: '3.3.0',
 );
 
 int _radkEstimateSize(

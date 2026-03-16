@@ -2,6 +2,7 @@ name: database_builder
 description: A starting point for Dart libraries or applications.
 version: 1.0.0
 publish_to: none
+resolution: workspace
 # homepage: https://www.example.com
 
 environment:
@@ -11,7 +12,11 @@ dependencies:
   xml: ^6.0.0
   path: ^1.8.2
   kana_kit: 2.1.1
-  isar_community: 3.2.0-dev.2
+  isar_community:
+    git:
+      url: https://github.com/penhorwood/isar-community/
+      path: packages/isar_community
+      ref: 3.3.0-original
   console_bars: ^1.1.0
   tuple: ^2.0.1
   async: ^2.10.0
@@ -28,6 +33,14 @@ dev_dependencies:
   build_runner: any
   isar_community_generator:
     git:
-      url: https://github.com/callumw-k/isar-community
-      ref: migrating-to-source_gen-3
-      path: packages/isar_community_generator/
+      url: https://github.com/penhorwood/isar-community/
+      path: packages/isar_community_generator
+      ref: 3.3.0-original
+
+
+dependency_overrides:
+  isar_community:
+    git:
+      url: https://github.com/penhorwood/isar-community/
+      path: packages/isar_community
+      ref: 3.3.0-original
