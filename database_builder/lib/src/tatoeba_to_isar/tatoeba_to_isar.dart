@@ -16,7 +16,7 @@ import 'package:database_builder/database_builder.dart';
 /// adds examples to the given `isar` database.
 /// `translationThreshold` indicates how many translations a language needs to 
 /// have to be added to `isar`.
-Future<void> tatoebaToIsar(Isar isar, List<String> iso639_3_toInclude,
+Future<void> tatoebaToIsar(Isar isar, List<String> iso6393Toinclude,
   {int translationCountThreshold = 100}) async
 {
 
@@ -29,7 +29,7 @@ Future<void> tatoebaToIsar(Isar isar, List<String> iso639_3_toInclude,
   // add all translations to the ISAR database
   await addTatoebaTranslationsJsonsToIsar(
     "${RepoPathManager.getOutputFilesPath()}/tatoeba_json/",
-    isar, translationCountThreshold, iso639_3ToInclude: iso639_3_toInclude
+    isar, translationCountThreshold, iso639_3ToInclude: iso6393Toinclude
   );
 }
 
@@ -38,7 +38,7 @@ Future<void> tatoebaToIsar(Isar isar, List<String> iso639_3_toInclude,
 Future<void> tatoebaToJson() async {
 
   // load examples
-  String tatoebaPath = RepoPathManager.getInputFilesPath() + "/tatoeba";
+  String tatoebaPath = "${RepoPathManager.getInputFilesPath()}/tatoeba";
   // parse all example sentences from tatoeba to one map
   Map<int, Tuple2<String, String>> sentences = 
     await parseSentences(p.join(tatoebaPath, "sentences.csv"));
@@ -53,7 +53,7 @@ Future<void> tatoebaToJson() async {
   List<String >translationsCnt = [];
   for (var element in translations.entries) {
     if (element.key != "\\N"){
-      File(p.join(dir.path, element.key + ".json"))
+      File(p.join(dir.path, "${element.key}.json"))
       .writeAsStringSync(json.encode(
         // convert the keys from int to string to be able to encode as json
         element.value.map((key, value) => MapEntry(key.toString(), value))

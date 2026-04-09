@@ -30,12 +30,12 @@ class RepoPathManager {
   }
 
   static Directory getRepoDirectory() {
-    var dir_path = Directory(Directory.current.path);
+    var dirPath = Directory(Directory.current.path);
     while (!path
-        .basename(dir_path.path)
+        .basename(dirPath.path)
         .contains(RegExp(r'.*(DaKanji-Dictionary)$'))) {
-      dir_path = dir_path.parent;
+      dirPath = dirPath.parent;
     }
-    return dir_path;
+    return dirPath;
   }
 }

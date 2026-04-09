@@ -2,7 +2,6 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:database_builder/src/width_conversion.dart';
 import 'package:kana_kit/kana_kit.dart';
 import 'package:path/path.dart' as p;
 
@@ -134,12 +133,12 @@ List<T> dictJsonToList<T>(List dict) {
     }
     else if (T == JMdict) {
       // add the readings / kanjis to the map to later resolve the references
-      kanjis.forEach((element) {
+      for (var element in kanjis) {
         map[element] = id;
-      });
-      readings.forEach((element) {
+      }
+      for (var element in readings) {
         map[element] = id;
-      });
+      }
 
       entries.add(JMdict(
         id: id,
@@ -197,7 +196,7 @@ void addLanguageToJMIsar(String meaningsJson, String iso639_2T, Isar isar){
     JMdict jm = isar.jmdict.getSync(int.parse(entry.key))!;
     // update meanings in isar with new language
     jm.meanings = [
-      ...jm.meanings.where((e) => e.language != iso639_2T).toList(),
+      ...jm.meanings.where((e) => e.language != iso639_2T),
       LanguageMeanings.fromJson(jsonDecode(entry.value))
     ];
     isar.writeTxnSync(() {

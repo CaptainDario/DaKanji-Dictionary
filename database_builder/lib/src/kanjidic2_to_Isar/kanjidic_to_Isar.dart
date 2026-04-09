@@ -21,7 +21,7 @@ Future<bool> kanjidic2ToIsar(Isar isar) async {
     print('${stopwatch.elapsed}');
   }
   isar.kanjidic2s.filter().frequencyBetween(0, 100).findAllSync().toList();
-  print(dbName + ": " + "Data inserted into box, closing - please wait");
-  print(dbName + ": " + "Box closed");
+  print("$dbName: Data inserted into box, closing - please wait");
+  print("$dbName: Box closed");
   return Future<bool>.value(false);
 }
