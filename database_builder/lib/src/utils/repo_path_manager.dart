@@ -33,7 +33,7 @@ class RepoPathManager {
     var dirPath = Directory(Directory.current.path);
     while (!path
         .basename(dirPath.path)
-        .contains(RegExp(r'.*(DaKanji-Dictionary)$'))) {
+        .contains(RegExp(r'.*(DaKanji-Dictionary)$', caseSensitive: false))) {
       dirPath = dirPath.parent;
     }
     return dirPath;

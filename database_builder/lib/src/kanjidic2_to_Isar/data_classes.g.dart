@@ -126,7 +126,7 @@ const Kanjidic2Schema = CollectionSchema(
   getId: _kanjidic2GetId,
   getLinks: _kanjidic2GetLinks,
   attach: _kanjidic2Attach,
-  version: '3.3.0',
+  version: '3.3.2',
 );
 
 int _kanjidic2EstimateSize(
