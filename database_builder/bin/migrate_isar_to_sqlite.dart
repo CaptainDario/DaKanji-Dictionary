@@ -11,7 +11,7 @@ void main(List<String> args) async {
   // Use RepoPathManager to find the output directory
   final outputDir = RepoPathManager.getOutputFilesPath();
   final isarName = "dictionary";
-  final sqlitePath = p.join(outputDir, 'migration.sqlite');
+  final sqlitePath = p.join(outputDir, 'migration_to_v4.sqlite');
 
   final languages = ["eng", "ger", "rus", "chi", "ita", "fre", "spa", "pol"];
 
